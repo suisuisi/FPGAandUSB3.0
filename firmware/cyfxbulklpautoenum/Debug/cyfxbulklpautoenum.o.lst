@@ -1,0 +1,3168 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"cyfxbulklpautoenum.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.comm	BulkLpAppThread,168,4
+  17              		.comm	glChHandleBulkLp,172,4
+  18              		.comm	glEp0Buffer,32,32
+  19              		.global	glUsbDeviceStat
+  20              		.section	.bss.glUsbDeviceStat,"aw",%nobits
+  23              	glUsbDeviceStat:
+  24 0000 00       		.space	1
+  25              		.global	glUsbConfiguration
+  26              		.section	.bss.glUsbConfiguration,"aw",%nobits
+  29              	glUsbConfiguration:
+  30 0000 00       		.space	1
+  31              		.global	glUsbInterface
+  32              		.section	.bss.glUsbInterface,"aw",%nobits
+  35              	glUsbInterface:
+  36 0000 00       		.space	1
+  37              		.global	glSelBuffer
+  38              		.section	.bss.glSelBuffer,"aw",%nobits
+  39              		.align	2
+  42              	glSelBuffer:
+  43 0000 00000000 		.space	4
+  44              		.global	glIsApplnActive
+  45              		.section	.bss.glIsApplnActive,"aw",%nobits
+  46              		.align	2
+  49              	glIsApplnActive:
+  50 0000 00000000 		.space	4
+  51              		.global	glResetDevice
+  52              		.section	.bss.glResetDevice,"aw",%nobits
+  53              		.align	2
+  56              	glResetDevice:
+  57 0000 00000000 		.space	4
+  58              		.section	.text.CyFxAppErrorHandler,"ax",%progbits
+  59              		.align	2
+  60              		.global	CyFxAppErrorHandler
+  62              	CyFxAppErrorHandler:
+  63              	.LFB0:
+  64              		.file 1 "../cyfxbulklpautoenum.c"
+   1:../cyfxbulklpautoenum.c **** /*
+   2:../cyfxbulklpautoenum.c ****  ## Cypress USB 3.0 Platform source file (cyfxbulklpautoenum.c)
+   3:../cyfxbulklpautoenum.c ****  ## ===========================
+   4:../cyfxbulklpautoenum.c ****  ##
+   5:../cyfxbulklpautoenum.c ****  ##  Copyright Cypress Semiconductor Corporation, 2010-2011,
+   6:../cyfxbulklpautoenum.c ****  ##  All Rights Reserved
+   7:../cyfxbulklpautoenum.c ****  ##  UNPUBLISHED, LICENSED SOFTWARE.
+   8:../cyfxbulklpautoenum.c ****  ##
+   9:../cyfxbulklpautoenum.c ****  ##  CONFIDENTIAL AND PROPRIETARY INFORMATION
+  10:../cyfxbulklpautoenum.c ****  ##  WHICH IS THE PROPERTY OF CYPRESS.
+  11:../cyfxbulklpautoenum.c ****  ##
+  12:../cyfxbulklpautoenum.c ****  ##  Use of this file is governed
+  13:../cyfxbulklpautoenum.c ****  ##  by the license agreement included in the file
+  14:../cyfxbulklpautoenum.c ****  ##
+  15:../cyfxbulklpautoenum.c ****  ##     <install>/license/license.txt
+  16:../cyfxbulklpautoenum.c ****  ##
+  17:../cyfxbulklpautoenum.c ****  ##  where <install> is the Cypress software
+  18:../cyfxbulklpautoenum.c ****  ##  installation root directory path.
+  19:../cyfxbulklpautoenum.c ****  ##
+  20:../cyfxbulklpautoenum.c ****  ## ===========================
+  21:../cyfxbulklpautoenum.c **** */
+  22:../cyfxbulklpautoenum.c **** 
+  23:../cyfxbulklpautoenum.c **** /* This file illustrates the bulkloop application example using the DMA AUTO mode */
+  24:../cyfxbulklpautoenum.c **** 
+  25:../cyfxbulklpautoenum.c **** /*
+  26:../cyfxbulklpautoenum.c ****    This example illustrates a loopback mechanism between two USB bulk endpoints. The example compri
+  27:../cyfxbulklpautoenum.c ****    vendor class USB enumeration descriptors with 2 bulk endpoints. A bulk OUT endpoint acts as the 
+  28:../cyfxbulklpautoenum.c ****    of data from the host. A bulk IN endpint acts as the consumer of data to the host.
+  29:../cyfxbulklpautoenum.c **** 
+  30:../cyfxbulklpautoenum.c ****    The loopback is achieved with the help of a DMA AUTO channel. DMA AUTO channel is created betwee
+  31:../cyfxbulklpautoenum.c ****    producer USB bulk endpoint and the consumer USB bulk endpoint. Data is transferred from the host
+  32:../cyfxbulklpautoenum.c ****    the producer endpoint which is then directly transferred to the consumer endpoint by the DMA eng
+  33:../cyfxbulklpautoenum.c ****    CPU is not involved in the data transfer.
+  34:../cyfxbulklpautoenum.c **** 
+  35:../cyfxbulklpautoenum.c ****    The DMA buffer size is defined based on the USB speed. 64 for full speed, 512 for high speed and
+  36:../cyfxbulklpautoenum.c ****    for super speed. CY_FX_BULKLP_DMA_BUF_COUNT in the header file defines the number of DMA buffers
+  37:../cyfxbulklpautoenum.c ****  */
+  38:../cyfxbulklpautoenum.c **** 
+  39:../cyfxbulklpautoenum.c **** #include "cyu3system.h"
+  40:../cyfxbulklpautoenum.c **** #include "cyu3os.h"
+  41:../cyfxbulklpautoenum.c **** #include "cyu3dma.h"
+  42:../cyfxbulklpautoenum.c **** #include "cyu3error.h"
+  43:../cyfxbulklpautoenum.c **** #include "cyfxbulklpautoenum.h"
+  44:../cyfxbulklpautoenum.c **** #include "cyu3usb.h"
+  45:../cyfxbulklpautoenum.c **** #include "cyu3uart.h"
+  46:../cyfxbulklpautoenum.c **** 
+  47:../cyfxbulklpautoenum.c **** CyU3PThread     BulkLpAppThread;	/* Bulk loop application thread structure */
+  48:../cyfxbulklpautoenum.c **** CyU3PDmaChannel glChHandleBulkLp;       /* DMA Channel handle */
+  49:../cyfxbulklpautoenum.c **** 
+  50:../cyfxbulklpautoenum.c **** uint8_t glEp0Buffer[32] __attribute__ ((aligned (32))); /* Buffer used for sending EP0 data.    */
+  51:../cyfxbulklpautoenum.c **** uint8_t glUsbDeviceStat = 0;            /* USB device status. Bus powered.      */
+  52:../cyfxbulklpautoenum.c **** uint8_t glUsbConfiguration = 0;         /* Active USB configuration.            */
+  53:../cyfxbulklpautoenum.c **** uint8_t glUsbInterface = 0;             /* Active USB interface.                */
+  54:../cyfxbulklpautoenum.c **** uint8_t *glSelBuffer = 0;               /* Buffer to hold SEL values.           */
+  55:../cyfxbulklpautoenum.c **** 
+  56:../cyfxbulklpautoenum.c **** CyBool_t glIsApplnActive = CyFalse;     /* Whether the loopback application is active or not. */
+  57:../cyfxbulklpautoenum.c **** CyBool_t glResetDevice = CyFalse;       /* Request to reset the FX3 device. */
+  58:../cyfxbulklpautoenum.c **** 
+  59:../cyfxbulklpautoenum.c **** /* Application Error Handler */
+  60:../cyfxbulklpautoenum.c **** void
+  61:../cyfxbulklpautoenum.c **** CyFxAppErrorHandler (
+  62:../cyfxbulklpautoenum.c ****         CyU3PReturnStatus_t apiRetStatus    /* API return status */
+  63:../cyfxbulklpautoenum.c ****         )
+  64:../cyfxbulklpautoenum.c **** {
+  65              		.loc 1 64 0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 8
+  68              		@ frame_needed = 1, uses_anonymous_args = 0
+  69 0000 00482DE9 		stmfd	sp!, {fp, lr}
+  70              	.LCFI0:
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 11, -8
+  73              		.cfi_offset 14, -4
+  74 0004 04B08DE2 		add	fp, sp, #4
+  75              	.LCFI1:
+  76              		.cfi_def_cfa 11, 4
+  77 0008 08D04DE2 		sub	sp, sp, #8
+  78 000c 08000BE5 		str	r0, [fp, #-8]
+  79              	.L2:
+  65:../cyfxbulklpautoenum.c ****     /* Application failed with the error code apiRetStatus */
+  66:../cyfxbulklpautoenum.c **** 
+  67:../cyfxbulklpautoenum.c ****     /* Add custom debug or recovery actions here */
+  68:../cyfxbulklpautoenum.c **** 
+  69:../cyfxbulklpautoenum.c ****     /* Loop Indefinitely */
+  70:../cyfxbulklpautoenum.c ****     for (;;)
+  71:../cyfxbulklpautoenum.c ****     {
+  72:../cyfxbulklpautoenum.c ****         /* Thread sleep : 100 ms */
+  73:../cyfxbulklpautoenum.c ****         CyU3PThreadSleep (100);
+  80              		.loc 1 73 0 discriminator 1
+  81 0010 6400A0E3 		mov	r0, #100
+  82 0014 FEFFFFEB 		bl	_tx_thread_sleep
+  74:../cyfxbulklpautoenum.c ****     }
+  83              		.loc 1 74 0 discriminator 1
+  84 0018 FCFFFFEA 		b	.L2
+  85              		.cfi_endproc
+  86              	.LFE0:
+  88              		.section	.text.CyFxBulkLpApplnDebugInit,"ax",%progbits
+  89              		.align	2
+  90              		.global	CyFxBulkLpApplnDebugInit
+  92              	CyFxBulkLpApplnDebugInit:
+  93              	.LFB1:
+  75:../cyfxbulklpautoenum.c **** }
+  76:../cyfxbulklpautoenum.c **** 
+  77:../cyfxbulklpautoenum.c **** /* This function initializes the debug module. The debug prints
+  78:../cyfxbulklpautoenum.c ****  * are routed to the UART and can be seen using a UART console
+  79:../cyfxbulklpautoenum.c ****  * running at 115200 baud rate. */
+  80:../cyfxbulklpautoenum.c **** void
+  81:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnDebugInit (void)
+  82:../cyfxbulklpautoenum.c **** {
+  94              		.loc 1 82 0
+  95              		.cfi_startproc
+  96              		@ args = 0, pretend = 0, frame = 32
+  97              		@ frame_needed = 1, uses_anonymous_args = 0
+  98 0000 00482DE9 		stmfd	sp!, {fp, lr}
+  99              	.LCFI2:
+ 100              		.cfi_def_cfa_offset 8
+ 101              		.cfi_offset 11, -8
+ 102              		.cfi_offset 14, -4
+ 103 0004 04B08DE2 		add	fp, sp, #4
+ 104              	.LCFI3:
+ 105              		.cfi_def_cfa 11, 4
+ 106 0008 20D04DE2 		sub	sp, sp, #32
+  83:../cyfxbulklpautoenum.c ****     CyU3PUartConfig_t uartConfig;
+  84:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 107              		.loc 1 84 0
+ 108 000c 0030A0E3 		mov	r3, #0
+ 109 0010 08300BE5 		str	r3, [fp, #-8]
+  85:../cyfxbulklpautoenum.c **** 
+  86:../cyfxbulklpautoenum.c ****     /* Initialize the UART for printing debug messages */
+  87:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PUartInit();
+ 110              		.loc 1 87 0
+ 111 0014 FEFFFFEB 		bl	CyU3PUartInit
+ 112 0018 08000BE5 		str	r0, [fp, #-8]
+  88:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 113              		.loc 1 88 0
+ 114 001c 08301BE5 		ldr	r3, [fp, #-8]
+ 115 0020 000053E3 		cmp	r3, #0
+ 116 0024 0100000A 		beq	.L4
+  89:../cyfxbulklpautoenum.c ****     {
+  90:../cyfxbulklpautoenum.c ****         /* Error handling */
+  91:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 117              		.loc 1 91 0
+ 118 0028 08001BE5 		ldr	r0, [fp, #-8]
+ 119 002c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 120              	.L4:
+  92:../cyfxbulklpautoenum.c ****     }
+  93:../cyfxbulklpautoenum.c **** 
+  94:../cyfxbulklpautoenum.c ****     /* Set UART configuration */
+  95:../cyfxbulklpautoenum.c ****     CyU3PMemSet ((uint8_t *)&uartConfig, 0, sizeof (uartConfig));
+ 121              		.loc 1 95 0
+ 122 0030 20304BE2 		sub	r3, fp, #32
+ 123 0034 0300A0E1 		mov	r0, r3
+ 124 0038 0010A0E3 		mov	r1, #0
+ 125 003c 1820A0E3 		mov	r2, #24
+ 126 0040 FEFFFFEB 		bl	CyU3PMemSet
+  96:../cyfxbulklpautoenum.c ****     uartConfig.baudRate = CY_U3P_UART_BAUDRATE_115200;
+ 127              		.loc 1 96 0
+ 128 0044 AC309FE5 		ldr	r3, .L8
+ 129 0048 10300BE5 		str	r3, [fp, #-16]
+  97:../cyfxbulklpautoenum.c ****     uartConfig.stopBit = CY_U3P_UART_ONE_STOP_BIT;
+ 130              		.loc 1 97 0
+ 131 004c 0130A0E3 		mov	r3, #1
+ 132 0050 0C304BE5 		strb	r3, [fp, #-12]
+  98:../cyfxbulklpautoenum.c ****     uartConfig.parity = CY_U3P_UART_NO_PARITY;
+ 133              		.loc 1 98 0
+ 134 0054 0030A0E3 		mov	r3, #0
+ 135 0058 0B304BE5 		strb	r3, [fp, #-11]
+  99:../cyfxbulklpautoenum.c ****     uartConfig.txEnable = CyTrue;
+ 136              		.loc 1 99 0
+ 137 005c 0130A0E3 		mov	r3, #1
+ 138 0060 20300BE5 		str	r3, [fp, #-32]
+ 100:../cyfxbulklpautoenum.c ****     uartConfig.rxEnable = CyFalse;
+ 139              		.loc 1 100 0
+ 140 0064 0030A0E3 		mov	r3, #0
+ 141 0068 1C300BE5 		str	r3, [fp, #-28]
+ 101:../cyfxbulklpautoenum.c ****     uartConfig.flowCtrl = CyFalse;
+ 142              		.loc 1 101 0
+ 143 006c 0030A0E3 		mov	r3, #0
+ 144 0070 18300BE5 		str	r3, [fp, #-24]
+ 102:../cyfxbulklpautoenum.c ****     uartConfig.isDma = CyTrue;
+ 145              		.loc 1 102 0
+ 146 0074 0130A0E3 		mov	r3, #1
+ 147 0078 14300BE5 		str	r3, [fp, #-20]
+ 103:../cyfxbulklpautoenum.c **** 
+ 104:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PUartSetConfig (&uartConfig, NULL);
+ 148              		.loc 1 104 0
+ 149 007c 20304BE2 		sub	r3, fp, #32
+ 150 0080 0300A0E1 		mov	r0, r3
+ 151 0084 0010A0E3 		mov	r1, #0
+ 152 0088 FEFFFFEB 		bl	CyU3PUartSetConfig
+ 153 008c 08000BE5 		str	r0, [fp, #-8]
+ 105:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 154              		.loc 1 105 0
+ 155 0090 08301BE5 		ldr	r3, [fp, #-8]
+ 156 0094 000053E3 		cmp	r3, #0
+ 157 0098 0100000A 		beq	.L5
+ 106:../cyfxbulklpautoenum.c ****     {
+ 107:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 158              		.loc 1 107 0
+ 159 009c 08001BE5 		ldr	r0, [fp, #-8]
+ 160 00a0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 161              	.L5:
+ 108:../cyfxbulklpautoenum.c ****     }
+ 109:../cyfxbulklpautoenum.c **** 
+ 110:../cyfxbulklpautoenum.c ****     /* Set the UART transfer to a really large value. */
+ 111:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PUartTxSetBlockXfer (0xFFFFFFFF);
+ 162              		.loc 1 111 0
+ 163 00a4 0000E0E3 		mvn	r0, #0
+ 164 00a8 FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+ 165 00ac 08000BE5 		str	r0, [fp, #-8]
+ 112:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 166              		.loc 1 112 0
+ 167 00b0 08301BE5 		ldr	r3, [fp, #-8]
+ 168 00b4 000053E3 		cmp	r3, #0
+ 169 00b8 0100000A 		beq	.L6
+ 113:../cyfxbulklpautoenum.c ****     {
+ 114:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 170              		.loc 1 114 0
+ 171 00bc 08001BE5 		ldr	r0, [fp, #-8]
+ 172 00c0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 173              	.L6:
+ 115:../cyfxbulklpautoenum.c ****     }
+ 116:../cyfxbulklpautoenum.c **** 
+ 117:../cyfxbulklpautoenum.c ****     /* Initialize the debug module. */
+ 118:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PDebugInit (CY_U3P_LPP_SOCKET_UART_CONS, 8);
+ 174              		.loc 1 118 0
+ 175 00c4 0300A0E3 		mov	r0, #3
+ 176 00c8 0810A0E3 		mov	r1, #8
+ 177 00cc FEFFFFEB 		bl	CyU3PDebugInit
+ 178 00d0 08000BE5 		str	r0, [fp, #-8]
+ 119:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 179              		.loc 1 119 0
+ 180 00d4 08301BE5 		ldr	r3, [fp, #-8]
+ 181 00d8 000053E3 		cmp	r3, #0
+ 182 00dc 0100000A 		beq	.L7
+ 120:../cyfxbulklpautoenum.c ****     {
+ 121:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 183              		.loc 1 121 0
+ 184 00e0 08001BE5 		ldr	r0, [fp, #-8]
+ 185 00e4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 186              	.L7:
+ 122:../cyfxbulklpautoenum.c ****     }
+ 123:../cyfxbulklpautoenum.c **** 
+ 124:../cyfxbulklpautoenum.c ****     CyU3PDebugPreamble (CyFalse);
+ 187              		.loc 1 124 0
+ 188 00e8 0000A0E3 		mov	r0, #0
+ 189 00ec FEFFFFEB 		bl	CyU3PDebugPreamble
+ 125:../cyfxbulklpautoenum.c **** 
+ 126:../cyfxbulklpautoenum.c **** }
+ 190              		.loc 1 126 0
+ 191 00f0 04D04BE2 		sub	sp, fp, #4
+ 192              		@ sp needed
+ 193 00f4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 194              	.L9:
+ 195              		.align	2
+ 196              	.L8:
+ 197 00f8 00C20100 		.word	115200
+ 198              		.cfi_endproc
+ 199              	.LFE1:
+ 201              		.section	.rodata
+ 202              		.align	2
+ 203              	.LC0:
+ 204 0000 4572726F 		.ascii	"Error! Invalid USB speed.\012\000"
+ 204      72212049 
+ 204      6E76616C 
+ 204      69642055 
+ 204      53422073 
+ 205 001b 00       		.align	2
+ 206              	.LC1:
+ 207 001c 43795533 		.ascii	"CyU3PSetEpConfig failed, Error code = %d\012\000"
+ 207      50536574 
+ 207      4570436F 
+ 207      6E666967 
+ 207      20666169 
+ 208 0046 0000     		.align	2
+ 209              	.LC2:
+ 210 0048 43795533 		.ascii	"CyU3PDmaChannelCreate failed, Error code = %d\012\000"
+ 210      50446D61 
+ 210      4368616E 
+ 210      6E656C43 
+ 210      72656174 
+ 211 0077 00       		.align	2
+ 212              	.LC3:
+ 213 0078 43795533 		.ascii	"CyU3PDmaChannelSetXfer Failed, Error code = %d\012\000"
+ 213      50446D61 
+ 213      4368616E 
+ 213      6E656C53 
+ 213      65745866 
+ 214              		.section	.text.CyFxBulkLpApplnStart,"ax",%progbits
+ 215              		.align	2
+ 216              		.global	CyFxBulkLpApplnStart
+ 218              	CyFxBulkLpApplnStart:
+ 219              	.LFB2:
+ 127:../cyfxbulklpautoenum.c **** 
+ 128:../cyfxbulklpautoenum.c **** /* This function starts the bulk loop application. This is called
+ 129:../cyfxbulklpautoenum.c ****  * when a SET_CONF event is received from the USB host. The endpoints
+ 130:../cyfxbulklpautoenum.c ****  * are configured and the DMA pipe is setup in this function. */
+ 131:../cyfxbulklpautoenum.c **** void
+ 132:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnStart (
+ 133:../cyfxbulklpautoenum.c ****         void)
+ 134:../cyfxbulklpautoenum.c **** {
+ 220              		.loc 1 134 0
+ 221              		.cfi_startproc
+ 222              		@ args = 0, pretend = 0, frame = 56
+ 223              		@ frame_needed = 1, uses_anonymous_args = 0
+ 224 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 225              	.LCFI4:
+ 226              		.cfi_def_cfa_offset 8
+ 227              		.cfi_offset 11, -8
+ 228              		.cfi_offset 14, -4
+ 229 0004 04B08DE2 		add	fp, sp, #4
+ 230              	.LCFI5:
+ 231              		.cfi_def_cfa 11, 4
+ 232 0008 38D04DE2 		sub	sp, sp, #56
+ 135:../cyfxbulklpautoenum.c ****     uint16_t size = 0;
+ 233              		.loc 1 135 0
+ 234 000c 0030A0E3 		mov	r3, #0
+ 235 0010 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 136:../cyfxbulklpautoenum.c ****     CyU3PEpConfig_t epCfg;
+ 137:../cyfxbulklpautoenum.c ****     CyU3PDmaChannelConfig_t dmaCfg;
+ 138:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 236              		.loc 1 138 0
+ 237 0014 0030A0E3 		mov	r3, #0
+ 238 0018 0C300BE5 		str	r3, [fp, #-12]
+ 139:../cyfxbulklpautoenum.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
+ 239              		.loc 1 139 0
+ 240 001c FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 241 0020 0030A0E1 		mov	r3, r0
+ 242 0024 0D304BE5 		strb	r3, [fp, #-13]
+ 140:../cyfxbulklpautoenum.c **** 
+ 141:../cyfxbulklpautoenum.c ****     /* First identify the usb speed. Once that is identified,
+ 142:../cyfxbulklpautoenum.c ****      * create a DMA channel and start the transfer on this. */
+ 143:../cyfxbulklpautoenum.c **** 
+ 144:../cyfxbulklpautoenum.c ****     /* Based on the Bus Speed configure the endpoint packet size */
+ 145:../cyfxbulklpautoenum.c ****     switch (usbSpeed)
+ 243              		.loc 1 145 0
+ 244 0028 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 245 002c 020053E3 		cmp	r3, #2
+ 246 0030 0600000A 		beq	.L12
+ 247 0034 030053E3 		cmp	r3, #3
+ 248 0038 0700000A 		beq	.L13
+ 249 003c 010053E3 		cmp	r3, #1
+ 250 0040 0800001A 		bne	.L20
+ 146:../cyfxbulklpautoenum.c ****     {
+ 147:../cyfxbulklpautoenum.c ****         case CY_U3P_FULL_SPEED:
+ 148:../cyfxbulklpautoenum.c ****             size = 64;
+ 251              		.loc 1 148 0
+ 252 0044 4030A0E3 		mov	r3, #64
+ 253 0048 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 149:../cyfxbulklpautoenum.c ****             break;
+ 254              		.loc 1 149 0
+ 255 004c 0B0000EA 		b	.L15
+ 256              	.L12:
+ 150:../cyfxbulklpautoenum.c **** 
+ 151:../cyfxbulklpautoenum.c ****         case CY_U3P_HIGH_SPEED:
+ 152:../cyfxbulklpautoenum.c ****             size = 512;
+ 257              		.loc 1 152 0
+ 258 0050 023CA0E3 		mov	r3, #512
+ 259 0054 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 153:../cyfxbulklpautoenum.c ****             break;
+ 260              		.loc 1 153 0
+ 261 0058 080000EA 		b	.L15
+ 262              	.L13:
+ 154:../cyfxbulklpautoenum.c **** 
+ 155:../cyfxbulklpautoenum.c ****         case  CY_U3P_SUPER_SPEED:
+ 156:../cyfxbulklpautoenum.c ****             size = 1024;
+ 263              		.loc 1 156 0
+ 264 005c 013BA0E3 		mov	r3, #1024
+ 265 0060 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 157:../cyfxbulklpautoenum.c ****             break;
+ 266              		.loc 1 157 0
+ 267 0064 050000EA 		b	.L15
+ 268              	.L20:
+ 158:../cyfxbulklpautoenum.c **** 
+ 159:../cyfxbulklpautoenum.c ****         default:
+ 160:../cyfxbulklpautoenum.c ****             CyU3PDebugPrint (4, "Error! Invalid USB speed.\n");
+ 269              		.loc 1 160 0
+ 270 0068 0400A0E3 		mov	r0, #4
+ 271 006c B0119FE5 		ldr	r1, .L21
+ 272 0070 FEFFFFEB 		bl	CyU3PDebugPrint
+ 161:../cyfxbulklpautoenum.c ****             CyFxAppErrorHandler (CY_U3P_ERROR_FAILURE);
+ 273              		.loc 1 161 0
+ 274 0074 4A00A0E3 		mov	r0, #74
+ 275 0078 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 162:../cyfxbulklpautoenum.c ****             break;
+ 276              		.loc 1 162 0
+ 277 007c 0000A0E1 		mov	r0, r0	@ nop
+ 278              	.L15:
+ 163:../cyfxbulklpautoenum.c ****     }
+ 164:../cyfxbulklpautoenum.c **** 
+ 165:../cyfxbulklpautoenum.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 279              		.loc 1 165 0
+ 280 0080 1C304BE2 		sub	r3, fp, #28
+ 281 0084 0300A0E1 		mov	r0, r3
+ 282 0088 0010A0E3 		mov	r1, #0
+ 283 008c 0C20A0E3 		mov	r2, #12
+ 284 0090 FEFFFFEB 		bl	CyU3PMemSet
+ 166:../cyfxbulklpautoenum.c ****     epCfg.enable = CyTrue;
+ 285              		.loc 1 166 0
+ 286 0094 0130A0E3 		mov	r3, #1
+ 287 0098 1C300BE5 		str	r3, [fp, #-28]
+ 167:../cyfxbulklpautoenum.c ****     epCfg.epType = CY_U3P_USB_EP_BULK;
+ 288              		.loc 1 167 0
+ 289 009c 0230A0E3 		mov	r3, #2
+ 290 00a0 18304BE5 		strb	r3, [fp, #-24]
+ 168:../cyfxbulklpautoenum.c ****     epCfg.burstLen = 1;
+ 291              		.loc 1 168 0
+ 292 00a4 0130A0E3 		mov	r3, #1
+ 293 00a8 12304BE5 		strb	r3, [fp, #-18]
+ 169:../cyfxbulklpautoenum.c ****     epCfg.streams = 0;
+ 294              		.loc 1 169 0
+ 295 00ac 0030A0E3 		mov	r3, #0
+ 296 00b0 B6314BE1 		strh	r3, [fp, #-22]	@ movhi
+ 170:../cyfxbulklpautoenum.c ****     epCfg.pcktSize = size;
+ 297              		.loc 1 170 0
+ 298 00b4 B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 299 00b8 B4314BE1 		strh	r3, [fp, #-20]	@ movhi
+ 171:../cyfxbulklpautoenum.c **** 
+ 172:../cyfxbulklpautoenum.c ****     /* Producer endpoint configuration */
+ 173:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 300              		.loc 1 173 0
+ 301 00bc 1C304BE2 		sub	r3, fp, #28
+ 302 00c0 0100A0E3 		mov	r0, #1
+ 303 00c4 0310A0E1 		mov	r1, r3
+ 304 00c8 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 305 00cc 0C000BE5 		str	r0, [fp, #-12]
+ 174:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 306              		.loc 1 174 0
+ 307 00d0 0C301BE5 		ldr	r3, [fp, #-12]
+ 308 00d4 000053E3 		cmp	r3, #0
+ 309 00d8 0500000A 		beq	.L16
+ 175:../cyfxbulklpautoenum.c ****     {
+ 176:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 310              		.loc 1 176 0
+ 311 00dc 0400A0E3 		mov	r0, #4
+ 312 00e0 40119FE5 		ldr	r1, .L21+4
+ 313 00e4 0C201BE5 		ldr	r2, [fp, #-12]
+ 314 00e8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 177:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 315              		.loc 1 177 0
+ 316 00ec 0C001BE5 		ldr	r0, [fp, #-12]
+ 317 00f0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 318              	.L16:
+ 178:../cyfxbulklpautoenum.c ****     }
+ 179:../cyfxbulklpautoenum.c **** 
+ 180:../cyfxbulklpautoenum.c ****     /* Consumer endpoint configuration */
+ 181:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 319              		.loc 1 181 0
+ 320 00f4 1C304BE2 		sub	r3, fp, #28
+ 321 00f8 8100A0E3 		mov	r0, #129
+ 322 00fc 0310A0E1 		mov	r1, r3
+ 323 0100 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 324 0104 0C000BE5 		str	r0, [fp, #-12]
+ 182:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 325              		.loc 1 182 0
+ 326 0108 0C301BE5 		ldr	r3, [fp, #-12]
+ 327 010c 000053E3 		cmp	r3, #0
+ 328 0110 0500000A 		beq	.L17
+ 183:../cyfxbulklpautoenum.c ****     {
+ 184:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 329              		.loc 1 184 0
+ 330 0114 0400A0E3 		mov	r0, #4
+ 331 0118 08119FE5 		ldr	r1, .L21+4
+ 332 011c 0C201BE5 		ldr	r2, [fp, #-12]
+ 333 0120 FEFFFFEB 		bl	CyU3PDebugPrint
+ 185:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 334              		.loc 1 185 0
+ 335 0124 0C001BE5 		ldr	r0, [fp, #-12]
+ 336 0128 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 337              	.L17:
+ 186:../cyfxbulklpautoenum.c ****     }
+ 187:../cyfxbulklpautoenum.c **** 
+ 188:../cyfxbulklpautoenum.c ****     /* Create a DMA Auto Channel between two sockets of the U port.
+ 189:../cyfxbulklpautoenum.c ****      * DMA size is set based on the USB speed. */
+ 190:../cyfxbulklpautoenum.c ****     dmaCfg.size = size;
+ 338              		.loc 1 190 0
+ 339 012c B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 340 0130 B8334BE1 		strh	r3, [fp, #-56]	@ movhi
+ 191:../cyfxbulklpautoenum.c ****     dmaCfg.count = CY_FX_BULKLP_DMA_BUF_COUNT;
+ 341              		.loc 1 191 0
+ 342 0134 0830A0E3 		mov	r3, #8
+ 343 0138 B6334BE1 		strh	r3, [fp, #-54]	@ movhi
+ 192:../cyfxbulklpautoenum.c ****     dmaCfg.prodSckId = CY_FX_EP_PRODUCER_SOCKET;
+ 344              		.loc 1 192 0
+ 345 013c E8309FE5 		ldr	r3, .L21+8
+ 346 0140 B4334BE1 		strh	r3, [fp, #-52]	@ movhi
+ 193:../cyfxbulklpautoenum.c ****     dmaCfg.consSckId = CY_FX_EP_CONSUMER_SOCKET;
+ 347              		.loc 1 193 0
+ 348 0144 E4309FE5 		ldr	r3, .L21+12
+ 349 0148 B2334BE1 		strh	r3, [fp, #-50]	@ movhi
+ 194:../cyfxbulklpautoenum.c ****     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
+ 350              		.loc 1 194 0
+ 351 014c 0030A0E3 		mov	r3, #0
+ 352 0150 28304BE5 		strb	r3, [fp, #-40]
+ 195:../cyfxbulklpautoenum.c ****     dmaCfg.notification = 0;
+ 353              		.loc 1 195 0
+ 354 0154 0030A0E3 		mov	r3, #0
+ 355 0158 24300BE5 		str	r3, [fp, #-36]
+ 196:../cyfxbulklpautoenum.c ****     dmaCfg.cb = NULL;
+ 356              		.loc 1 196 0
+ 357 015c 0030A0E3 		mov	r3, #0
+ 358 0160 20300BE5 		str	r3, [fp, #-32]
+ 197:../cyfxbulklpautoenum.c ****     dmaCfg.prodHeader = 0;
+ 359              		.loc 1 197 0
+ 360 0164 0030A0E3 		mov	r3, #0
+ 361 0168 BE324BE1 		strh	r3, [fp, #-46]	@ movhi
+ 198:../cyfxbulklpautoenum.c ****     dmaCfg.prodFooter = 0;
+ 362              		.loc 1 198 0
+ 363 016c 0030A0E3 		mov	r3, #0
+ 364 0170 BC324BE1 		strh	r3, [fp, #-44]	@ movhi
+ 199:../cyfxbulklpautoenum.c ****     dmaCfg.consHeader = 0;
+ 365              		.loc 1 199 0
+ 366 0174 0030A0E3 		mov	r3, #0
+ 367 0178 BA324BE1 		strh	r3, [fp, #-42]	@ movhi
+ 200:../cyfxbulklpautoenum.c ****     dmaCfg.prodAvailCount = 0;
+ 368              		.loc 1 200 0
+ 369 017c 0030A0E3 		mov	r3, #0
+ 370 0180 B0334BE1 		strh	r3, [fp, #-48]	@ movhi
+ 201:../cyfxbulklpautoenum.c **** 
+ 202:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PDmaChannelCreate (&glChHandleBulkLp,
+ 371              		.loc 1 202 0
+ 372 0184 38304BE2 		sub	r3, fp, #56
+ 373 0188 A4009FE5 		ldr	r0, .L21+16
+ 374 018c 0010A0E3 		mov	r1, #0
+ 375 0190 0320A0E1 		mov	r2, r3
+ 376 0194 FEFFFFEB 		bl	CyU3PDmaChannelCreate
+ 377 0198 0C000BE5 		str	r0, [fp, #-12]
+ 203:../cyfxbulklpautoenum.c ****             CY_U3P_DMA_TYPE_AUTO, &dmaCfg);
+ 204:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 378              		.loc 1 204 0
+ 379 019c 0C301BE5 		ldr	r3, [fp, #-12]
+ 380 01a0 000053E3 		cmp	r3, #0
+ 381 01a4 0500000A 		beq	.L18
+ 205:../cyfxbulklpautoenum.c ****     {
+ 206:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelCreate failed, Error code = %d\n", apiRetStatus);
+ 382              		.loc 1 206 0
+ 383 01a8 0400A0E3 		mov	r0, #4
+ 384 01ac 84109FE5 		ldr	r1, .L21+20
+ 385 01b0 0C201BE5 		ldr	r2, [fp, #-12]
+ 386 01b4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 207:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 387              		.loc 1 207 0
+ 388 01b8 0C001BE5 		ldr	r0, [fp, #-12]
+ 389 01bc FEFFFFEB 		bl	CyFxAppErrorHandler
+ 390              	.L18:
+ 208:../cyfxbulklpautoenum.c ****     }
+ 209:../cyfxbulklpautoenum.c **** 
+ 210:../cyfxbulklpautoenum.c ****     /* Flush the Endpoint memory */
+ 211:../cyfxbulklpautoenum.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 391              		.loc 1 211 0
+ 392 01c0 0100A0E3 		mov	r0, #1
+ 393 01c4 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 212:../cyfxbulklpautoenum.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 394              		.loc 1 212 0
+ 395 01c8 8100A0E3 		mov	r0, #129
+ 396 01cc FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 213:../cyfxbulklpautoenum.c **** 
+ 214:../cyfxbulklpautoenum.c ****     /* Set DMA Channel transfer size */
+ 215:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PDmaChannelSetXfer (&glChHandleBulkLp, CY_FX_BULKLP_DMA_TX_SIZE);
+ 397              		.loc 1 215 0
+ 398 01d0 5C009FE5 		ldr	r0, .L21+16
+ 399 01d4 0010A0E3 		mov	r1, #0
+ 400 01d8 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 401 01dc 0C000BE5 		str	r0, [fp, #-12]
+ 216:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 402              		.loc 1 216 0
+ 403 01e0 0C301BE5 		ldr	r3, [fp, #-12]
+ 404 01e4 000053E3 		cmp	r3, #0
+ 405 01e8 0500000A 		beq	.L19
+ 217:../cyfxbulklpautoenum.c ****     {
+ 218:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelSetXfer Failed, Error code = %d\n", apiRetStatus);
+ 406              		.loc 1 218 0
+ 407 01ec 0400A0E3 		mov	r0, #4
+ 408 01f0 44109FE5 		ldr	r1, .L21+24
+ 409 01f4 0C201BE5 		ldr	r2, [fp, #-12]
+ 410 01f8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 219:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 411              		.loc 1 219 0
+ 412 01fc 0C001BE5 		ldr	r0, [fp, #-12]
+ 413 0200 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 414              	.L19:
+ 220:../cyfxbulklpautoenum.c ****     }
+ 221:../cyfxbulklpautoenum.c **** 
+ 222:../cyfxbulklpautoenum.c ****     /* Update the status flag. */
+ 223:../cyfxbulklpautoenum.c ****     glIsApplnActive = CyTrue;
+ 415              		.loc 1 223 0
+ 416 0204 34309FE5 		ldr	r3, .L21+28
+ 417 0208 0120A0E3 		mov	r2, #1
+ 418 020c 002083E5 		str	r2, [r3]
+ 224:../cyfxbulklpautoenum.c **** 
+ 225:../cyfxbulklpautoenum.c ****     /* Drop current U1/U2 enable state values. */
+ 226:../cyfxbulklpautoenum.c ****     glUsbDeviceStat = 0;
+ 419              		.loc 1 226 0
+ 420 0210 2C309FE5 		ldr	r3, .L21+32
+ 421 0214 0020A0E3 		mov	r2, #0
+ 422 0218 0020C3E5 		strb	r2, [r3]
+ 227:../cyfxbulklpautoenum.c **** }
+ 423              		.loc 1 227 0
+ 424 021c 04D04BE2 		sub	sp, fp, #4
+ 425              		@ sp needed
+ 426 0220 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 427              	.L22:
+ 428              		.align	2
+ 429              	.L21:
+ 430 0224 00000000 		.word	.LC0
+ 431 0228 1C000000 		.word	.LC1
+ 432 022c 01040000 		.word	1025
+ 433 0230 01030000 		.word	769
+ 434 0234 00000000 		.word	glChHandleBulkLp
+ 435 0238 48000000 		.word	.LC2
+ 436 023c 78000000 		.word	.LC3
+ 437 0240 00000000 		.word	glIsApplnActive
+ 438 0244 00000000 		.word	glUsbDeviceStat
+ 439              		.cfi_endproc
+ 440              	.LFE2:
+ 442              		.section	.text.CyFxBulkLpApplnStop,"ax",%progbits
+ 443              		.align	2
+ 444              		.global	CyFxBulkLpApplnStop
+ 446              	CyFxBulkLpApplnStop:
+ 447              	.LFB3:
+ 228:../cyfxbulklpautoenum.c **** 
+ 229:../cyfxbulklpautoenum.c **** /* This function stops the bulk loop application. This shall be called whenever
+ 230:../cyfxbulklpautoenum.c ****  * a RESET or DISCONNECT event is received from the USB host. The endpoints are
+ 231:../cyfxbulklpautoenum.c ****  * disabled and the DMA pipe is destroyed by this function. */
+ 232:../cyfxbulklpautoenum.c **** void
+ 233:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnStop (
+ 234:../cyfxbulklpautoenum.c ****         void)
+ 235:../cyfxbulklpautoenum.c **** {
+ 448              		.loc 1 235 0
+ 449              		.cfi_startproc
+ 450              		@ args = 0, pretend = 0, frame = 16
+ 451              		@ frame_needed = 1, uses_anonymous_args = 0
+ 452 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 453              	.LCFI6:
+ 454              		.cfi_def_cfa_offset 8
+ 455              		.cfi_offset 11, -8
+ 456              		.cfi_offset 14, -4
+ 457 0004 04B08DE2 		add	fp, sp, #4
+ 458              	.LCFI7:
+ 459              		.cfi_def_cfa 11, 4
+ 460 0008 10D04DE2 		sub	sp, sp, #16
+ 236:../cyfxbulklpautoenum.c ****     CyU3PEpConfig_t epCfg;
+ 237:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 461              		.loc 1 237 0
+ 462 000c 0030A0E3 		mov	r3, #0
+ 463 0010 08300BE5 		str	r3, [fp, #-8]
+ 238:../cyfxbulklpautoenum.c **** 
+ 239:../cyfxbulklpautoenum.c ****     /* Update the flag. */
+ 240:../cyfxbulklpautoenum.c ****     glIsApplnActive = CyFalse;
+ 464              		.loc 1 240 0
+ 465 0014 B0309FE5 		ldr	r3, .L26
+ 466 0018 0020A0E3 		mov	r2, #0
+ 467 001c 002083E5 		str	r2, [r3]
+ 241:../cyfxbulklpautoenum.c **** 
+ 242:../cyfxbulklpautoenum.c ****     /* Flush the endpoint memory */
+ 243:../cyfxbulklpautoenum.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 468              		.loc 1 243 0
+ 469 0020 0100A0E3 		mov	r0, #1
+ 470 0024 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 244:../cyfxbulklpautoenum.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 471              		.loc 1 244 0
+ 472 0028 8100A0E3 		mov	r0, #129
+ 473 002c FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 245:../cyfxbulklpautoenum.c **** 
+ 246:../cyfxbulklpautoenum.c ****     /* Destroy the channel */
+ 247:../cyfxbulklpautoenum.c ****     CyU3PDmaChannelDestroy (&glChHandleBulkLp);
+ 474              		.loc 1 247 0
+ 475 0030 98009FE5 		ldr	r0, .L26+4
+ 476 0034 FEFFFFEB 		bl	CyU3PDmaChannelDestroy
+ 248:../cyfxbulklpautoenum.c **** 
+ 249:../cyfxbulklpautoenum.c ****     /* Disable endpoints. */
+ 250:../cyfxbulklpautoenum.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 477              		.loc 1 250 0
+ 478 0038 14304BE2 		sub	r3, fp, #20
+ 479 003c 0300A0E1 		mov	r0, r3
+ 480 0040 0010A0E3 		mov	r1, #0
+ 481 0044 0C20A0E3 		mov	r2, #12
+ 482 0048 FEFFFFEB 		bl	CyU3PMemSet
+ 251:../cyfxbulklpautoenum.c ****     epCfg.enable = CyFalse;
+ 483              		.loc 1 251 0
+ 484 004c 0030A0E3 		mov	r3, #0
+ 485 0050 14300BE5 		str	r3, [fp, #-20]
+ 252:../cyfxbulklpautoenum.c **** 
+ 253:../cyfxbulklpautoenum.c ****     /* Producer endpoint configuration. */
+ 254:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 486              		.loc 1 254 0
+ 487 0054 14304BE2 		sub	r3, fp, #20
+ 488 0058 0100A0E3 		mov	r0, #1
+ 489 005c 0310A0E1 		mov	r1, r3
+ 490 0060 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 491 0064 08000BE5 		str	r0, [fp, #-8]
+ 255:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 492              		.loc 1 255 0
+ 493 0068 08301BE5 		ldr	r3, [fp, #-8]
+ 494 006c 000053E3 		cmp	r3, #0
+ 495 0070 0500000A 		beq	.L24
+ 256:../cyfxbulklpautoenum.c ****     {
+ 257:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 496              		.loc 1 257 0
+ 497 0074 0400A0E3 		mov	r0, #4
+ 498 0078 54109FE5 		ldr	r1, .L26+8
+ 499 007c 08201BE5 		ldr	r2, [fp, #-8]
+ 500 0080 FEFFFFEB 		bl	CyU3PDebugPrint
+ 258:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 501              		.loc 1 258 0
+ 502 0084 08001BE5 		ldr	r0, [fp, #-8]
+ 503 0088 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 504              	.L24:
+ 259:../cyfxbulklpautoenum.c ****     }
+ 260:../cyfxbulklpautoenum.c **** 
+ 261:../cyfxbulklpautoenum.c ****     /* Consumer endpoint configuration. */
+ 262:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 505              		.loc 1 262 0
+ 506 008c 14304BE2 		sub	r3, fp, #20
+ 507 0090 8100A0E3 		mov	r0, #129
+ 508 0094 0310A0E1 		mov	r1, r3
+ 509 0098 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 510 009c 08000BE5 		str	r0, [fp, #-8]
+ 263:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 511              		.loc 1 263 0
+ 512 00a0 08301BE5 		ldr	r3, [fp, #-8]
+ 513 00a4 000053E3 		cmp	r3, #0
+ 514 00a8 0500000A 		beq	.L23
+ 264:../cyfxbulklpautoenum.c ****     {
+ 265:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 515              		.loc 1 265 0
+ 516 00ac 0400A0E3 		mov	r0, #4
+ 517 00b0 1C109FE5 		ldr	r1, .L26+8
+ 518 00b4 08201BE5 		ldr	r2, [fp, #-8]
+ 519 00b8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 266:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 520              		.loc 1 266 0
+ 521 00bc 08001BE5 		ldr	r0, [fp, #-8]
+ 522 00c0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 523              	.L23:
+ 267:../cyfxbulklpautoenum.c ****     }
+ 268:../cyfxbulklpautoenum.c **** }
+ 524              		.loc 1 268 0
+ 525 00c4 04D04BE2 		sub	sp, fp, #4
+ 526              		@ sp needed
+ 527 00c8 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 528              	.L27:
+ 529              		.align	2
+ 530              	.L26:
+ 531 00cc 00000000 		.word	glIsApplnActive
+ 532 00d0 00000000 		.word	glChHandleBulkLp
+ 533 00d4 1C000000 		.word	.LC1
+ 534              		.cfi_endproc
+ 535              	.LFE3:
+ 537              		.section	.text.CyFxUsbHandleClearFeature,"ax",%progbits
+ 538              		.align	2
+ 539              		.global	CyFxUsbHandleClearFeature
+ 541              	CyFxUsbHandleClearFeature:
+ 542              	.LFB4:
+ 269:../cyfxbulklpautoenum.c **** 
+ 270:../cyfxbulklpautoenum.c **** /* Handle the CLEAR_FEATURE request. */
+ 271:../cyfxbulklpautoenum.c **** CyBool_t
+ 272:../cyfxbulklpautoenum.c **** CyFxUsbHandleClearFeature (
+ 273:../cyfxbulklpautoenum.c ****         uint8_t bTarget,
+ 274:../cyfxbulklpautoenum.c ****         uint16_t wValue,
+ 275:../cyfxbulklpautoenum.c ****         uint16_t wIndex)
+ 276:../cyfxbulklpautoenum.c **** {
+ 543              		.loc 1 276 0
+ 544              		.cfi_startproc
+ 545              		@ args = 0, pretend = 0, frame = 16
+ 546              		@ frame_needed = 1, uses_anonymous_args = 0
+ 547 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 548              	.LCFI8:
+ 549              		.cfi_def_cfa_offset 8
+ 550              		.cfi_offset 11, -8
+ 551              		.cfi_offset 14, -4
+ 552 0004 04B08DE2 		add	fp, sp, #4
+ 553              	.LCFI9:
+ 554              		.cfi_def_cfa 11, 4
+ 555 0008 10D04DE2 		sub	sp, sp, #16
+ 556 000c 0230A0E1 		mov	r3, r2
+ 557 0010 0020A0E1 		mov	r2, r0
+ 558 0014 0D204BE5 		strb	r2, [fp, #-13]
+ 559 0018 B0114BE1 		strh	r1, [fp, #-16]	@ movhi
+ 560 001c B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 277:../cyfxbulklpautoenum.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
+ 561              		.loc 1 277 0
+ 562 0020 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 563 0024 0030A0E1 		mov	r3, r0
+ 564 0028 09304BE5 		strb	r3, [fp, #-9]
+ 278:../cyfxbulklpautoenum.c ****     CyBool_t isHandled = CyFalse;
+ 565              		.loc 1 278 0
+ 566 002c 0030A0E3 		mov	r3, #0
+ 567 0030 08300BE5 		str	r3, [fp, #-8]
+ 279:../cyfxbulklpautoenum.c **** 
+ 280:../cyfxbulklpautoenum.c ****     if (bTarget == CY_U3P_USB_TARGET_DEVICE)
+ 568              		.loc 1 280 0
+ 569 0034 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 570 0038 000053E3 		cmp	r3, #0
+ 571 003c 4000001A 		bne	.L29
+ 281:../cyfxbulklpautoenum.c ****     {
+ 282:../cyfxbulklpautoenum.c ****         switch (wValue & 0xFF)
+ 572              		.loc 1 282 0
+ 573 0040 B0315BE1 		ldrh	r3, [fp, #-16]
+ 574 0044 FF3003E2 		and	r3, r3, #255
+ 575 0048 020053E3 		cmp	r3, #2
+ 576 004c 0F00000A 		beq	.L31
+ 577 0050 020053E3 		cmp	r3, #2
+ 578 0054 020000CA 		bgt	.L32
+ 579 0058 010053E3 		cmp	r3, #1
+ 580 005c 0500000A 		beq	.L33
+ 581 0060 330000EA 		b	.L30
+ 582              	.L32:
+ 583 0064 300053E3 		cmp	r3, #48
+ 584 0068 0F00000A 		beq	.L34
+ 585 006c 310053E3 		cmp	r3, #49
+ 586 0070 1E00000A 		beq	.L35
+ 587 0074 2E0000EA 		b	.L30
+ 588              	.L33:
+ 283:../cyfxbulklpautoenum.c ****         {
+ 284:../cyfxbulklpautoenum.c ****             case CY_U3P_USB2_FS_REMOTE_WAKE:
+ 285:../cyfxbulklpautoenum.c ****                 glUsbDeviceStat &= 0xFD;
+ 589              		.loc 1 285 0
+ 590 0078 AC319FE5 		ldr	r3, .L47
+ 591 007c 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 592 0080 0230C3E3 		bic	r3, r3, #2
+ 593 0084 FF2003E2 		and	r2, r3, #255
+ 594 0088 9C319FE5 		ldr	r3, .L47
+ 595 008c 0020C3E5 		strb	r2, [r3]
+ 596              	.L31:
+ 286:../cyfxbulklpautoenum.c ****                 /* Fall-through here. */
+ 287:../cyfxbulklpautoenum.c ****             case CY_U3P_USB2_FS_TEST_MODE:
+ 288:../cyfxbulklpautoenum.c ****                 if (usbSpeed != CY_U3P_SUPER_SPEED)
+ 597              		.loc 1 288 0
+ 598 0090 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 599 0094 030053E3 		cmp	r3, #3
+ 600 0098 0200000A 		beq	.L36
+ 289:../cyfxbulklpautoenum.c ****                 {
+ 290:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 601              		.loc 1 290 0
+ 602 009c 0130A0E3 		mov	r3, #1
+ 603 00a0 08300BE5 		str	r3, [fp, #-8]
+ 291:../cyfxbulklpautoenum.c ****                 }
+ 292:../cyfxbulklpautoenum.c ****                 break;
+ 604              		.loc 1 292 0
+ 605 00a4 250000EA 		b	.L37
+ 606              	.L36:
+ 607 00a8 240000EA 		b	.L37
+ 608              	.L34:
+ 293:../cyfxbulklpautoenum.c **** 
+ 294:../cyfxbulklpautoenum.c ****             case CY_U3P_USB3_FS_U1_ENABLE:
+ 295:../cyfxbulklpautoenum.c ****                 if ((usbSpeed == CY_U3P_SUPER_SPEED) && (glIsApplnActive))
+ 609              		.loc 1 295 0
+ 610 00ac 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 611 00b0 030053E3 		cmp	r3, #3
+ 612 00b4 0C00001A 		bne	.L38
+ 613              		.loc 1 295 0 is_stmt 0 discriminator 1
+ 614 00b8 70319FE5 		ldr	r3, .L47+4
+ 615 00bc 003093E5 		ldr	r3, [r3]
+ 616 00c0 000053E3 		cmp	r3, #0
+ 617 00c4 0800000A 		beq	.L38
+ 296:../cyfxbulklpautoenum.c ****                 {
+ 297:../cyfxbulklpautoenum.c ****                     glUsbDeviceStat &= 0xFB;
+ 618              		.loc 1 297 0 is_stmt 1
+ 619 00c8 5C319FE5 		ldr	r3, .L47
+ 620 00cc 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 621 00d0 0430C3E3 		bic	r3, r3, #4
+ 622 00d4 FF2003E2 		and	r2, r3, #255
+ 623 00d8 4C319FE5 		ldr	r3, .L47
+ 624 00dc 0020C3E5 		strb	r2, [r3]
+ 298:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 625              		.loc 1 298 0
+ 626 00e0 0130A0E3 		mov	r3, #1
+ 627 00e4 08300BE5 		str	r3, [fp, #-8]
+ 299:../cyfxbulklpautoenum.c ****                 }
+ 300:../cyfxbulklpautoenum.c ****                 break;
+ 628              		.loc 1 300 0
+ 629 00e8 140000EA 		b	.L37
+ 630              	.L38:
+ 631 00ec 130000EA 		b	.L37
+ 632              	.L35:
+ 301:../cyfxbulklpautoenum.c **** 
+ 302:../cyfxbulklpautoenum.c ****             case CY_U3P_USB3_FS_U2_ENABLE:
+ 303:../cyfxbulklpautoenum.c ****                 if ((usbSpeed == CY_U3P_SUPER_SPEED) && (glIsApplnActive))
+ 633              		.loc 1 303 0
+ 634 00f0 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 635 00f4 030053E3 		cmp	r3, #3
+ 636 00f8 0C00001A 		bne	.L39
+ 637              		.loc 1 303 0 is_stmt 0 discriminator 1
+ 638 00fc 2C319FE5 		ldr	r3, .L47+4
+ 639 0100 003093E5 		ldr	r3, [r3]
+ 640 0104 000053E3 		cmp	r3, #0
+ 641 0108 0800000A 		beq	.L39
+ 304:../cyfxbulklpautoenum.c ****                 {
+ 305:../cyfxbulklpautoenum.c ****                     glUsbDeviceStat &= 0xF7;
+ 642              		.loc 1 305 0 is_stmt 1
+ 643 010c 18319FE5 		ldr	r3, .L47
+ 644 0110 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 645 0114 0830C3E3 		bic	r3, r3, #8
+ 646 0118 FF2003E2 		and	r2, r3, #255
+ 647 011c 08319FE5 		ldr	r3, .L47
+ 648 0120 0020C3E5 		strb	r2, [r3]
+ 306:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 649              		.loc 1 306 0
+ 650 0124 0130A0E3 		mov	r3, #1
+ 651 0128 08300BE5 		str	r3, [fp, #-8]
+ 307:../cyfxbulklpautoenum.c ****                 }
+ 308:../cyfxbulklpautoenum.c ****                 break;
+ 652              		.loc 1 308 0
+ 653 012c 030000EA 		b	.L37
+ 654              	.L39:
+ 655 0130 020000EA 		b	.L37
+ 656              	.L30:
+ 309:../cyfxbulklpautoenum.c **** 
+ 310:../cyfxbulklpautoenum.c ****             default:
+ 311:../cyfxbulklpautoenum.c ****                 isHandled = CyFalse;
+ 657              		.loc 1 311 0
+ 658 0134 0030A0E3 		mov	r3, #0
+ 659 0138 08300BE5 		str	r3, [fp, #-8]
+ 312:../cyfxbulklpautoenum.c ****                 break;
+ 660              		.loc 1 312 0
+ 661 013c 0000A0E1 		mov	r0, r0	@ nop
+ 662              	.L37:
+ 663 0140 350000EA 		b	.L40
+ 664              	.L29:
+ 313:../cyfxbulklpautoenum.c ****         }
+ 314:../cyfxbulklpautoenum.c ****     }
+ 315:../cyfxbulklpautoenum.c ****     else if (bTarget == CY_U3P_USB_TARGET_INTF)
+ 665              		.loc 1 315 0
+ 666 0144 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 667 0148 010053E3 		cmp	r3, #1
+ 668 014c 0F00001A 		bne	.L41
+ 316:../cyfxbulklpautoenum.c ****     {
+ 317:../cyfxbulklpautoenum.c ****         /* Need to handle CLEAR_FEATURE(FUNCTION_SUSPEND) requests. We allow this request to pass
+ 318:../cyfxbulklpautoenum.c ****            if the USB device is in configured state and fail it otherwise.  */
+ 319:../cyfxbulklpautoenum.c ****         if ((glIsApplnActive) && (wValue == 0))
+ 669              		.loc 1 319 0
+ 670 0150 D8309FE5 		ldr	r3, .L47+4
+ 671 0154 003093E5 		ldr	r3, [r3]
+ 672 0158 000053E3 		cmp	r3, #0
+ 673 015c 0400000A 		beq	.L42
+ 674              		.loc 1 319 0 is_stmt 0 discriminator 1
+ 675 0160 B0315BE1 		ldrh	r3, [fp, #-16]
+ 676 0164 000053E3 		cmp	r3, #0
+ 677 0168 0100001A 		bne	.L42
+ 320:../cyfxbulklpautoenum.c ****             CyU3PUsbAckSetup ();
+ 678              		.loc 1 320 0 is_stmt 1
+ 679 016c FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 680 0170 030000EA 		b	.L43
+ 681              	.L42:
+ 321:../cyfxbulklpautoenum.c ****         else
+ 322:../cyfxbulklpautoenum.c ****             CyU3PUsbStall (0, CyTrue, CyFalse);
+ 682              		.loc 1 322 0
+ 683 0174 0000A0E3 		mov	r0, #0
+ 684 0178 0110A0E3 		mov	r1, #1
+ 685 017c 0020A0E3 		mov	r2, #0
+ 686 0180 FEFFFFEB 		bl	CyU3PUsbStall
+ 687              	.L43:
+ 323:../cyfxbulklpautoenum.c **** 
+ 324:../cyfxbulklpautoenum.c ****         isHandled = CyTrue;
+ 688              		.loc 1 324 0
+ 689 0184 0130A0E3 		mov	r3, #1
+ 690 0188 08300BE5 		str	r3, [fp, #-8]
+ 691 018c 220000EA 		b	.L40
+ 692              	.L41:
+ 325:../cyfxbulklpautoenum.c ****     }
+ 326:../cyfxbulklpautoenum.c ****     else if ((bTarget == CY_U3P_USB_TARGET_ENDPT) && (wValue == CY_U3P_USBX_FS_EP_HALT))
+ 693              		.loc 1 326 0
+ 694 0190 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 695 0194 020053E3 		cmp	r3, #2
+ 696 0198 1D00001A 		bne	.L44
+ 697              		.loc 1 326 0 is_stmt 0 discriminator 1
+ 698 019c B0315BE1 		ldrh	r3, [fp, #-16]
+ 699 01a0 000053E3 		cmp	r3, #0
+ 700 01a4 1A00001A 		bne	.L44
+ 327:../cyfxbulklpautoenum.c ****     {
+ 328:../cyfxbulklpautoenum.c ****         /* If the application is active make sure that all sockets and
+ 329:../cyfxbulklpautoenum.c ****          * DMA buffers are flushed and cleaned. If more than one enpoint
+ 330:../cyfxbulklpautoenum.c ****          * is linked to the same DMA channel, then reset all the affected
+ 331:../cyfxbulklpautoenum.c ****          * endpoint pipes. */
+ 332:../cyfxbulklpautoenum.c ****         if (glIsApplnActive)
+ 701              		.loc 1 332 0 is_stmt 1
+ 702 01a8 80309FE5 		ldr	r3, .L47+4
+ 703 01ac 003093E5 		ldr	r3, [r3]
+ 704 01b0 000053E3 		cmp	r3, #0
+ 705 01b4 0C00000A 		beq	.L45
+ 333:../cyfxbulklpautoenum.c ****         {
+ 334:../cyfxbulklpautoenum.c ****             CyU3PDmaChannelReset (&glChHandleBulkLp);
+ 706              		.loc 1 334 0
+ 707 01b8 74009FE5 		ldr	r0, .L47+8
+ 708 01bc FEFFFFEB 		bl	CyU3PDmaChannelReset
+ 335:../cyfxbulklpautoenum.c ****             CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 709              		.loc 1 335 0
+ 710 01c0 0100A0E3 		mov	r0, #1
+ 711 01c4 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 336:../cyfxbulklpautoenum.c ****             CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 712              		.loc 1 336 0
+ 713 01c8 8100A0E3 		mov	r0, #129
+ 714 01cc FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 337:../cyfxbulklpautoenum.c ****             CyU3PUsbResetEp (CY_FX_EP_PRODUCER);
+ 715              		.loc 1 337 0
+ 716 01d0 0100A0E3 		mov	r0, #1
+ 717 01d4 FEFFFFEB 		bl	CyU3PUsbResetEp
+ 338:../cyfxbulklpautoenum.c ****             CyU3PUsbResetEp (CY_FX_EP_CONSUMER);
+ 718              		.loc 1 338 0
+ 719 01d8 8100A0E3 		mov	r0, #129
+ 720 01dc FEFFFFEB 		bl	CyU3PUsbResetEp
+ 339:../cyfxbulklpautoenum.c ****             CyU3PDmaChannelSetXfer (&glChHandleBulkLp, CY_FX_BULKLP_DMA_TX_SIZE);
+ 721              		.loc 1 339 0
+ 722 01e0 4C009FE5 		ldr	r0, .L47+8
+ 723 01e4 0010A0E3 		mov	r1, #0
+ 724 01e8 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 725              	.L45:
+ 340:../cyfxbulklpautoenum.c ****         }
+ 341:../cyfxbulklpautoenum.c ****  
+ 342:../cyfxbulklpautoenum.c ****         /* Clear stall on the endpoint. */
+ 343:../cyfxbulklpautoenum.c ****         CyU3PUsbStall (wIndex, CyFalse, CyTrue);
+ 726              		.loc 1 343 0
+ 727 01ec B2315BE1 		ldrh	r3, [fp, #-18]	@ movhi
+ 728 01f0 FF3003E2 		and	r3, r3, #255
+ 729 01f4 0300A0E1 		mov	r0, r3
+ 730 01f8 0010A0E3 		mov	r1, #0
+ 731 01fc 0120A0E3 		mov	r2, #1
+ 732 0200 FEFFFFEB 		bl	CyU3PUsbStall
+ 344:../cyfxbulklpautoenum.c ****         CyU3PUsbAckSetup ();
+ 733              		.loc 1 344 0
+ 734 0204 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 345:../cyfxbulklpautoenum.c ****         isHandled = CyTrue;
+ 735              		.loc 1 345 0
+ 736 0208 0130A0E3 		mov	r3, #1
+ 737 020c 08300BE5 		str	r3, [fp, #-8]
+ 738 0210 010000EA 		b	.L40
+ 739              	.L44:
+ 346:../cyfxbulklpautoenum.c ****     }
+ 347:../cyfxbulklpautoenum.c ****     else
+ 348:../cyfxbulklpautoenum.c ****     {
+ 349:../cyfxbulklpautoenum.c ****         isHandled = CyFalse;
+ 740              		.loc 1 349 0
+ 741 0214 0030A0E3 		mov	r3, #0
+ 742 0218 08300BE5 		str	r3, [fp, #-8]
+ 743              	.L40:
+ 350:../cyfxbulklpautoenum.c ****     }
+ 351:../cyfxbulklpautoenum.c **** 
+ 352:../cyfxbulklpautoenum.c ****     return isHandled;
+ 744              		.loc 1 352 0
+ 745 021c 08301BE5 		ldr	r3, [fp, #-8]
+ 353:../cyfxbulklpautoenum.c **** }
+ 746              		.loc 1 353 0
+ 747 0220 0300A0E1 		mov	r0, r3
+ 748 0224 04D04BE2 		sub	sp, fp, #4
+ 749              		@ sp needed
+ 750 0228 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 751              	.L48:
+ 752              		.align	2
+ 753              	.L47:
+ 754 022c 00000000 		.word	glUsbDeviceStat
+ 755 0230 00000000 		.word	glIsApplnActive
+ 756 0234 00000000 		.word	glChHandleBulkLp
+ 757              		.cfi_endproc
+ 758              	.LFE4:
+ 760              		.section	.text.CyFxUsbHandleSetFeature,"ax",%progbits
+ 761              		.align	2
+ 762              		.global	CyFxUsbHandleSetFeature
+ 764              	CyFxUsbHandleSetFeature:
+ 765              	.LFB5:
+ 354:../cyfxbulklpautoenum.c **** /* Handle the SET_FEATURE request. */
+ 355:../cyfxbulklpautoenum.c **** CyBool_t
+ 356:../cyfxbulklpautoenum.c **** CyFxUsbHandleSetFeature (
+ 357:../cyfxbulklpautoenum.c ****         uint8_t bTarget,
+ 358:../cyfxbulklpautoenum.c ****         uint16_t wValue,
+ 359:../cyfxbulklpautoenum.c ****         uint16_t wIndex)
+ 360:../cyfxbulklpautoenum.c **** {
+ 766              		.loc 1 360 0
+ 767              		.cfi_startproc
+ 768              		@ args = 0, pretend = 0, frame = 16
+ 769              		@ frame_needed = 1, uses_anonymous_args = 0
+ 770 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 771              	.LCFI10:
+ 772              		.cfi_def_cfa_offset 8
+ 773              		.cfi_offset 11, -8
+ 774              		.cfi_offset 14, -4
+ 775 0004 04B08DE2 		add	fp, sp, #4
+ 776              	.LCFI11:
+ 777              		.cfi_def_cfa 11, 4
+ 778 0008 10D04DE2 		sub	sp, sp, #16
+ 779 000c 0230A0E1 		mov	r3, r2
+ 780 0010 0020A0E1 		mov	r2, r0
+ 781 0014 0D204BE5 		strb	r2, [fp, #-13]
+ 782 0018 B0114BE1 		strh	r1, [fp, #-16]	@ movhi
+ 783 001c B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 361:../cyfxbulklpautoenum.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
+ 784              		.loc 1 361 0
+ 785 0020 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 786 0024 0030A0E1 		mov	r3, r0
+ 787 0028 09304BE5 		strb	r3, [fp, #-9]
+ 362:../cyfxbulklpautoenum.c ****     CyBool_t isHandled = CyFalse;
+ 788              		.loc 1 362 0
+ 789 002c 0030A0E3 		mov	r3, #0
+ 790 0030 08300BE5 		str	r3, [fp, #-8]
+ 363:../cyfxbulklpautoenum.c **** 
+ 364:../cyfxbulklpautoenum.c ****     if (bTarget == CY_U3P_USB_TARGET_DEVICE)
+ 791              		.loc 1 364 0
+ 792 0034 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 793 0038 000053E3 		cmp	r3, #0
+ 794 003c 4000001A 		bne	.L50
+ 365:../cyfxbulklpautoenum.c ****     {
+ 366:../cyfxbulklpautoenum.c ****         switch (wValue & 0xFF)
+ 795              		.loc 1 366 0
+ 796 0040 B0315BE1 		ldrh	r3, [fp, #-16]
+ 797 0044 FF3003E2 		and	r3, r3, #255
+ 798 0048 020053E3 		cmp	r3, #2
+ 799 004c 0F00000A 		beq	.L52
+ 800 0050 020053E3 		cmp	r3, #2
+ 801 0054 020000CA 		bgt	.L53
+ 802 0058 010053E3 		cmp	r3, #1
+ 803 005c 0500000A 		beq	.L54
+ 804 0060 330000EA 		b	.L51
+ 805              	.L53:
+ 806 0064 300053E3 		cmp	r3, #48
+ 807 0068 0F00000A 		beq	.L55
+ 808 006c 310053E3 		cmp	r3, #49
+ 809 0070 1E00000A 		beq	.L56
+ 810 0074 2E0000EA 		b	.L51
+ 811              	.L54:
+ 367:../cyfxbulklpautoenum.c ****         {
+ 368:../cyfxbulklpautoenum.c ****             case CY_U3P_USB2_FS_REMOTE_WAKE:
+ 369:../cyfxbulklpautoenum.c ****                 glUsbDeviceStat |= 0x02;
+ 812              		.loc 1 369 0
+ 813 0078 68319FE5 		ldr	r3, .L67
+ 814 007c 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 815 0080 023083E3 		orr	r3, r3, #2
+ 816 0084 FF2003E2 		and	r2, r3, #255
+ 817 0088 58319FE5 		ldr	r3, .L67
+ 818 008c 0020C3E5 		strb	r2, [r3]
+ 819              	.L52:
+ 370:../cyfxbulklpautoenum.c ****                 /* Fall-through here. */
+ 371:../cyfxbulklpautoenum.c ****             case CY_U3P_USB2_FS_TEST_MODE:
+ 372:../cyfxbulklpautoenum.c ****                 if (usbSpeed != CY_U3P_SUPER_SPEED)
+ 820              		.loc 1 372 0
+ 821 0090 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 822 0094 030053E3 		cmp	r3, #3
+ 823 0098 0200000A 		beq	.L57
+ 373:../cyfxbulklpautoenum.c ****                 {
+ 374:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 824              		.loc 1 374 0
+ 825 009c 0130A0E3 		mov	r3, #1
+ 826 00a0 08300BE5 		str	r3, [fp, #-8]
+ 375:../cyfxbulklpautoenum.c ****                 }
+ 376:../cyfxbulklpautoenum.c ****                 break;
+ 827              		.loc 1 376 0
+ 828 00a4 250000EA 		b	.L58
+ 829              	.L57:
+ 830 00a8 240000EA 		b	.L58
+ 831              	.L55:
+ 377:../cyfxbulklpautoenum.c **** 
+ 378:../cyfxbulklpautoenum.c ****             case CY_U3P_USB3_FS_U1_ENABLE:
+ 379:../cyfxbulklpautoenum.c ****                 if ((usbSpeed == CY_U3P_SUPER_SPEED) && (glIsApplnActive))
+ 832              		.loc 1 379 0
+ 833 00ac 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 834 00b0 030053E3 		cmp	r3, #3
+ 835 00b4 0C00001A 		bne	.L59
+ 836              		.loc 1 379 0 is_stmt 0 discriminator 1
+ 837 00b8 2C319FE5 		ldr	r3, .L67+4
+ 838 00bc 003093E5 		ldr	r3, [r3]
+ 839 00c0 000053E3 		cmp	r3, #0
+ 840 00c4 0800000A 		beq	.L59
+ 380:../cyfxbulklpautoenum.c ****                 {
+ 381:../cyfxbulklpautoenum.c ****                     glUsbDeviceStat |= 0x04;
+ 841              		.loc 1 381 0 is_stmt 1
+ 842 00c8 18319FE5 		ldr	r3, .L67
+ 843 00cc 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 844 00d0 043083E3 		orr	r3, r3, #4
+ 845 00d4 FF2003E2 		and	r2, r3, #255
+ 846 00d8 08319FE5 		ldr	r3, .L67
+ 847 00dc 0020C3E5 		strb	r2, [r3]
+ 382:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 848              		.loc 1 382 0
+ 849 00e0 0130A0E3 		mov	r3, #1
+ 850 00e4 08300BE5 		str	r3, [fp, #-8]
+ 383:../cyfxbulklpautoenum.c ****                 }
+ 384:../cyfxbulklpautoenum.c ****                 break;
+ 851              		.loc 1 384 0
+ 852 00e8 140000EA 		b	.L58
+ 853              	.L59:
+ 854 00ec 130000EA 		b	.L58
+ 855              	.L56:
+ 385:../cyfxbulklpautoenum.c **** 
+ 386:../cyfxbulklpautoenum.c ****             case CY_U3P_USB3_FS_U2_ENABLE:
+ 387:../cyfxbulklpautoenum.c ****                 if ((usbSpeed == CY_U3P_SUPER_SPEED) && (glIsApplnActive))
+ 856              		.loc 1 387 0
+ 857 00f0 09305BE5 		ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+ 858 00f4 030053E3 		cmp	r3, #3
+ 859 00f8 0C00001A 		bne	.L60
+ 860              		.loc 1 387 0 is_stmt 0 discriminator 1
+ 861 00fc E8309FE5 		ldr	r3, .L67+4
+ 862 0100 003093E5 		ldr	r3, [r3]
+ 863 0104 000053E3 		cmp	r3, #0
+ 864 0108 0800000A 		beq	.L60
+ 388:../cyfxbulklpautoenum.c ****                 {
+ 389:../cyfxbulklpautoenum.c ****                     glUsbDeviceStat |= 0x08;
+ 865              		.loc 1 389 0 is_stmt 1
+ 866 010c D4309FE5 		ldr	r3, .L67
+ 867 0110 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 868 0114 083083E3 		orr	r3, r3, #8
+ 869 0118 FF2003E2 		and	r2, r3, #255
+ 870 011c C4309FE5 		ldr	r3, .L67
+ 871 0120 0020C3E5 		strb	r2, [r3]
+ 390:../cyfxbulklpautoenum.c ****                     isHandled = CyTrue;
+ 872              		.loc 1 390 0
+ 873 0124 0130A0E3 		mov	r3, #1
+ 874 0128 08300BE5 		str	r3, [fp, #-8]
+ 391:../cyfxbulklpautoenum.c ****                 }
+ 392:../cyfxbulklpautoenum.c ****                 break;
+ 875              		.loc 1 392 0
+ 876 012c 030000EA 		b	.L58
+ 877              	.L60:
+ 878 0130 020000EA 		b	.L58
+ 879              	.L51:
+ 393:../cyfxbulklpautoenum.c **** 
+ 394:../cyfxbulklpautoenum.c ****             default:
+ 395:../cyfxbulklpautoenum.c ****                 isHandled = CyFalse;
+ 880              		.loc 1 395 0
+ 881 0134 0030A0E3 		mov	r3, #0
+ 882 0138 08300BE5 		str	r3, [fp, #-8]
+ 396:../cyfxbulklpautoenum.c ****                 break;
+ 883              		.loc 1 396 0
+ 884 013c 0000A0E1 		mov	r0, r0	@ nop
+ 885              	.L58:
+ 886 0140 240000EA 		b	.L61
+ 887              	.L50:
+ 397:../cyfxbulklpautoenum.c ****         }
+ 398:../cyfxbulklpautoenum.c ****     }
+ 399:../cyfxbulklpautoenum.c ****     else if (bTarget == CY_U3P_USB_TARGET_INTF)
+ 888              		.loc 1 399 0
+ 889 0144 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 890 0148 010053E3 		cmp	r3, #1
+ 891 014c 0F00001A 		bne	.L62
+ 400:../cyfxbulklpautoenum.c ****     {
+ 401:../cyfxbulklpautoenum.c ****         /* Need to handle SET_FEATURE(FUNCTION_SUSPEND) requests. We allow this request to pass
+ 402:../cyfxbulklpautoenum.c ****            if the USB device is in configured state and fail it otherwise.  */
+ 403:../cyfxbulklpautoenum.c ****         if ((glIsApplnActive) && (wValue == 0))
+ 892              		.loc 1 403 0
+ 893 0150 94309FE5 		ldr	r3, .L67+4
+ 894 0154 003093E5 		ldr	r3, [r3]
+ 895 0158 000053E3 		cmp	r3, #0
+ 896 015c 0400000A 		beq	.L63
+ 897              		.loc 1 403 0 is_stmt 0 discriminator 1
+ 898 0160 B0315BE1 		ldrh	r3, [fp, #-16]
+ 899 0164 000053E3 		cmp	r3, #0
+ 900 0168 0100001A 		bne	.L63
+ 404:../cyfxbulklpautoenum.c ****             CyU3PUsbAckSetup ();
+ 901              		.loc 1 404 0 is_stmt 1
+ 902 016c FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 903 0170 030000EA 		b	.L64
+ 904              	.L63:
+ 405:../cyfxbulklpautoenum.c ****         else
+ 406:../cyfxbulklpautoenum.c ****             CyU3PUsbStall (0, CyTrue, CyFalse);
+ 905              		.loc 1 406 0
+ 906 0174 0000A0E3 		mov	r0, #0
+ 907 0178 0110A0E3 		mov	r1, #1
+ 908 017c 0020A0E3 		mov	r2, #0
+ 909 0180 FEFFFFEB 		bl	CyU3PUsbStall
+ 910              	.L64:
+ 407:../cyfxbulklpautoenum.c **** 
+ 408:../cyfxbulklpautoenum.c ****         isHandled = CyTrue;
+ 911              		.loc 1 408 0
+ 912 0184 0130A0E3 		mov	r3, #1
+ 913 0188 08300BE5 		str	r3, [fp, #-8]
+ 914 018c 110000EA 		b	.L61
+ 915              	.L62:
+ 409:../cyfxbulklpautoenum.c ****     }
+ 410:../cyfxbulklpautoenum.c ****     else if ((bTarget == CY_U3P_USB_TARGET_ENDPT) && (wValue == CY_U3P_USBX_FS_EP_HALT))
+ 916              		.loc 1 410 0
+ 917 0190 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 918 0194 020053E3 		cmp	r3, #2
+ 919 0198 0C00001A 		bne	.L65
+ 920              		.loc 1 410 0 is_stmt 0 discriminator 1
+ 921 019c B0315BE1 		ldrh	r3, [fp, #-16]
+ 922 01a0 000053E3 		cmp	r3, #0
+ 923 01a4 0900001A 		bne	.L65
+ 411:../cyfxbulklpautoenum.c ****     {
+ 412:../cyfxbulklpautoenum.c ****         /* Stall the endpoint */
+ 413:../cyfxbulklpautoenum.c ****         CyU3PUsbStall (wIndex, CyTrue, CyFalse);
+ 924              		.loc 1 413 0 is_stmt 1
+ 925 01a8 B2315BE1 		ldrh	r3, [fp, #-18]	@ movhi
+ 926 01ac FF3003E2 		and	r3, r3, #255
+ 927 01b0 0300A0E1 		mov	r0, r3
+ 928 01b4 0110A0E3 		mov	r1, #1
+ 929 01b8 0020A0E3 		mov	r2, #0
+ 930 01bc FEFFFFEB 		bl	CyU3PUsbStall
+ 414:../cyfxbulklpautoenum.c ****         CyU3PUsbAckSetup ();
+ 931              		.loc 1 414 0
+ 932 01c0 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 415:../cyfxbulklpautoenum.c ****         isHandled = CyTrue;
+ 933              		.loc 1 415 0
+ 934 01c4 0130A0E3 		mov	r3, #1
+ 935 01c8 08300BE5 		str	r3, [fp, #-8]
+ 936 01cc 010000EA 		b	.L61
+ 937              	.L65:
+ 416:../cyfxbulklpautoenum.c ****     }
+ 417:../cyfxbulklpautoenum.c ****     else
+ 418:../cyfxbulklpautoenum.c ****     {
+ 419:../cyfxbulklpautoenum.c ****         isHandled = CyFalse;
+ 938              		.loc 1 419 0
+ 939 01d0 0030A0E3 		mov	r3, #0
+ 940 01d4 08300BE5 		str	r3, [fp, #-8]
+ 941              	.L61:
+ 420:../cyfxbulklpautoenum.c ****     }
+ 421:../cyfxbulklpautoenum.c **** 
+ 422:../cyfxbulklpautoenum.c ****     return isHandled;
+ 942              		.loc 1 422 0
+ 943 01d8 08301BE5 		ldr	r3, [fp, #-8]
+ 423:../cyfxbulklpautoenum.c **** }
+ 944              		.loc 1 423 0
+ 945 01dc 0300A0E1 		mov	r0, r3
+ 946 01e0 04D04BE2 		sub	sp, fp, #4
+ 947              		@ sp needed
+ 948 01e4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 949              	.L68:
+ 950              		.align	2
+ 951              	.L67:
+ 952 01e8 00000000 		.word	glUsbDeviceStat
+ 953 01ec 00000000 		.word	glIsApplnActive
+ 954              		.cfi_endproc
+ 955              	.LFE5:
+ 957              		.section	.text.CyFxUsbSendDescriptor,"ax",%progbits
+ 958              		.align	2
+ 959              		.global	CyFxUsbSendDescriptor
+ 961              	CyFxUsbSendDescriptor:
+ 962              	.LFB6:
+ 424:../cyfxbulklpautoenum.c **** 
+ 425:../cyfxbulklpautoenum.c **** /* Send the requested USB descriptor to the host. */
+ 426:../cyfxbulklpautoenum.c **** CyU3PReturnStatus_t
+ 427:../cyfxbulklpautoenum.c **** CyFxUsbSendDescriptor (uint16_t wValue, uint16_t wIndex, uint16_t wLength)
+ 428:../cyfxbulklpautoenum.c **** {
+ 963              		.loc 1 428 0
+ 964              		.cfi_startproc
+ 965              		@ args = 0, pretend = 0, frame = 24
+ 966              		@ frame_needed = 1, uses_anonymous_args = 0
+ 967 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 968              	.LCFI12:
+ 969              		.cfi_def_cfa_offset 8
+ 970              		.cfi_offset 11, -8
+ 971              		.cfi_offset 14, -4
+ 972 0004 04B08DE2 		add	fp, sp, #4
+ 973              	.LCFI13:
+ 974              		.cfi_def_cfa 11, 4
+ 975 0008 18D04DE2 		sub	sp, sp, #24
+ 976 000c 0230A0E1 		mov	r3, r2
+ 977 0010 B6014BE1 		strh	r0, [fp, #-22]	@ movhi
+ 978 0014 B8114BE1 		strh	r1, [fp, #-24]	@ movhi
+ 979 0018 BA314BE1 		strh	r3, [fp, #-26]	@ movhi
+ 429:../cyfxbulklpautoenum.c ****     uint16_t length = 0, index = 0;
+ 980              		.loc 1 429 0
+ 981 001c 0030A0E3 		mov	r3, #0
+ 982 0020 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 983 0024 0030A0E3 		mov	r3, #0
+ 984 0028 B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 430:../cyfxbulklpautoenum.c ****     uint8_t *buffer = NULL;
+ 985              		.loc 1 430 0
+ 986 002c 0030A0E3 		mov	r3, #0
+ 987 0030 0C300BE5 		str	r3, [fp, #-12]
+ 431:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 988              		.loc 1 431 0
+ 989 0034 0030A0E3 		mov	r3, #0
+ 990 0038 10300BE5 		str	r3, [fp, #-16]
+ 432:../cyfxbulklpautoenum.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed ();
+ 991              		.loc 1 432 0
+ 992 003c FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 993 0040 0030A0E1 		mov	r3, r0
+ 994 0044 13304BE5 		strb	r3, [fp, #-19]
+ 433:../cyfxbulklpautoenum.c **** 
+ 434:../cyfxbulklpautoenum.c ****     /* The descriptor type is in the MS byte and the index is in
+ 435:../cyfxbulklpautoenum.c ****      * the LS byte. The index is useful only for string descriptor. */
+ 436:../cyfxbulklpautoenum.c ****     switch (wValue >> 8)
+ 995              		.loc 1 436 0
+ 996 0048 B6315BE1 		ldrh	r3, [fp, #-22]
+ 997 004c 2334A0E1 		mov	r3, r3, lsr #8
+ 998 0050 0338A0E1 		mov	r3, r3, asl #16
+ 999 0054 2338A0E1 		mov	r3, r3, lsr #16
+ 1000 0058 013043E2 		sub	r3, r3, #1
+ 1001 005c 0E0053E3 		cmp	r3, #14
+ 1002 0060 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 1003 0064 8C0000EA 		b	.L95
+ 1004              	.L72:
+ 1005 0068 A4000000 		.word	.L71
+ 1006 006c 30010000 		.word	.L73
+ 1007 0070 3C020000 		.word	.L74
+ 1008 0074 9C020000 		.word	.L95
+ 1009 0078 9C020000 		.word	.L95
+ 1010 007c 18010000 		.word	.L75
+ 1011 0080 B4010000 		.word	.L76
+ 1012 0084 9C020000 		.word	.L95
+ 1013 0088 9C020000 		.word	.L95
+ 1014 008c 9C020000 		.word	.L95
+ 1015 0090 9C020000 		.word	.L95
+ 1016 0094 9C020000 		.word	.L95
+ 1017 0098 9C020000 		.word	.L95
+ 1018 009c 9C020000 		.word	.L95
+ 1019 00a0 D4000000 		.word	.L77
+ 1020              	.L71:
+ 437:../cyfxbulklpautoenum.c ****     {
+ 438:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_DEVICE_DESCR:
+ 439:../cyfxbulklpautoenum.c ****             if (usbSpeed == CY_U3P_SUPER_SPEED)
+ 1021              		.loc 1 439 0
+ 1022 00a4 13305BE5 		ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+ 1023 00a8 030053E3 		cmp	r3, #3
+ 1024 00ac 0200001A 		bne	.L78
+ 440:../cyfxbulklpautoenum.c ****             {
+ 441:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSB30DeviceDscr;
+ 1025              		.loc 1 441 0
+ 1026 00b0 38329FE5 		ldr	r3, .L96
+ 1027 00b4 0C300BE5 		str	r3, [fp, #-12]
+ 1028 00b8 010000EA 		b	.L79
+ 1029              	.L78:
+ 442:../cyfxbulklpautoenum.c ****             }
+ 443:../cyfxbulklpautoenum.c ****             else
+ 444:../cyfxbulklpautoenum.c ****             {
+ 445:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSB20DeviceDscr;
+ 1030              		.loc 1 445 0
+ 1031 00bc 30329FE5 		ldr	r3, .L96+4
+ 1032 00c0 0C300BE5 		str	r3, [fp, #-12]
+ 1033              	.L79:
+ 446:../cyfxbulklpautoenum.c ****             }
+ 447:../cyfxbulklpautoenum.c ****             length = buffer[0];
+ 1034              		.loc 1 447 0
+ 1035 00c4 0C301BE5 		ldr	r3, [fp, #-12]
+ 1036 00c8 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1037 00cc B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 448:../cyfxbulklpautoenum.c ****             break;
+ 1038              		.loc 1 448 0
+ 1039 00d0 720000EA 		b	.L80
+ 1040              	.L77:
+ 449:../cyfxbulklpautoenum.c **** 
+ 450:../cyfxbulklpautoenum.c ****         case CY_U3P_BOS_DESCR:
+ 451:../cyfxbulklpautoenum.c ****             buffer = (uint8_t *)CyFxUSBBOSDscr;
+ 1041              		.loc 1 451 0
+ 1042 00d4 1C329FE5 		ldr	r3, .L96+8
+ 1043 00d8 0C300BE5 		str	r3, [fp, #-12]
+ 452:../cyfxbulklpautoenum.c ****             length = (buffer[2] | ((uint16_t)buffer[3] << 8));
+ 1044              		.loc 1 452 0
+ 1045 00dc 0C301BE5 		ldr	r3, [fp, #-12]
+ 1046 00e0 023083E2 		add	r3, r3, #2
+ 1047 00e4 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1048 00e8 0320A0E1 		mov	r2, r3
+ 1049 00ec 0C301BE5 		ldr	r3, [fp, #-12]
+ 1050 00f0 033083E2 		add	r3, r3, #3
+ 1051 00f4 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1052 00f8 0334A0E1 		mov	r3, r3, asl #8
+ 1053 00fc 0338A0E1 		mov	r3, r3, asl #16
+ 1054 0100 2338A0E1 		mov	r3, r3, lsr #16
+ 1055 0104 033082E1 		orr	r3, r2, r3
+ 1056 0108 0338A0E1 		mov	r3, r3, asl #16
+ 1057 010c 2338A0E1 		mov	r3, r3, lsr #16
+ 1058 0110 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 453:../cyfxbulklpautoenum.c ****             break;
+ 1059              		.loc 1 453 0
+ 1060 0114 610000EA 		b	.L80
+ 1061              	.L75:
+ 454:../cyfxbulklpautoenum.c **** 
+ 455:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_DEVQUAL_DESCR:
+ 456:../cyfxbulklpautoenum.c ****             buffer = (uint8_t *)CyFxUSBDeviceQualDscr;
+ 1062              		.loc 1 456 0
+ 1063 0118 DC319FE5 		ldr	r3, .L96+12
+ 1064 011c 0C300BE5 		str	r3, [fp, #-12]
+ 457:../cyfxbulklpautoenum.c ****             length = buffer[0];
+ 1065              		.loc 1 457 0
+ 1066 0120 0C301BE5 		ldr	r3, [fp, #-12]
+ 1067 0124 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1068 0128 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 458:../cyfxbulklpautoenum.c ****             break;
+ 1069              		.loc 1 458 0
+ 1070 012c 5B0000EA 		b	.L80
+ 1071              	.L73:
+ 459:../cyfxbulklpautoenum.c **** 
+ 460:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_CONFIG_DESCR:
+ 461:../cyfxbulklpautoenum.c ****             if (usbSpeed == CY_U3P_SUPER_SPEED)
+ 1072              		.loc 1 461 0
+ 1073 0130 13305BE5 		ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+ 1074 0134 030053E3 		cmp	r3, #3
+ 1075 0138 0200001A 		bne	.L81
+ 462:../cyfxbulklpautoenum.c ****             {
+ 463:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSBSSConfigDscr;
+ 1076              		.loc 1 463 0
+ 1077 013c BC319FE5 		ldr	r3, .L96+16
+ 1078 0140 0C300BE5 		str	r3, [fp, #-12]
+ 1079 0144 070000EA 		b	.L82
+ 1080              	.L81:
+ 464:../cyfxbulklpautoenum.c ****             }
+ 465:../cyfxbulklpautoenum.c ****             else if (usbSpeed == CY_U3P_HIGH_SPEED)
+ 1081              		.loc 1 465 0
+ 1082 0148 13305BE5 		ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+ 1083 014c 020053E3 		cmp	r3, #2
+ 1084 0150 0200001A 		bne	.L83
+ 466:../cyfxbulklpautoenum.c ****             {
+ 467:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSBHSConfigDscr;
+ 1085              		.loc 1 467 0
+ 1086 0154 A8319FE5 		ldr	r3, .L96+20
+ 1087 0158 0C300BE5 		str	r3, [fp, #-12]
+ 1088 015c 010000EA 		b	.L82
+ 1089              	.L83:
+ 468:../cyfxbulklpautoenum.c ****             }
+ 469:../cyfxbulklpautoenum.c ****             else /* CY_U3P_FULL_SPEED */
+ 470:../cyfxbulklpautoenum.c ****             {
+ 471:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSBFSConfigDscr;
+ 1090              		.loc 1 471 0
+ 1091 0160 A0319FE5 		ldr	r3, .L96+24
+ 1092 0164 0C300BE5 		str	r3, [fp, #-12]
+ 1093              	.L82:
+ 472:../cyfxbulklpautoenum.c ****             }
+ 473:../cyfxbulklpautoenum.c ****             buffer[1] = CY_U3P_USB_CONFIG_DESCR;                /* Mark as configuration descriptor
+ 1094              		.loc 1 473 0
+ 1095 0168 0C301BE5 		ldr	r3, [fp, #-12]
+ 1096 016c 013083E2 		add	r3, r3, #1
+ 1097 0170 0220A0E3 		mov	r2, #2
+ 1098 0174 0020C3E5 		strb	r2, [r3]
+ 474:../cyfxbulklpautoenum.c ****             length    = (buffer[2] | ((uint16_t)buffer[3] << 8));
+ 1099              		.loc 1 474 0
+ 1100 0178 0C301BE5 		ldr	r3, [fp, #-12]
+ 1101 017c 023083E2 		add	r3, r3, #2
+ 1102 0180 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1103 0184 0320A0E1 		mov	r2, r3
+ 1104 0188 0C301BE5 		ldr	r3, [fp, #-12]
+ 1105 018c 033083E2 		add	r3, r3, #3
+ 1106 0190 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1107 0194 0334A0E1 		mov	r3, r3, asl #8
+ 1108 0198 0338A0E1 		mov	r3, r3, asl #16
+ 1109 019c 2338A0E1 		mov	r3, r3, lsr #16
+ 1110 01a0 033082E1 		orr	r3, r2, r3
+ 1111 01a4 0338A0E1 		mov	r3, r3, asl #16
+ 1112 01a8 2338A0E1 		mov	r3, r3, lsr #16
+ 1113 01ac B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 475:../cyfxbulklpautoenum.c ****             break;
+ 1114              		.loc 1 475 0
+ 1115 01b0 3A0000EA 		b	.L80
+ 1116              	.L76:
+ 476:../cyfxbulklpautoenum.c **** 
+ 477:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_OTHERSPEED_DESCR:
+ 478:../cyfxbulklpautoenum.c ****             if (usbSpeed == CY_U3P_HIGH_SPEED)
+ 1117              		.loc 1 478 0
+ 1118 01b4 13305BE5 		ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+ 1119 01b8 020053E3 		cmp	r3, #2
+ 1120 01bc 0200001A 		bne	.L84
+ 479:../cyfxbulklpautoenum.c ****             {
+ 480:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSBFSConfigDscr;
+ 1121              		.loc 1 480 0
+ 1122 01c0 40319FE5 		ldr	r3, .L96+24
+ 1123 01c4 0C300BE5 		str	r3, [fp, #-12]
+ 1124 01c8 040000EA 		b	.L85
+ 1125              	.L84:
+ 481:../cyfxbulklpautoenum.c ****             }
+ 482:../cyfxbulklpautoenum.c ****             else if (usbSpeed == CY_U3P_FULL_SPEED)
+ 1126              		.loc 1 482 0
+ 1127 01cc 13305BE5 		ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+ 1128 01d0 010053E3 		cmp	r3, #1
+ 1129 01d4 0100001A 		bne	.L85
+ 483:../cyfxbulklpautoenum.c ****             {
+ 484:../cyfxbulklpautoenum.c ****                 buffer = (uint8_t *)CyFxUSBHSConfigDscr;
+ 1130              		.loc 1 484 0
+ 1131 01d8 24319FE5 		ldr	r3, .L96+20
+ 1132 01dc 0C300BE5 		str	r3, [fp, #-12]
+ 1133              	.L85:
+ 485:../cyfxbulklpautoenum.c ****             }
+ 486:../cyfxbulklpautoenum.c ****             else
+ 487:../cyfxbulklpautoenum.c ****             {
+ 488:../cyfxbulklpautoenum.c ****                 /* Do nothing. buffer = NULL. */
+ 489:../cyfxbulklpautoenum.c ****             }
+ 490:../cyfxbulklpautoenum.c **** 
+ 491:../cyfxbulklpautoenum.c ****             if (buffer != NULL)
+ 1134              		.loc 1 491 0
+ 1135 01e0 0C301BE5 		ldr	r3, [fp, #-12]
+ 1136 01e4 000053E3 		cmp	r3, #0
+ 1137 01e8 1200000A 		beq	.L86
+ 492:../cyfxbulklpautoenum.c ****             {
+ 493:../cyfxbulklpautoenum.c ****                 buffer[1] = CY_U3P_USB_OTHERSPEED_DESCR;        /* Mark as other speed configuratio
+ 1138              		.loc 1 493 0
+ 1139 01ec 0C301BE5 		ldr	r3, [fp, #-12]
+ 1140 01f0 013083E2 		add	r3, r3, #1
+ 1141 01f4 0720A0E3 		mov	r2, #7
+ 1142 01f8 0020C3E5 		strb	r2, [r3]
+ 494:../cyfxbulklpautoenum.c ****                 length    = (buffer[2] | ((uint16_t)buffer[3] << 8));
+ 1143              		.loc 1 494 0
+ 1144 01fc 0C301BE5 		ldr	r3, [fp, #-12]
+ 1145 0200 023083E2 		add	r3, r3, #2
+ 1146 0204 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1147 0208 0320A0E1 		mov	r2, r3
+ 1148 020c 0C301BE5 		ldr	r3, [fp, #-12]
+ 1149 0210 033083E2 		add	r3, r3, #3
+ 1150 0214 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1151 0218 0334A0E1 		mov	r3, r3, asl #8
+ 1152 021c 0338A0E1 		mov	r3, r3, asl #16
+ 1153 0220 2338A0E1 		mov	r3, r3, lsr #16
+ 1154 0224 033082E1 		orr	r3, r2, r3
+ 1155 0228 0338A0E1 		mov	r3, r3, asl #16
+ 1156 022c 2338A0E1 		mov	r3, r3, lsr #16
+ 1157 0230 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 495:../cyfxbulklpautoenum.c ****             }
+ 496:../cyfxbulklpautoenum.c ****             break;
+ 1158              		.loc 1 496 0
+ 1159 0234 190000EA 		b	.L80
+ 1160              	.L86:
+ 1161 0238 180000EA 		b	.L80
+ 1162              	.L74:
+ 497:../cyfxbulklpautoenum.c **** 
+ 498:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_STRING_DESCR:
+ 499:../cyfxbulklpautoenum.c ****             index = wValue & 0xFF;
+ 1163              		.loc 1 499 0
+ 1164 023c B6315BE1 		ldrh	r3, [fp, #-22]	@ movhi
+ 1165 0240 FF3003E2 		and	r3, r3, #255
+ 1166 0244 B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 500:../cyfxbulklpautoenum.c ****             switch (index)
+ 1167              		.loc 1 500 0
+ 1168 0248 B2315BE1 		ldrh	r3, [fp, #-18]
+ 1169 024c 010053E3 		cmp	r3, #1
+ 1170 0250 0700000A 		beq	.L88
+ 1171 0254 020053E3 		cmp	r3, #2
+ 1172 0258 0800000A 		beq	.L89
+ 1173 025c 000053E3 		cmp	r3, #0
+ 1174 0260 0000000A 		beq	.L90
+ 501:../cyfxbulklpautoenum.c ****             {
+ 502:../cyfxbulklpautoenum.c ****                 case 0:
+ 503:../cyfxbulklpautoenum.c ****                     buffer = (uint8_t *)CyFxUSBStringLangIDDscr;
+ 504:../cyfxbulklpautoenum.c ****                     break;
+ 505:../cyfxbulklpautoenum.c **** 
+ 506:../cyfxbulklpautoenum.c ****                 case 1:
+ 507:../cyfxbulklpautoenum.c ****                     buffer = (uint8_t *)CyFxUSBManufactureDscr;
+ 508:../cyfxbulklpautoenum.c ****                     break;
+ 509:../cyfxbulklpautoenum.c **** 
+ 510:../cyfxbulklpautoenum.c ****                 case 2:
+ 511:../cyfxbulklpautoenum.c ****                     buffer = (uint8_t *)CyFxUSBProductDscr;
+ 512:../cyfxbulklpautoenum.c ****                     break;
+ 513:../cyfxbulklpautoenum.c **** 
+ 514:../cyfxbulklpautoenum.c ****                 default:
+ 515:../cyfxbulklpautoenum.c ****                     /* Do nothing. buffer = NULL. */
+ 516:../cyfxbulklpautoenum.c ****                     break;
+ 1175              		.loc 1 516 0
+ 1176 0264 080000EA 		b	.L91
+ 1177              	.L90:
+ 503:../cyfxbulklpautoenum.c ****                     break;
+ 1178              		.loc 1 503 0
+ 1179 0268 9C309FE5 		ldr	r3, .L96+28
+ 1180 026c 0C300BE5 		str	r3, [fp, #-12]
+ 504:../cyfxbulklpautoenum.c **** 
+ 1181              		.loc 1 504 0
+ 1182 0270 050000EA 		b	.L91
+ 1183              	.L88:
+ 507:../cyfxbulklpautoenum.c ****                     break;
+ 1184              		.loc 1 507 0
+ 1185 0274 94309FE5 		ldr	r3, .L96+32
+ 1186 0278 0C300BE5 		str	r3, [fp, #-12]
+ 508:../cyfxbulklpautoenum.c **** 
+ 1187              		.loc 1 508 0
+ 1188 027c 020000EA 		b	.L91
+ 1189              	.L89:
+ 511:../cyfxbulklpautoenum.c ****                     break;
+ 1190              		.loc 1 511 0
+ 1191 0280 8C309FE5 		ldr	r3, .L96+36
+ 1192 0284 0C300BE5 		str	r3, [fp, #-12]
+ 512:../cyfxbulklpautoenum.c **** 
+ 1193              		.loc 1 512 0
+ 1194 0288 0000A0E1 		mov	r0, r0	@ nop
+ 1195              	.L91:
+ 517:../cyfxbulklpautoenum.c ****             }
+ 518:../cyfxbulklpautoenum.c ****             length = buffer[0];
+ 1196              		.loc 1 518 0
+ 1197 028c 0C301BE5 		ldr	r3, [fp, #-12]
+ 1198 0290 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1199 0294 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 519:../cyfxbulklpautoenum.c ****             break;
+ 1200              		.loc 1 519 0
+ 1201 0298 000000EA 		b	.L80
+ 1202              	.L95:
+ 520:../cyfxbulklpautoenum.c **** 
+ 521:../cyfxbulklpautoenum.c ****         default:
+ 522:../cyfxbulklpautoenum.c ****             /* Do nothing. buffer = NULL. */
+ 523:../cyfxbulklpautoenum.c ****             break;
+ 1203              		.loc 1 523 0
+ 1204 029c 0000A0E1 		mov	r0, r0	@ nop
+ 1205              	.L80:
+ 524:../cyfxbulklpautoenum.c ****     }
+ 525:../cyfxbulklpautoenum.c **** 
+ 526:../cyfxbulklpautoenum.c ****     if (buffer != NULL)
+ 1206              		.loc 1 526 0
+ 1207 02a0 0C301BE5 		ldr	r3, [fp, #-12]
+ 1208 02a4 000053E3 		cmp	r3, #0
+ 1209 02a8 0A00000A 		beq	.L92
+ 527:../cyfxbulklpautoenum.c ****     {
+ 528:../cyfxbulklpautoenum.c ****         /* Send only the minimum of actual descriptor length
+ 529:../cyfxbulklpautoenum.c ****          * and the requested length. */
+ 530:../cyfxbulklpautoenum.c ****         length = (wLength < length) ? wLength : length;
+ 1210              		.loc 1 530 0
+ 1211 02ac B6205BE1 		ldrh	r2, [fp, #-6]
+ 1212 02b0 BA315BE1 		ldrh	r3, [fp, #-26]
+ 1213 02b4 030052E1 		cmp	r2, r3
+ 1214 02b8 0230A031 		movcc	r3, r2
+ 1215 02bc B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 531:../cyfxbulklpautoenum.c ****         status = CyU3PUsbSendEP0Data (length, buffer);
+ 1216              		.loc 1 531 0
+ 1217 02c0 B6305BE1 		ldrh	r3, [fp, #-6]
+ 1218 02c4 0300A0E1 		mov	r0, r3
+ 1219 02c8 0C101BE5 		ldr	r1, [fp, #-12]
+ 1220 02cc FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1221 02d0 10000BE5 		str	r0, [fp, #-16]
+ 1222 02d4 010000EA 		b	.L93
+ 1223              	.L92:
+ 532:../cyfxbulklpautoenum.c ****     }
+ 533:../cyfxbulklpautoenum.c ****     else
+ 534:../cyfxbulklpautoenum.c ****     {
+ 535:../cyfxbulklpautoenum.c ****         status = CY_U3P_ERROR_FAILURE;
+ 1224              		.loc 1 535 0
+ 1225 02d8 4A30A0E3 		mov	r3, #74
+ 1226 02dc 10300BE5 		str	r3, [fp, #-16]
+ 1227              	.L93:
+ 536:../cyfxbulklpautoenum.c ****     }
+ 537:../cyfxbulklpautoenum.c **** 
+ 538:../cyfxbulklpautoenum.c ****     return status;
+ 1228              		.loc 1 538 0
+ 1229 02e0 10301BE5 		ldr	r3, [fp, #-16]
+ 539:../cyfxbulklpautoenum.c **** }
+ 1230              		.loc 1 539 0
+ 1231 02e4 0300A0E1 		mov	r0, r3
+ 1232 02e8 04D04BE2 		sub	sp, fp, #4
+ 1233              		@ sp needed
+ 1234 02ec 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1235              	.L97:
+ 1236              		.align	2
+ 1237              	.L96:
+ 1238 02f0 00000000 		.word	CyFxUSB30DeviceDscr
+ 1239 02f4 00000000 		.word	CyFxUSB20DeviceDscr
+ 1240 02f8 00000000 		.word	CyFxUSBBOSDscr
+ 1241 02fc 00000000 		.word	CyFxUSBDeviceQualDscr
+ 1242 0300 00000000 		.word	CyFxUSBSSConfigDscr
+ 1243 0304 00000000 		.word	CyFxUSBHSConfigDscr
+ 1244 0308 00000000 		.word	CyFxUSBFSConfigDscr
+ 1245 030c 00000000 		.word	CyFxUSBStringLangIDDscr
+ 1246 0310 00000000 		.word	CyFxUSBManufactureDscr
+ 1247 0314 00000000 		.word	CyFxUSBProductDscr
+ 1248              		.cfi_endproc
+ 1249              	.LFE6:
+ 1251              		.section	.text.CyFxBulkLpApplnUSBSetupCB,"ax",%progbits
+ 1252              		.align	2
+ 1253              		.global	CyFxBulkLpApplnUSBSetupCB
+ 1255              	CyFxBulkLpApplnUSBSetupCB:
+ 1256              	.LFB7:
+ 540:../cyfxbulklpautoenum.c **** 
+ 541:../cyfxbulklpautoenum.c **** /* Callback to handle the USB setup requests. */
+ 542:../cyfxbulklpautoenum.c **** CyBool_t
+ 543:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnUSBSetupCB (
+ 544:../cyfxbulklpautoenum.c ****         uint32_t setupdat0, /* SETUP Data 0 */
+ 545:../cyfxbulklpautoenum.c ****         uint32_t setupdat1  /* SETUP Data 1 */
+ 546:../cyfxbulklpautoenum.c ****     )
+ 547:../cyfxbulklpautoenum.c **** {
+ 1257              		.loc 1 547 0
+ 1258              		.cfi_startproc
+ 1259              		@ args = 0, pretend = 0, frame = 32
+ 1260              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1261 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1262              	.LCFI14:
+ 1263              		.cfi_def_cfa_offset 8
+ 1264              		.cfi_offset 11, -8
+ 1265              		.cfi_offset 14, -4
+ 1266 0004 04B08DE2 		add	fp, sp, #4
+ 1267              	.LCFI15:
+ 1268              		.cfi_def_cfa 11, 4
+ 1269 0008 20D04DE2 		sub	sp, sp, #32
+ 1270 000c 20000BE5 		str	r0, [fp, #-32]
+ 1271 0010 24100BE5 		str	r1, [fp, #-36]
+ 548:../cyfxbulklpautoenum.c ****     CyBool_t isHandled = CyTrue;
+ 1272              		.loc 1 548 0
+ 1273 0014 0130A0E3 		mov	r3, #1
+ 1274 0018 08300BE5 		str	r3, [fp, #-8]
+ 549:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 1275              		.loc 1 549 0
+ 1276 001c 0030A0E3 		mov	r3, #0
+ 1277 0020 0C300BE5 		str	r3, [fp, #-12]
+ 550:../cyfxbulklpautoenum.c **** 
+ 551:../cyfxbulklpautoenum.c ****     uint8_t  bRequest, bReqType;
+ 552:../cyfxbulklpautoenum.c ****     uint8_t  bType, bTarget;
+ 553:../cyfxbulklpautoenum.c ****     uint16_t wValue, wIndex, wLength;
+ 554:../cyfxbulklpautoenum.c **** 
+ 555:../cyfxbulklpautoenum.c ****     /* Decode the fields from the setup request. */
+ 556:../cyfxbulklpautoenum.c ****     bReqType = (setupdat0 & CY_U3P_USB_REQUEST_TYPE_MASK);
+ 1278              		.loc 1 556 0
+ 1279 0024 20301BE5 		ldr	r3, [fp, #-32]
+ 1280 0028 0D304BE5 		strb	r3, [fp, #-13]
+ 557:../cyfxbulklpautoenum.c ****     bType    = (bReqType & CY_U3P_USB_TYPE_MASK);
+ 1281              		.loc 1 557 0
+ 1282 002c 0D305BE5 		ldrb	r3, [fp, #-13]
+ 1283 0030 603003E2 		and	r3, r3, #96
+ 1284 0034 0E304BE5 		strb	r3, [fp, #-14]
+ 558:../cyfxbulklpautoenum.c ****     bTarget  = (bReqType & CY_U3P_USB_TARGET_MASK);
+ 1285              		.loc 1 558 0
+ 1286 0038 0D305BE5 		ldrb	r3, [fp, #-13]
+ 1287 003c 033003E2 		and	r3, r3, #3
+ 1288 0040 0F304BE5 		strb	r3, [fp, #-15]
+ 559:../cyfxbulklpautoenum.c ****     bRequest = ((setupdat0 & CY_U3P_USB_REQUEST_MASK) >> CY_U3P_USB_REQUEST_POS);
+ 1289              		.loc 1 559 0
+ 1290 0044 20301BE5 		ldr	r3, [fp, #-32]
+ 1291 0048 FF3C03E2 		and	r3, r3, #65280
+ 1292 004c 2334A0E1 		mov	r3, r3, lsr #8
+ 1293 0050 10304BE5 		strb	r3, [fp, #-16]
+ 560:../cyfxbulklpautoenum.c ****     wValue   = ((setupdat0 & CY_U3P_USB_VALUE_MASK)   >> CY_U3P_USB_VALUE_POS);
+ 1294              		.loc 1 560 0
+ 1295 0054 20301BE5 		ldr	r3, [fp, #-32]
+ 1296 0058 2338A0E1 		mov	r3, r3, lsr #16
+ 1297 005c B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 561:../cyfxbulklpautoenum.c ****     wIndex   = ((setupdat1 & CY_U3P_USB_INDEX_MASK)   >> CY_U3P_USB_INDEX_POS);
+ 1298              		.loc 1 561 0
+ 1299 0060 24301BE5 		ldr	r3, [fp, #-36]
+ 1300 0064 B4314BE1 		strh	r3, [fp, #-20]	@ movhi
+ 562:../cyfxbulklpautoenum.c ****     wLength  = ((setupdat1 & CY_U3P_USB_LENGTH_MASK)  >> CY_U3P_USB_LENGTH_POS);
+ 1301              		.loc 1 562 0
+ 1302 0068 24301BE5 		ldr	r3, [fp, #-36]
+ 1303 006c 2338A0E1 		mov	r3, r3, lsr #16
+ 1304 0070 B6314BE1 		strh	r3, [fp, #-22]	@ movhi
+ 563:../cyfxbulklpautoenum.c **** 
+ 564:../cyfxbulklpautoenum.c ****     /* The only supported vendor command is to reset the FX3 device. */
+ 565:../cyfxbulklpautoenum.c ****     if (bType == CY_U3P_USB_VENDOR_RQT)
+ 1305              		.loc 1 565 0
+ 1306 0074 0E305BE5 		ldrb	r3, [fp, #-14]	@ zero_extendqisi2
+ 1307 0078 400053E3 		cmp	r3, #64
+ 1308 007c 0D00001A 		bne	.L99
+ 566:../cyfxbulklpautoenum.c ****     {
+ 567:../cyfxbulklpautoenum.c ****         if ((bRequest == 0xE0) && (wLength == 0))
+ 1309              		.loc 1 567 0
+ 1310 0080 10305BE5 		ldrb	r3, [fp, #-16]	@ zero_extendqisi2
+ 1311 0084 E00053E3 		cmp	r3, #224
+ 1312 0088 0800001A 		bne	.L100
+ 1313              		.loc 1 567 0 is_stmt 0 discriminator 1
+ 1314 008c B6315BE1 		ldrh	r3, [fp, #-22]
+ 1315 0090 000053E3 		cmp	r3, #0
+ 1316 0094 0500001A 		bne	.L100
+ 568:../cyfxbulklpautoenum.c ****         {
+ 569:../cyfxbulklpautoenum.c ****             glResetDevice = CyTrue;
+ 1317              		.loc 1 569 0 is_stmt 1
+ 1318 0098 08349FE5 		ldr	r3, .L134
+ 1319 009c 0120A0E3 		mov	r2, #1
+ 1320 00a0 002083E5 		str	r2, [r3]
+ 570:../cyfxbulklpautoenum.c ****             CyU3PUsbAckSetup ();
+ 1321              		.loc 1 570 0
+ 1322 00a4 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 571:../cyfxbulklpautoenum.c ****             return CyTrue;
+ 1323              		.loc 1 571 0
+ 1324 00a8 0130A0E3 		mov	r3, #1
+ 1325 00ac FA0000EA 		b	.L101
+ 1326              	.L100:
+ 572:../cyfxbulklpautoenum.c ****         }
+ 573:../cyfxbulklpautoenum.c **** 
+ 574:../cyfxbulklpautoenum.c ****         return CyFalse;
+ 1327              		.loc 1 574 0
+ 1328 00b0 0030A0E3 		mov	r3, #0
+ 1329 00b4 F80000EA 		b	.L101
+ 1330              	.L99:
+ 575:../cyfxbulklpautoenum.c ****     }
+ 576:../cyfxbulklpautoenum.c **** 
+ 577:../cyfxbulklpautoenum.c ****     /* Identify and handle setup request. */
+ 578:../cyfxbulklpautoenum.c ****     switch (bRequest)
+ 1331              		.loc 1 578 0
+ 1332 00b8 10305BE5 		ldrb	r3, [fp, #-16]	@ zero_extendqisi2
+ 1333 00bc 310053E3 		cmp	r3, #49
+ 1334 00c0 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 1335 00c4 E30000EA 		b	.L102
+ 1336              	.L104:
+ 1337 00c8 90010000 		.word	.L103
+ 1338 00cc 6C020000 		.word	.L105
+ 1339 00d0 58040000 		.word	.L102
+ 1340 00d4 90020000 		.word	.L106
+ 1341 00d8 58040000 		.word	.L102
+ 1342 00dc 58040000 		.word	.L102
+ 1343 00e0 B4020000 		.word	.L107
+ 1344 00e4 64040000 		.word	.L133
+ 1345 00e8 D8020000 		.word	.L109
+ 1346 00ec 00030000 		.word	.L110
+ 1347 00f0 84030000 		.word	.L111
+ 1348 00f4 AC030000 		.word	.L112
+ 1349 00f8 58040000 		.word	.L102
+ 1350 00fc 58040000 		.word	.L102
+ 1351 0100 58040000 		.word	.L102
+ 1352 0104 58040000 		.word	.L102
+ 1353 0108 58040000 		.word	.L102
+ 1354 010c 58040000 		.word	.L102
+ 1355 0110 58040000 		.word	.L102
+ 1356 0114 58040000 		.word	.L102
+ 1357 0118 58040000 		.word	.L102
+ 1358 011c 58040000 		.word	.L102
+ 1359 0120 58040000 		.word	.L102
+ 1360 0124 58040000 		.word	.L102
+ 1361 0128 58040000 		.word	.L102
+ 1362 012c 58040000 		.word	.L102
+ 1363 0130 58040000 		.word	.L102
+ 1364 0134 58040000 		.word	.L102
+ 1365 0138 58040000 		.word	.L102
+ 1366 013c 58040000 		.word	.L102
+ 1367 0140 58040000 		.word	.L102
+ 1368 0144 58040000 		.word	.L102
+ 1369 0148 58040000 		.word	.L102
+ 1370 014c 58040000 		.word	.L102
+ 1371 0150 58040000 		.word	.L102
+ 1372 0154 58040000 		.word	.L102
+ 1373 0158 58040000 		.word	.L102
+ 1374 015c 58040000 		.word	.L102
+ 1375 0160 58040000 		.word	.L102
+ 1376 0164 58040000 		.word	.L102
+ 1377 0168 58040000 		.word	.L102
+ 1378 016c 58040000 		.word	.L102
+ 1379 0170 58040000 		.word	.L102
+ 1380 0174 58040000 		.word	.L102
+ 1381 0178 58040000 		.word	.L102
+ 1382 017c 58040000 		.word	.L102
+ 1383 0180 58040000 		.word	.L102
+ 1384 0184 58040000 		.word	.L102
+ 1385 0188 C0030000 		.word	.L113
+ 1386 018c 20040000 		.word	.L114
+ 1387              	.L103:
+ 579:../cyfxbulklpautoenum.c ****     {
+ 580:../cyfxbulklpautoenum.c ****         /* This is a get status request. The response depends on the target.
+ 581:../cyfxbulklpautoenum.c ****          * If this is for the device, then we need to return the status
+ 582:../cyfxbulklpautoenum.c ****          * of the device. If this is for the endpoint, then return the stall
+ 583:../cyfxbulklpautoenum.c ****          * status of the endpoint. */
+ 584:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_GET_STATUS:
+ 585:../cyfxbulklpautoenum.c ****             CyU3PMemSet (glEp0Buffer, 0, sizeof(glEp0Buffer));
+ 1388              		.loc 1 585 0
+ 1389 0190 14039FE5 		ldr	r0, .L134+4
+ 1390 0194 0010A0E3 		mov	r1, #0
+ 1391 0198 2020A0E3 		mov	r2, #32
+ 1392 019c FEFFFFEB 		bl	CyU3PMemSet
+ 586:../cyfxbulklpautoenum.c ****             if (bTarget == CY_U3P_USB_TARGET_DEVICE)
+ 1393              		.loc 1 586 0
+ 1394 01a0 0F305BE5 		ldrb	r3, [fp, #-15]	@ zero_extendqisi2
+ 1395 01a4 000053E3 		cmp	r3, #0
+ 1396 01a8 0900001A 		bne	.L115
+ 587:../cyfxbulklpautoenum.c ****             {
+ 588:../cyfxbulklpautoenum.c ****                 glEp0Buffer[0] = glUsbDeviceStat;
+ 1397              		.loc 1 588 0
+ 1398 01ac FC329FE5 		ldr	r3, .L134+8
+ 1399 01b0 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1400 01b4 F0329FE5 		ldr	r3, .L134+4
+ 1401 01b8 0020C3E5 		strb	r2, [r3]
+ 589:../cyfxbulklpautoenum.c ****                 status = CyU3PUsbSendEP0Data (wLength, glEp0Buffer);
+ 1402              		.loc 1 589 0
+ 1403 01bc B6315BE1 		ldrh	r3, [fp, #-22]
+ 1404 01c0 0300A0E1 		mov	r0, r3
+ 1405 01c4 E0129FE5 		ldr	r1, .L134+4
+ 1406 01c8 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1407 01cc 0C000BE5 		str	r0, [fp, #-12]
+ 1408 01d0 240000EA 		b	.L116
+ 1409              	.L115:
+ 590:../cyfxbulklpautoenum.c ****             }
+ 591:../cyfxbulklpautoenum.c ****             else if (bTarget == CY_U3P_USB_TARGET_INTF)
+ 1410              		.loc 1 591 0
+ 1411 01d4 0F305BE5 		ldrb	r3, [fp, #-15]	@ zero_extendqisi2
+ 1412 01d8 010053E3 		cmp	r3, #1
+ 1413 01dc 0500001A 		bne	.L117
+ 592:../cyfxbulklpautoenum.c ****             {
+ 593:../cyfxbulklpautoenum.c ****                 /* Just send zeros. */
+ 594:../cyfxbulklpautoenum.c ****                 status = CyU3PUsbSendEP0Data (wLength, glEp0Buffer);
+ 1414              		.loc 1 594 0
+ 1415 01e0 B6315BE1 		ldrh	r3, [fp, #-22]
+ 1416 01e4 0300A0E1 		mov	r0, r3
+ 1417 01e8 BC129FE5 		ldr	r1, .L134+4
+ 1418 01ec FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1419 01f0 0C000BE5 		str	r0, [fp, #-12]
+ 1420 01f4 1B0000EA 		b	.L116
+ 1421              	.L117:
+ 595:../cyfxbulklpautoenum.c ****             }
+ 596:../cyfxbulklpautoenum.c ****             else if (bTarget == CY_U3P_USB_TARGET_ENDPT)
+ 1422              		.loc 1 596 0
+ 1423 01f8 0F305BE5 		ldrb	r3, [fp, #-15]	@ zero_extendqisi2
+ 1424 01fc 020053E3 		cmp	r3, #2
+ 1425 0200 1500001A 		bne	.L118
+ 1426              	.LBB2:
+ 597:../cyfxbulklpautoenum.c ****             {
+ 598:../cyfxbulklpautoenum.c ****                 CyBool_t isStall;
+ 599:../cyfxbulklpautoenum.c ****                 status = CyU3PUsbGetEpCfg (wIndex, NULL, &isStall);
+ 1427              		.loc 1 599 0
+ 1428 0204 B4315BE1 		ldrh	r3, [fp, #-20]	@ movhi
+ 1429 0208 FF2003E2 		and	r2, r3, #255
+ 1430 020c 1C304BE2 		sub	r3, fp, #28
+ 1431 0210 0200A0E1 		mov	r0, r2
+ 1432 0214 0010A0E3 		mov	r1, #0
+ 1433 0218 0320A0E1 		mov	r2, r3
+ 1434 021c FEFFFFEB 		bl	CyU3PUsbGetEpCfg
+ 1435 0220 0C000BE5 		str	r0, [fp, #-12]
+ 600:../cyfxbulklpautoenum.c ****                 if (status == CY_U3P_SUCCESS)
+ 1436              		.loc 1 600 0
+ 1437 0224 0C301BE5 		ldr	r3, [fp, #-12]
+ 1438 0228 000053E3 		cmp	r3, #0
+ 1439 022c 0900001A 		bne	.L119
+ 601:../cyfxbulklpautoenum.c ****                 {
+ 602:../cyfxbulklpautoenum.c ****                     glEp0Buffer[0] = isStall;
+ 1440              		.loc 1 602 0
+ 1441 0230 1C301BE5 		ldr	r3, [fp, #-28]
+ 1442 0234 FF2003E2 		and	r2, r3, #255
+ 1443 0238 6C329FE5 		ldr	r3, .L134+4
+ 1444 023c 0020C3E5 		strb	r2, [r3]
+ 603:../cyfxbulklpautoenum.c ****                     status = CyU3PUsbSendEP0Data (wLength, glEp0Buffer);
+ 1445              		.loc 1 603 0
+ 1446 0240 B6315BE1 		ldrh	r3, [fp, #-22]
+ 1447 0244 0300A0E1 		mov	r0, r3
+ 1448 0248 5C129FE5 		ldr	r1, .L134+4
+ 1449 024c FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1450 0250 0C000BE5 		str	r0, [fp, #-12]
+ 1451              	.LBE2:
+ 1452 0254 030000EA 		b	.L116
+ 1453              	.L119:
+ 1454 0258 020000EA 		b	.L116
+ 1455              	.L118:
+ 604:../cyfxbulklpautoenum.c ****                 }
+ 605:../cyfxbulklpautoenum.c ****             }
+ 606:../cyfxbulklpautoenum.c ****             else
+ 607:../cyfxbulklpautoenum.c ****             {
+ 608:../cyfxbulklpautoenum.c ****                 isHandled = CyFalse;
+ 1456              		.loc 1 608 0
+ 1457 025c 0030A0E3 		mov	r3, #0
+ 1458 0260 08300BE5 		str	r3, [fp, #-8]
+ 609:../cyfxbulklpautoenum.c ****             }
+ 610:../cyfxbulklpautoenum.c ****             break;
+ 1459              		.loc 1 610 0
+ 1460 0264 7F0000EA 		b	.L120
+ 1461              	.L116:
+ 1462 0268 7E0000EA 		b	.L120
+ 1463              	.L105:
+ 611:../cyfxbulklpautoenum.c **** 
+ 612:../cyfxbulklpautoenum.c ****         /* This feature behaves differently depending upon the target.
+ 613:../cyfxbulklpautoenum.c ****          * If the target is device then, this request is for remote-wakeup,
+ 614:../cyfxbulklpautoenum.c ****          * test mode, U1_ENABLE and U2_ENABLE. If this is for the endpoint
+ 615:../cyfxbulklpautoenum.c ****          * then this is for clearing the endpoint stall. */
+ 616:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_CLEAR_FEATURE:
+ 617:../cyfxbulklpautoenum.c ****             isHandled = CyFxUsbHandleClearFeature (bTarget, wValue, wIndex);
+ 1464              		.loc 1 617 0
+ 1465 026c 0F105BE5 		ldrb	r1, [fp, #-15]	@ zero_extendqisi2
+ 1466 0270 B2215BE1 		ldrh	r2, [fp, #-18]
+ 1467 0274 B4315BE1 		ldrh	r3, [fp, #-20]
+ 1468 0278 0100A0E1 		mov	r0, r1
+ 1469 027c 0210A0E1 		mov	r1, r2
+ 1470 0280 0320A0E1 		mov	r2, r3
+ 1471 0284 FEFFFFEB 		bl	CyFxUsbHandleClearFeature
+ 1472 0288 08000BE5 		str	r0, [fp, #-8]
+ 618:../cyfxbulklpautoenum.c ****             break;
+ 1473              		.loc 1 618 0
+ 1474 028c 750000EA 		b	.L120
+ 1475              	.L106:
+ 619:../cyfxbulklpautoenum.c **** 
+ 620:../cyfxbulklpautoenum.c ****         /* This feature behaves differently depending upon the target.
+ 621:../cyfxbulklpautoenum.c ****          * If the target is device then, this request is for remote-wakeup,
+ 622:../cyfxbulklpautoenum.c ****          * test mode, U1_ENABLE and U2_ENABLE. If this is for the endpoint
+ 623:../cyfxbulklpautoenum.c ****          * then this is for clearing the endpoint stall. */
+ 624:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_FEATURE:
+ 625:../cyfxbulklpautoenum.c ****             isHandled = CyFxUsbHandleSetFeature (bTarget, wValue, wIndex);
+ 1476              		.loc 1 625 0
+ 1477 0290 0F105BE5 		ldrb	r1, [fp, #-15]	@ zero_extendqisi2
+ 1478 0294 B2215BE1 		ldrh	r2, [fp, #-18]
+ 1479 0298 B4315BE1 		ldrh	r3, [fp, #-20]
+ 1480 029c 0100A0E1 		mov	r0, r1
+ 1481 02a0 0210A0E1 		mov	r1, r2
+ 1482 02a4 0320A0E1 		mov	r2, r3
+ 1483 02a8 FEFFFFEB 		bl	CyFxUsbHandleSetFeature
+ 1484 02ac 08000BE5 		str	r0, [fp, #-8]
+ 626:../cyfxbulklpautoenum.c ****             break;
+ 1485              		.loc 1 626 0
+ 1486 02b0 6C0000EA 		b	.L120
+ 1487              	.L107:
+ 627:../cyfxbulklpautoenum.c **** 
+ 628:../cyfxbulklpautoenum.c ****         /* Return the requested descriptor. */
+ 629:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_GET_DESCRIPTOR:
+ 630:../cyfxbulklpautoenum.c ****             status = CyFxUsbSendDescriptor (wValue, wIndex, wLength);
+ 1488              		.loc 1 630 0
+ 1489 02b4 B2115BE1 		ldrh	r1, [fp, #-18]
+ 1490 02b8 B4215BE1 		ldrh	r2, [fp, #-20]
+ 1491 02bc B6315BE1 		ldrh	r3, [fp, #-22]
+ 1492 02c0 0100A0E1 		mov	r0, r1
+ 1493 02c4 0210A0E1 		mov	r1, r2
+ 1494 02c8 0320A0E1 		mov	r2, r3
+ 1495 02cc FEFFFFEB 		bl	CyFxUsbSendDescriptor
+ 1496 02d0 0C000BE5 		str	r0, [fp, #-12]
+ 631:../cyfxbulklpautoenum.c ****             break;
+ 1497              		.loc 1 631 0
+ 1498 02d4 630000EA 		b	.L120
+ 1499              	.L109:
+ 632:../cyfxbulklpautoenum.c **** 
+ 633:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_DESCRIPTOR:
+ 634:../cyfxbulklpautoenum.c ****             /* ACK the request and do nothing. */
+ 635:../cyfxbulklpautoenum.c ****             break;
+ 636:../cyfxbulklpautoenum.c **** 
+ 637:../cyfxbulklpautoenum.c ****         /* Return the current selected configuration. */
+ 638:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_GET_CONFIGURATION:
+ 639:../cyfxbulklpautoenum.c ****             glEp0Buffer[0] = glUsbConfiguration;
+ 1500              		.loc 1 639 0
+ 1501 02d8 D4319FE5 		ldr	r3, .L134+12
+ 1502 02dc 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1503 02e0 C4319FE5 		ldr	r3, .L134+4
+ 1504 02e4 0020C3E5 		strb	r2, [r3]
+ 640:../cyfxbulklpautoenum.c ****             status = CyU3PUsbSendEP0Data (wLength, glEp0Buffer);
+ 1505              		.loc 1 640 0
+ 1506 02e8 B6315BE1 		ldrh	r3, [fp, #-22]
+ 1507 02ec 0300A0E1 		mov	r0, r3
+ 1508 02f0 B4119FE5 		ldr	r1, .L134+4
+ 1509 02f4 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1510 02f8 0C000BE5 		str	r0, [fp, #-12]
+ 641:../cyfxbulklpautoenum.c ****             break;
+ 1511              		.loc 1 641 0
+ 1512 02fc 590000EA 		b	.L120
+ 1513              	.L110:
+ 642:../cyfxbulklpautoenum.c **** 
+ 643:../cyfxbulklpautoenum.c ****         /* Store the value for future use and start the application. */
+ 644:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_CONFIGURATION:
+ 645:../cyfxbulklpautoenum.c ****             if (wValue == 1)
+ 1514              		.loc 1 645 0
+ 1515 0300 B2315BE1 		ldrh	r3, [fp, #-18]
+ 1516 0304 010053E3 		cmp	r3, #1
+ 1517 0308 0A00001A 		bne	.L121
+ 646:../cyfxbulklpautoenum.c ****             {
+ 647:../cyfxbulklpautoenum.c ****                 /* If the application is already active, then disable
+ 648:../cyfxbulklpautoenum.c ****                  * it before re-enabling it. */
+ 649:../cyfxbulklpautoenum.c ****                 glUsbConfiguration = wValue;
+ 1518              		.loc 1 649 0
+ 1519 030c B2315BE1 		ldrh	r3, [fp, #-18]	@ movhi
+ 1520 0310 FF2003E2 		and	r2, r3, #255
+ 1521 0314 98319FE5 		ldr	r3, .L134+12
+ 1522 0318 0020C3E5 		strb	r2, [r3]
+ 650:../cyfxbulklpautoenum.c ****                 if (glIsApplnActive)
+ 1523              		.loc 1 650 0
+ 1524 031c 94319FE5 		ldr	r3, .L134+16
+ 1525 0320 003093E5 		ldr	r3, [r3]
+ 1526 0324 000053E3 		cmp	r3, #0
+ 1527 0328 0000000A 		beq	.L122
+ 651:../cyfxbulklpautoenum.c ****                 {
+ 652:../cyfxbulklpautoenum.c ****                     CyFxBulkLpApplnStop ();
+ 1528              		.loc 1 652 0
+ 1529 032c FEFFFFEB 		bl	CyFxBulkLpApplnStop
+ 1530              	.L122:
+ 653:../cyfxbulklpautoenum.c ****                 }
+ 654:../cyfxbulklpautoenum.c ****                 /* Start the loop back function. */
+ 655:../cyfxbulklpautoenum.c ****                 CyFxBulkLpApplnStart ();
+ 1531              		.loc 1 655 0
+ 1532 0330 FEFFFFEB 		bl	CyFxBulkLpApplnStart
+ 1533 0334 110000EA 		b	.L123
+ 1534              	.L121:
+ 656:../cyfxbulklpautoenum.c ****             }
+ 657:../cyfxbulklpautoenum.c ****             else
+ 658:../cyfxbulklpautoenum.c ****             {
+ 659:../cyfxbulklpautoenum.c ****             	if (wValue == 0)
+ 1535              		.loc 1 659 0
+ 1536 0338 B2315BE1 		ldrh	r3, [fp, #-18]
+ 1537 033c 000053E3 		cmp	r3, #0
+ 1538 0340 0900001A 		bne	.L124
+ 660:../cyfxbulklpautoenum.c ****             	{
+ 661:../cyfxbulklpautoenum.c ****                     /* Stop the loop back function. */
+ 662:../cyfxbulklpautoenum.c ****                     glUsbConfiguration = wValue;
+ 1539              		.loc 1 662 0
+ 1540 0344 B2315BE1 		ldrh	r3, [fp, #-18]	@ movhi
+ 1541 0348 FF2003E2 		and	r2, r3, #255
+ 1542 034c 60319FE5 		ldr	r3, .L134+12
+ 1543 0350 0020C3E5 		strb	r2, [r3]
+ 663:../cyfxbulklpautoenum.c ****                     if (glIsApplnActive)
+ 1544              		.loc 1 663 0
+ 1545 0354 5C319FE5 		ldr	r3, .L134+16
+ 1546 0358 003093E5 		ldr	r3, [r3]
+ 1547 035c 000053E3 		cmp	r3, #0
+ 1548 0360 0600000A 		beq	.L123
+ 664:../cyfxbulklpautoenum.c ****                     {
+ 665:../cyfxbulklpautoenum.c ****                         CyFxBulkLpApplnStop ();
+ 1549              		.loc 1 665 0
+ 1550 0364 FEFFFFEB 		bl	CyFxBulkLpApplnStop
+ 666:../cyfxbulklpautoenum.c ****                     }
+ 667:../cyfxbulklpautoenum.c ****             	}
+ 668:../cyfxbulklpautoenum.c ****             	else
+ 669:../cyfxbulklpautoenum.c ****             	{
+ 670:../cyfxbulklpautoenum.c ****             		/* Invalid configuration value. Fail the request. */
+ 671:../cyfxbulklpautoenum.c ****             		CyU3PUsbStall (0, CyTrue, CyFalse);
+ 672:../cyfxbulklpautoenum.c ****             	}
+ 673:../cyfxbulklpautoenum.c ****             }
+ 674:../cyfxbulklpautoenum.c ****             break;
+ 1551              		.loc 1 674 0
+ 1552 0368 3E0000EA 		b	.L120
+ 1553              	.L124:
+ 671:../cyfxbulklpautoenum.c ****             	}
+ 1554              		.loc 1 671 0
+ 1555 036c 0000A0E3 		mov	r0, #0
+ 1556 0370 0110A0E3 		mov	r1, #1
+ 1557 0374 0020A0E3 		mov	r2, #0
+ 1558 0378 FEFFFFEB 		bl	CyU3PUsbStall
+ 1559              		.loc 1 674 0
+ 1560 037c 390000EA 		b	.L120
+ 1561              	.L123:
+ 1562 0380 380000EA 		b	.L120
+ 1563              	.L111:
+ 675:../cyfxbulklpautoenum.c **** 
+ 676:../cyfxbulklpautoenum.c ****         /* Return the current selected interface. */
+ 677:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_GET_INTERFACE:
+ 678:../cyfxbulklpautoenum.c ****             glEp0Buffer[0] = glUsbInterface;
+ 1564              		.loc 1 678 0
+ 1565 0384 30319FE5 		ldr	r3, .L134+20
+ 1566 0388 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1567 038c 18319FE5 		ldr	r3, .L134+4
+ 1568 0390 0020C3E5 		strb	r2, [r3]
+ 679:../cyfxbulklpautoenum.c ****             status = CyU3PUsbSendEP0Data (wLength, glEp0Buffer);
+ 1569              		.loc 1 679 0
+ 1570 0394 B6315BE1 		ldrh	r3, [fp, #-22]
+ 1571 0398 0300A0E1 		mov	r0, r3
+ 1572 039c 08119FE5 		ldr	r1, .L134+4
+ 1573 03a0 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 1574 03a4 0C000BE5 		str	r0, [fp, #-12]
+ 680:../cyfxbulklpautoenum.c ****             break;
+ 1575              		.loc 1 680 0
+ 1576 03a8 2E0000EA 		b	.L120
+ 1577              	.L112:
+ 681:../cyfxbulklpautoenum.c **** 
+ 682:../cyfxbulklpautoenum.c ****         /* Store the selected interface value. */
+ 683:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_INTERFACE:
+ 684:../cyfxbulklpautoenum.c ****             glUsbInterface = wValue;
+ 1578              		.loc 1 684 0
+ 1579 03ac B2315BE1 		ldrh	r3, [fp, #-18]	@ movhi
+ 1580 03b0 FF2003E2 		and	r2, r3, #255
+ 1581 03b4 00319FE5 		ldr	r3, .L134+20
+ 1582 03b8 0020C3E5 		strb	r2, [r3]
+ 685:../cyfxbulklpautoenum.c ****             break;
+ 1583              		.loc 1 685 0
+ 1584 03bc 290000EA 		b	.L120
+ 1585              	.L113:
+ 686:../cyfxbulklpautoenum.c **** 
+ 687:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_SEL:
+ 688:../cyfxbulklpautoenum.c ****             {
+ 689:../cyfxbulklpautoenum.c ****                 if ((CyU3PUsbGetSpeed () == CY_U3P_SUPER_SPEED) && (wValue == 0) && (wIndex == 0) &
+ 1586              		.loc 1 689 0
+ 1587 03c0 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 1588 03c4 0030A0E1 		mov	r3, r0
+ 1589 03c8 030053E3 		cmp	r3, #3
+ 1590 03cc 1000001A 		bne	.L126
+ 1591              		.loc 1 689 0 is_stmt 0 discriminator 1
+ 1592 03d0 B2315BE1 		ldrh	r3, [fp, #-18]
+ 1593 03d4 000053E3 		cmp	r3, #0
+ 1594 03d8 0D00001A 		bne	.L126
+ 1595 03dc B4315BE1 		ldrh	r3, [fp, #-20]
+ 1596 03e0 000053E3 		cmp	r3, #0
+ 1597 03e4 0A00001A 		bne	.L126
+ 1598 03e8 B6315BE1 		ldrh	r3, [fp, #-22]
+ 1599 03ec 060053E3 		cmp	r3, #6
+ 1600 03f0 0700001A 		bne	.L126
+ 690:../cyfxbulklpautoenum.c ****                 {
+ 691:../cyfxbulklpautoenum.c ****                     status = CyU3PUsbGetEP0Data (32, glSelBuffer, 0);
+ 1601              		.loc 1 691 0 is_stmt 1
+ 1602 03f4 C4309FE5 		ldr	r3, .L134+24
+ 1603 03f8 003093E5 		ldr	r3, [r3]
+ 1604 03fc 2000A0E3 		mov	r0, #32
+ 1605 0400 0310A0E1 		mov	r1, r3
+ 1606 0404 0020A0E3 		mov	r2, #0
+ 1607 0408 FEFFFFEB 		bl	CyU3PUsbGetEP0Data
+ 1608 040c 0C000BE5 		str	r0, [fp, #-12]
+ 692:../cyfxbulklpautoenum.c ****                 }
+ 693:../cyfxbulklpautoenum.c ****                 else
+ 694:../cyfxbulklpautoenum.c ****                 {
+ 695:../cyfxbulklpautoenum.c ****                     isHandled = CyFalse;
+ 696:../cyfxbulklpautoenum.c ****                 }
+ 697:../cyfxbulklpautoenum.c ****             }
+ 698:../cyfxbulklpautoenum.c ****             break;
+ 1609              		.loc 1 698 0
+ 1610 0410 140000EA 		b	.L120
+ 1611              	.L126:
+ 695:../cyfxbulklpautoenum.c ****                 }
+ 1612              		.loc 1 695 0
+ 1613 0414 0030A0E3 		mov	r3, #0
+ 1614 0418 08300BE5 		str	r3, [fp, #-8]
+ 1615              		.loc 1 698 0
+ 1616 041c 110000EA 		b	.L120
+ 1617              	.L114:
+ 699:../cyfxbulklpautoenum.c **** 
+ 700:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_SC_SET_ISOC_DELAY:
+ 701:../cyfxbulklpautoenum.c ****             {
+ 702:../cyfxbulklpautoenum.c ****                 if ((CyU3PUsbGetSpeed () != CY_U3P_SUPER_SPEED) || (wIndex != 0) || (wLength != 0))
+ 1618              		.loc 1 702 0
+ 1619 0420 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 1620 0424 0030A0E1 		mov	r3, r0
+ 1621 0428 030053E3 		cmp	r3, #3
+ 1622 042c 0500001A 		bne	.L128
+ 1623              		.loc 1 702 0 is_stmt 0 discriminator 1
+ 1624 0430 B4315BE1 		ldrh	r3, [fp, #-20]
+ 1625 0434 000053E3 		cmp	r3, #0
+ 1626 0438 0200001A 		bne	.L128
+ 1627 043c B6315BE1 		ldrh	r3, [fp, #-22]
+ 1628 0440 000053E3 		cmp	r3, #0
+ 1629 0444 0200000A 		beq	.L129
+ 1630              	.L128:
+ 703:../cyfxbulklpautoenum.c ****                     isHandled = CyFalse;
+ 1631              		.loc 1 703 0 is_stmt 1
+ 1632 0448 0030A0E3 		mov	r3, #0
+ 1633 044c 08300BE5 		str	r3, [fp, #-8]
+ 704:../cyfxbulklpautoenum.c ****             }
+ 705:../cyfxbulklpautoenum.c ****             break;
+ 1634              		.loc 1 705 0
+ 1635 0450 040000EA 		b	.L120
+ 1636              	.L129:
+ 1637 0454 030000EA 		b	.L120
+ 1638              	.L102:
+ 706:../cyfxbulklpautoenum.c ****         
+ 707:../cyfxbulklpautoenum.c ****         default:
+ 708:../cyfxbulklpautoenum.c ****             isHandled = CyFalse;
+ 1639              		.loc 1 708 0
+ 1640 0458 0030A0E3 		mov	r3, #0
+ 1641 045c 08300BE5 		str	r3, [fp, #-8]
+ 709:../cyfxbulklpautoenum.c ****             break;
+ 1642              		.loc 1 709 0
+ 1643 0460 000000EA 		b	.L120
+ 1644              	.L133:
+ 635:../cyfxbulklpautoenum.c **** 
+ 1645              		.loc 1 635 0
+ 1646 0464 0000A0E1 		mov	r0, r0	@ nop
+ 1647              	.L120:
+ 710:../cyfxbulklpautoenum.c ****     }
+ 711:../cyfxbulklpautoenum.c **** 
+ 712:../cyfxbulklpautoenum.c ****     /* If there has been an error, stall EP0 to fail the transaction. */
+ 713:../cyfxbulklpautoenum.c ****     if ((isHandled != CyTrue) || (status != CY_U3P_SUCCESS))
+ 1648              		.loc 1 713 0
+ 1649 0468 08301BE5 		ldr	r3, [fp, #-8]
+ 1650 046c 010053E3 		cmp	r3, #1
+ 1651 0470 0200001A 		bne	.L130
+ 1652              		.loc 1 713 0 is_stmt 0 discriminator 1
+ 1653 0474 0C301BE5 		ldr	r3, [fp, #-12]
+ 1654 0478 000053E3 		cmp	r3, #0
+ 1655 047c 0400000A 		beq	.L131
+ 1656              	.L130:
+ 714:../cyfxbulklpautoenum.c ****     {
+ 715:../cyfxbulklpautoenum.c ****         /* This is an unhandled setup command. Stall the EP. */
+ 716:../cyfxbulklpautoenum.c ****         CyU3PUsbStall (0, CyTrue, CyFalse);
+ 1657              		.loc 1 716 0 is_stmt 1
+ 1658 0480 0000A0E3 		mov	r0, #0
+ 1659 0484 0110A0E3 		mov	r1, #1
+ 1660 0488 0020A0E3 		mov	r2, #0
+ 1661 048c FEFFFFEB 		bl	CyU3PUsbStall
+ 1662 0490 000000EA 		b	.L132
+ 1663              	.L131:
+ 717:../cyfxbulklpautoenum.c ****     }
+ 718:../cyfxbulklpautoenum.c ****     else
+ 719:../cyfxbulklpautoenum.c ****     {
+ 720:../cyfxbulklpautoenum.c ****         CyU3PUsbAckSetup ();
+ 1664              		.loc 1 720 0
+ 1665 0494 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 1666              	.L132:
+ 721:../cyfxbulklpautoenum.c ****     }
+ 722:../cyfxbulklpautoenum.c **** 
+ 723:../cyfxbulklpautoenum.c ****     return CyTrue;
+ 1667              		.loc 1 723 0
+ 1668 0498 0130A0E3 		mov	r3, #1
+ 1669              	.L101:
+ 724:../cyfxbulklpautoenum.c **** }
+ 1670              		.loc 1 724 0
+ 1671 049c 0300A0E1 		mov	r0, r3
+ 1672 04a0 04D04BE2 		sub	sp, fp, #4
+ 1673              		@ sp needed
+ 1674 04a4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1675              	.L135:
+ 1676              		.align	2
+ 1677              	.L134:
+ 1678 04a8 00000000 		.word	glResetDevice
+ 1679 04ac 00000000 		.word	glEp0Buffer
+ 1680 04b0 00000000 		.word	glUsbDeviceStat
+ 1681 04b4 00000000 		.word	glUsbConfiguration
+ 1682 04b8 00000000 		.word	glIsApplnActive
+ 1683 04bc 00000000 		.word	glUsbInterface
+ 1684 04c0 00000000 		.word	glSelBuffer
+ 1685              		.cfi_endproc
+ 1686              	.LFE7:
+ 1688              		.section	.text.CyFxBulkLpApplnUSBEventCB,"ax",%progbits
+ 1689              		.align	2
+ 1690              		.global	CyFxBulkLpApplnUSBEventCB
+ 1692              	CyFxBulkLpApplnUSBEventCB:
+ 1693              	.LFB8:
+ 725:../cyfxbulklpautoenum.c **** 
+ 726:../cyfxbulklpautoenum.c **** /* This is the callback function to handle the USB events. */
+ 727:../cyfxbulklpautoenum.c **** void
+ 728:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnUSBEventCB (
+ 729:../cyfxbulklpautoenum.c ****     CyU3PUsbEventType_t evtype, /* Event type */
+ 730:../cyfxbulklpautoenum.c ****     uint16_t            evdata  /* Event data */
+ 731:../cyfxbulklpautoenum.c ****     )
+ 732:../cyfxbulklpautoenum.c **** {
+ 1694              		.loc 1 732 0
+ 1695              		.cfi_startproc
+ 1696              		@ args = 0, pretend = 0, frame = 8
+ 1697              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1698 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1699              	.LCFI16:
+ 1700              		.cfi_def_cfa_offset 8
+ 1701              		.cfi_offset 11, -8
+ 1702              		.cfi_offset 14, -4
+ 1703 0004 04B08DE2 		add	fp, sp, #4
+ 1704              	.LCFI17:
+ 1705              		.cfi_def_cfa 11, 4
+ 1706 0008 08D04DE2 		sub	sp, sp, #8
+ 1707 000c 0020A0E1 		mov	r2, r0
+ 1708 0010 0130A0E1 		mov	r3, r1
+ 1709 0014 05204BE5 		strb	r2, [fp, #-5]
+ 1710 0018 B8304BE1 		strh	r3, [fp, #-8]	@ movhi
+ 733:../cyfxbulklpautoenum.c ****     switch (evtype)
+ 1711              		.loc 1 733 0
+ 1712 001c 05305BE5 		ldrb	r3, [fp, #-5]	@ zero_extendqisi2
+ 1713 0020 010053E3 		cmp	r3, #1
+ 1714 0024 0200000A 		beq	.L138
+ 1715 0028 040053E3 		cmp	r3, #4
+ 1716 002c 0000000A 		beq	.L138
+ 734:../cyfxbulklpautoenum.c ****     {
+ 735:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_EVENT_RESET:
+ 736:../cyfxbulklpautoenum.c ****         case CY_U3P_USB_EVENT_DISCONNECT:
+ 737:../cyfxbulklpautoenum.c ****             /* Stop the loop back function. */
+ 738:../cyfxbulklpautoenum.c ****             CyFxBulkLpApplnStop ();
+ 739:../cyfxbulklpautoenum.c ****             /* Drop current U1/U2 enable state values. */
+ 740:../cyfxbulklpautoenum.c ****             glUsbDeviceStat = 0;
+ 741:../cyfxbulklpautoenum.c ****             break;
+ 742:../cyfxbulklpautoenum.c **** 
+ 743:../cyfxbulklpautoenum.c ****         default:
+ 744:../cyfxbulklpautoenum.c ****             break;
+ 1717              		.loc 1 744 0
+ 1718 0030 040000EA 		b	.L136
+ 1719              	.L138:
+ 738:../cyfxbulklpautoenum.c ****             /* Drop current U1/U2 enable state values. */
+ 1720              		.loc 1 738 0
+ 1721 0034 FEFFFFEB 		bl	CyFxBulkLpApplnStop
+ 740:../cyfxbulklpautoenum.c ****             break;
+ 1722              		.loc 1 740 0
+ 1723 0038 10309FE5 		ldr	r3, .L140
+ 1724 003c 0020A0E3 		mov	r2, #0
+ 1725 0040 0020C3E5 		strb	r2, [r3]
+ 741:../cyfxbulklpautoenum.c **** 
+ 1726              		.loc 1 741 0
+ 1727 0044 0000A0E1 		mov	r0, r0	@ nop
+ 1728              	.L136:
+ 745:../cyfxbulklpautoenum.c ****     }
+ 746:../cyfxbulklpautoenum.c **** }
+ 1729              		.loc 1 746 0
+ 1730 0048 04D04BE2 		sub	sp, fp, #4
+ 1731              		@ sp needed
+ 1732 004c 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1733              	.L141:
+ 1734              		.align	2
+ 1735              	.L140:
+ 1736 0050 00000000 		.word	glUsbDeviceStat
+ 1737              		.cfi_endproc
+ 1738              	.LFE8:
+ 1740              		.section	.text.CyFxBulkLpApplnLPMRqtCB,"ax",%progbits
+ 1741              		.align	2
+ 1742              		.global	CyFxBulkLpApplnLPMRqtCB
+ 1744              	CyFxBulkLpApplnLPMRqtCB:
+ 1745              	.LFB9:
+ 747:../cyfxbulklpautoenum.c **** 
+ 748:../cyfxbulklpautoenum.c **** /* Callback function to handle LPM requests from the USB 3.0 host. This function is invoked by the 
+ 749:../cyfxbulklpautoenum.c ****    whenever a state change from U0 -> U1 or U0 -> U2 happens. If we return CyTrue from this functio
+ 750:../cyfxbulklpautoenum.c ****    FX3 device is retained in the low power state. If we return CyFalse, the FX3 device immediately 
+ 751:../cyfxbulklpautoenum.c ****    to trigger an exit back to U0.
+ 752:../cyfxbulklpautoenum.c **** 
+ 753:../cyfxbulklpautoenum.c ****    This application does not have any state in which we should not allow U1/U2 transitions; and the
+ 754:../cyfxbulklpautoenum.c ****    the function always return CyTrue.
+ 755:../cyfxbulklpautoenum.c ****  */
+ 756:../cyfxbulklpautoenum.c **** CyBool_t
+ 757:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnLPMRqtCB (
+ 758:../cyfxbulklpautoenum.c ****         CyU3PUsbLinkPowerMode link_mode)
+ 759:../cyfxbulklpautoenum.c **** {
+ 1746              		.loc 1 759 0
+ 1747              		.cfi_startproc
+ 1748              		@ args = 0, pretend = 0, frame = 8
+ 1749              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1750              		@ link register save eliminated.
+ 1751 0000 04B02DE5 		str	fp, [sp, #-4]!
+ 1752              	.LCFI18:
+ 1753              		.cfi_def_cfa_offset 4
+ 1754              		.cfi_offset 11, -4
+ 1755 0004 00B08DE2 		add	fp, sp, #0
+ 1756              	.LCFI19:
+ 1757              		.cfi_def_cfa_register 11
+ 1758 0008 0CD04DE2 		sub	sp, sp, #12
+ 1759 000c 0030A0E1 		mov	r3, r0
+ 1760 0010 05304BE5 		strb	r3, [fp, #-5]
+ 760:../cyfxbulklpautoenum.c ****     return CyTrue;
+ 1761              		.loc 1 760 0
+ 1762 0014 0130A0E3 		mov	r3, #1
+ 761:../cyfxbulklpautoenum.c **** }
+ 1763              		.loc 1 761 0
+ 1764 0018 0300A0E1 		mov	r0, r3
+ 1765 001c 00D04BE2 		sub	sp, fp, #0
+ 1766              		@ sp needed
+ 1767 0020 04B09DE4 		ldr	fp, [sp], #4
+ 1768 0024 1EFF2FE1 		bx	lr
+ 1769              		.cfi_endproc
+ 1770              	.LFE9:
+ 1772              		.section	.rodata
+ 1773              		.align	2
+ 1774              	.LC4:
+ 1775 00a8 43795533 		.ascii	"CyU3PUsbStart failed to Start, Error code = %d\012\000"
+ 1775      50557362 
+ 1775      53746172 
+ 1775      74206661 
+ 1775      696C6564 
+ 1776              		.align	2
+ 1777              	.LC5:
+ 1778 00d8 55534220 		.ascii	"USB Connect failed, Error code = %d\012\000"
+ 1778      436F6E6E 
+ 1778      65637420 
+ 1778      6661696C 
+ 1778      65642C20 
+ 1779              		.section	.text.CyFxBulkLpApplnInit,"ax",%progbits
+ 1780              		.align	2
+ 1781              		.global	CyFxBulkLpApplnInit
+ 1783              	CyFxBulkLpApplnInit:
+ 1784              	.LFB10:
+ 762:../cyfxbulklpautoenum.c **** 
+ 763:../cyfxbulklpautoenum.c **** /* This function initializes the USB Module, sets the enumeration descriptors.
+ 764:../cyfxbulklpautoenum.c ****  * This function does not start the bulk streaming and this is done only when
+ 765:../cyfxbulklpautoenum.c ****  * SET_CONF event is received. */
+ 766:../cyfxbulklpautoenum.c **** void
+ 767:../cyfxbulklpautoenum.c **** CyFxBulkLpApplnInit (void)
+ 768:../cyfxbulklpautoenum.c **** {
+ 1785              		.loc 1 768 0
+ 1786              		.cfi_startproc
+ 1787              		@ args = 0, pretend = 0, frame = 8
+ 1788              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1789 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1790              	.LCFI20:
+ 1791              		.cfi_def_cfa_offset 8
+ 1792              		.cfi_offset 11, -8
+ 1793              		.cfi_offset 14, -4
+ 1794 0004 04B08DE2 		add	fp, sp, #4
+ 1795              	.LCFI21:
+ 1796              		.cfi_def_cfa 11, 4
+ 1797 0008 08D04DE2 		sub	sp, sp, #8
+ 769:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 1798              		.loc 1 769 0
+ 1799 000c 0030A0E3 		mov	r3, #0
+ 1800 0010 08300BE5 		str	r3, [fp, #-8]
+ 770:../cyfxbulklpautoenum.c **** 
+ 771:../cyfxbulklpautoenum.c ****     /* Start the USB functionality. */
+ 772:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PUsbStart();
+ 1801              		.loc 1 772 0
+ 1802 0014 FEFFFFEB 		bl	CyU3PUsbStart
+ 1803 0018 08000BE5 		str	r0, [fp, #-8]
+ 773:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1804              		.loc 1 773 0
+ 1805 001c 08301BE5 		ldr	r3, [fp, #-8]
+ 1806 0020 000053E3 		cmp	r3, #0
+ 1807 0024 0500000A 		beq	.L145
+ 774:../cyfxbulklpautoenum.c ****     {
+ 775:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "CyU3PUsbStart failed to Start, Error code = %d\n", apiRetStatus);
+ 1808              		.loc 1 775 0
+ 1809 0028 0400A0E3 		mov	r0, #4
+ 1810 002c 90109FE5 		ldr	r1, .L147
+ 1811 0030 08201BE5 		ldr	r2, [fp, #-8]
+ 1812 0034 FEFFFFEB 		bl	CyU3PDebugPrint
+ 776:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1813              		.loc 1 776 0
+ 1814 0038 08001BE5 		ldr	r0, [fp, #-8]
+ 1815 003c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1816              	.L145:
+ 777:../cyfxbulklpautoenum.c ****     }
+ 778:../cyfxbulklpautoenum.c **** 
+ 779:../cyfxbulklpautoenum.c ****     /* Allocate a buffer to hold the SEL (System Exit Latency) values set by the host. */
+ 780:../cyfxbulklpautoenum.c ****     glSelBuffer = (uint8_t *)CyU3PDmaBufferAlloc (32);
+ 1817              		.loc 1 780 0
+ 1818 0040 2000A0E3 		mov	r0, #32
+ 1819 0044 FEFFFFEB 		bl	CyU3PDmaBufferAlloc
+ 1820 0048 0020A0E1 		mov	r2, r0
+ 1821 004c 74309FE5 		ldr	r3, .L147+4
+ 1822 0050 002083E5 		str	r2, [r3]
+ 781:../cyfxbulklpautoenum.c ****     CyU3PMemSet (glSelBuffer, 0, 32);
+ 1823              		.loc 1 781 0
+ 1824 0054 6C309FE5 		ldr	r3, .L147+4
+ 1825 0058 003093E5 		ldr	r3, [r3]
+ 1826 005c 0300A0E1 		mov	r0, r3
+ 1827 0060 0010A0E3 		mov	r1, #0
+ 1828 0064 2020A0E3 		mov	r2, #32
+ 1829 0068 FEFFFFEB 		bl	CyU3PMemSet
+ 782:../cyfxbulklpautoenum.c **** 
+ 783:../cyfxbulklpautoenum.c ****     /* In this example the application handles all the setup packets.
+ 784:../cyfxbulklpautoenum.c ****      * But even in normal mode of enumeration, it is possible to register
+ 785:../cyfxbulklpautoenum.c ****      * DMA descriptors with the library and not handle inside the setup
+ 786:../cyfxbulklpautoenum.c ****      * callback. */
+ 787:../cyfxbulklpautoenum.c ****     CyU3PUsbRegisterSetupCallback(CyFxBulkLpApplnUSBSetupCB, CyFalse);
+ 1830              		.loc 1 787 0
+ 1831 006c 58009FE5 		ldr	r0, .L147+8
+ 1832 0070 0010A0E3 		mov	r1, #0
+ 1833 0074 FEFFFFEB 		bl	CyU3PUsbRegisterSetupCallback
+ 788:../cyfxbulklpautoenum.c **** 
+ 789:../cyfxbulklpautoenum.c ****     /* Setup the callback to handle the USB events. */
+ 790:../cyfxbulklpautoenum.c ****     CyU3PUsbRegisterEventCallback(CyFxBulkLpApplnUSBEventCB);
+ 1834              		.loc 1 790 0
+ 1835 0078 50009FE5 		ldr	r0, .L147+12
+ 1836 007c FEFFFFEB 		bl	CyU3PUsbRegisterEventCallback
+ 791:../cyfxbulklpautoenum.c **** 
+ 792:../cyfxbulklpautoenum.c ****     /* Register a callback to handle LPM requests from the USB 3.0 host. */
+ 793:../cyfxbulklpautoenum.c ****     CyU3PUsbRegisterLPMRequestCallback(CyFxBulkLpApplnLPMRqtCB);
+ 1837              		.loc 1 793 0
+ 1838 0080 4C009FE5 		ldr	r0, .L147+16
+ 1839 0084 FEFFFFEB 		bl	CyU3PUsbRegisterLPMRequestCallback
+ 794:../cyfxbulklpautoenum.c **** 
+ 795:../cyfxbulklpautoenum.c ****     /* Connect the USB Pins with super speed operation enabled. */
+ 796:../cyfxbulklpautoenum.c ****     apiRetStatus = CyU3PConnectState(CyTrue, CyTrue);
+ 1840              		.loc 1 796 0
+ 1841 0088 0100A0E3 		mov	r0, #1
+ 1842 008c 0110A0E3 		mov	r1, #1
+ 1843 0090 FEFFFFEB 		bl	CyU3PConnectState
+ 1844 0094 08000BE5 		str	r0, [fp, #-8]
+ 797:../cyfxbulklpautoenum.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1845              		.loc 1 797 0
+ 1846 0098 08301BE5 		ldr	r3, [fp, #-8]
+ 1847 009c 000053E3 		cmp	r3, #0
+ 1848 00a0 0500000A 		beq	.L144
+ 798:../cyfxbulklpautoenum.c ****     {
+ 799:../cyfxbulklpautoenum.c ****         CyU3PDebugPrint (4, "USB Connect failed, Error code = %d\n", apiRetStatus);
+ 1849              		.loc 1 799 0
+ 1850 00a4 0400A0E3 		mov	r0, #4
+ 1851 00a8 28109FE5 		ldr	r1, .L147+20
+ 1852 00ac 08201BE5 		ldr	r2, [fp, #-8]
+ 1853 00b0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 800:../cyfxbulklpautoenum.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1854              		.loc 1 800 0
+ 1855 00b4 08001BE5 		ldr	r0, [fp, #-8]
+ 1856 00b8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1857              	.L144:
+ 801:../cyfxbulklpautoenum.c ****     }
+ 802:../cyfxbulklpautoenum.c **** }
+ 1858              		.loc 1 802 0
+ 1859 00bc 04D04BE2 		sub	sp, fp, #4
+ 1860              		@ sp needed
+ 1861 00c0 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1862              	.L148:
+ 1863              		.align	2
+ 1864              	.L147:
+ 1865 00c4 A8000000 		.word	.LC4
+ 1866 00c8 00000000 		.word	glSelBuffer
+ 1867 00cc 00000000 		.word	CyFxBulkLpApplnUSBSetupCB
+ 1868 00d0 00000000 		.word	CyFxBulkLpApplnUSBEventCB
+ 1869 00d4 00000000 		.word	CyFxBulkLpApplnLPMRqtCB
+ 1870 00d8 D8000000 		.word	.LC5
+ 1871              		.cfi_endproc
+ 1872              	.LFE10:
+ 1874              		.section	.text.BulkLpAppThread_Entry,"ax",%progbits
+ 1875              		.align	2
+ 1876              		.global	BulkLpAppThread_Entry
+ 1878              	BulkLpAppThread_Entry:
+ 1879              	.LFB11:
+ 803:../cyfxbulklpautoenum.c **** 
+ 804:../cyfxbulklpautoenum.c **** /* Entry function for the BulkLpAppThread. */
+ 805:../cyfxbulklpautoenum.c **** void
+ 806:../cyfxbulklpautoenum.c **** BulkLpAppThread_Entry (
+ 807:../cyfxbulklpautoenum.c ****         uint32_t input)
+ 808:../cyfxbulklpautoenum.c **** {
+ 1880              		.loc 1 808 0
+ 1881              		.cfi_startproc
+ 1882              		@ args = 0, pretend = 0, frame = 8
+ 1883              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1884 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1885              	.LCFI22:
+ 1886              		.cfi_def_cfa_offset 8
+ 1887              		.cfi_offset 11, -8
+ 1888              		.cfi_offset 14, -4
+ 1889 0004 04B08DE2 		add	fp, sp, #4
+ 1890              	.LCFI23:
+ 1891              		.cfi_def_cfa 11, 4
+ 1892 0008 08D04DE2 		sub	sp, sp, #8
+ 1893 000c 08000BE5 		str	r0, [fp, #-8]
+ 809:../cyfxbulklpautoenum.c ****     /* Initialize the debug module */
+ 810:../cyfxbulklpautoenum.c ****     CyFxBulkLpApplnDebugInit();
+ 1894              		.loc 1 810 0
+ 1895 0010 FEFFFFEB 		bl	CyFxBulkLpApplnDebugInit
+ 811:../cyfxbulklpautoenum.c **** 
+ 812:../cyfxbulklpautoenum.c ****     /* Initialize the bulk loop application */
+ 813:../cyfxbulklpautoenum.c ****     CyFxBulkLpApplnInit();
+ 1896              		.loc 1 813 0
+ 1897 0014 FEFFFFEB 		bl	CyFxBulkLpApplnInit
+ 1898              	.L152:
+ 814:../cyfxbulklpautoenum.c **** 
+ 815:../cyfxbulklpautoenum.c ****     for (;;)
+ 816:../cyfxbulklpautoenum.c ****     {
+ 817:../cyfxbulklpautoenum.c ****         CyU3PThreadSleep (1000);
+ 1899              		.loc 1 817 0
+ 1900 0018 FA0FA0E3 		mov	r0, #1000
+ 1901 001c FEFFFFEB 		bl	_tx_thread_sleep
+ 818:../cyfxbulklpautoenum.c **** 
+ 819:../cyfxbulklpautoenum.c ****         if (glResetDevice)
+ 1902              		.loc 1 819 0
+ 1903 0020 40309FE5 		ldr	r3, .L153
+ 1904 0024 003093E5 		ldr	r3, [r3]
+ 1905 0028 000053E3 		cmp	r3, #0
+ 1906 002c 0C00000A 		beq	.L150
+ 820:../cyfxbulklpautoenum.c ****         {
+ 821:../cyfxbulklpautoenum.c ****             /* Disconnect from the USB host and reset the device. */
+ 822:../cyfxbulklpautoenum.c ****             glResetDevice = CyFalse;
+ 1907              		.loc 1 822 0
+ 1908 0030 30309FE5 		ldr	r3, .L153
+ 1909 0034 0020A0E3 		mov	r2, #0
+ 1910 0038 002083E5 		str	r2, [r3]
+ 823:../cyfxbulklpautoenum.c ****             CyU3PThreadSleep (1000);
+ 1911              		.loc 1 823 0
+ 1912 003c FA0FA0E3 		mov	r0, #1000
+ 1913 0040 FEFFFFEB 		bl	_tx_thread_sleep
+ 824:../cyfxbulklpautoenum.c ****             CyU3PConnectState (CyFalse, CyTrue);
+ 1914              		.loc 1 824 0
+ 1915 0044 0000A0E3 		mov	r0, #0
+ 1916 0048 0110A0E3 		mov	r1, #1
+ 1917 004c FEFFFFEB 		bl	CyU3PConnectState
+ 825:../cyfxbulklpautoenum.c ****             CyU3PThreadSleep (1000);
+ 1918              		.loc 1 825 0
+ 1919 0050 FA0FA0E3 		mov	r0, #1000
+ 1920 0054 FEFFFFEB 		bl	_tx_thread_sleep
+ 826:../cyfxbulklpautoenum.c ****             CyU3PDeviceReset (CyFalse);
+ 1921              		.loc 1 826 0
+ 1922 0058 0000A0E3 		mov	r0, #0
+ 1923 005c FEFFFFEB 		bl	CyU3PDeviceReset
+ 1924              	.L151:
+ 827:../cyfxbulklpautoenum.c ****             for (;;);
+ 1925              		.loc 1 827 0 discriminator 1
+ 1926 0060 FEFFFFEA 		b	.L151
+ 1927              	.L150:
+ 828:../cyfxbulklpautoenum.c ****         }
+ 829:../cyfxbulklpautoenum.c ****     }
+ 1928              		.loc 1 829 0
+ 1929 0064 EBFFFFEA 		b	.L152
+ 1930              	.L154:
+ 1931              		.align	2
+ 1932              	.L153:
+ 1933 0068 00000000 		.word	glResetDevice
+ 1934              		.cfi_endproc
+ 1935              	.LFE11:
+ 1937              		.section	.rodata
+ 1938 00fd 000000   		.align	2
+ 1939              	.LC6:
+ 1940 0100 32313A42 		.ascii	"21:Bulk_loop_AUTO\000"
+ 1940      756C6B5F 
+ 1940      6C6F6F70 
+ 1940      5F415554 
+ 1940      4F00
+ 1941 0112 0000     		.section	.text.CyFxApplicationDefine,"ax",%progbits
+ 1942              		.align	2
+ 1943              		.global	CyFxApplicationDefine
+ 1945              	CyFxApplicationDefine:
+ 1946              	.LFB12:
+ 830:../cyfxbulklpautoenum.c **** }
+ 831:../cyfxbulklpautoenum.c **** 
+ 832:../cyfxbulklpautoenum.c **** /* Application define function which creates the threads. */
+ 833:../cyfxbulklpautoenum.c **** void
+ 834:../cyfxbulklpautoenum.c **** CyFxApplicationDefine (
+ 835:../cyfxbulklpautoenum.c ****         void)
+ 836:../cyfxbulklpautoenum.c **** {
+ 1947              		.loc 1 836 0
+ 1948              		.cfi_startproc
+ 1949              		@ args = 0, pretend = 0, frame = 8
+ 1950              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1951 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1952              	.LCFI24:
+ 1953              		.cfi_def_cfa_offset 8
+ 1954              		.cfi_offset 11, -8
+ 1955              		.cfi_offset 14, -4
+ 1956 0004 04B08DE2 		add	fp, sp, #4
+ 1957              	.LCFI25:
+ 1958              		.cfi_def_cfa 11, 4
+ 1959 0008 28D04DE2 		sub	sp, sp, #40
+ 837:../cyfxbulklpautoenum.c ****     void *ptr = NULL;
+ 1960              		.loc 1 837 0
+ 1961 000c 0030A0E3 		mov	r3, #0
+ 1962 0010 08300BE5 		str	r3, [fp, #-8]
+ 838:../cyfxbulklpautoenum.c ****     uint32_t retThrdCreate = CY_U3P_SUCCESS;
+ 1963              		.loc 1 838 0
+ 1964 0014 0030A0E3 		mov	r3, #0
+ 1965 0018 0C300BE5 		str	r3, [fp, #-12]
+ 839:../cyfxbulklpautoenum.c **** 
+ 840:../cyfxbulklpautoenum.c ****     /* Allocate the memory for the threads */
+ 841:../cyfxbulklpautoenum.c ****     ptr = CyU3PMemAlloc (CY_FX_BULKLP_THREAD_STACK);
+ 1966              		.loc 1 841 0
+ 1967 001c 010AA0E3 		mov	r0, #4096
+ 1968 0020 FEFFFFEB 		bl	CyU3PMemAlloc
+ 1969 0024 08000BE5 		str	r0, [fp, #-8]
+ 842:../cyfxbulklpautoenum.c **** 
+ 843:../cyfxbulklpautoenum.c ****     /* Create the thread for the application */
+ 844:../cyfxbulklpautoenum.c ****     retThrdCreate = CyU3PThreadCreate (&BulkLpAppThread,           /* Bulk loop App Thread structur
+ 1970              		.loc 1 844 0
+ 1971 0028 08301BE5 		ldr	r3, [fp, #-8]
+ 1972 002c 00308DE5 		str	r3, [sp]
+ 1973 0030 013AA0E3 		mov	r3, #4096
+ 1974 0034 04308DE5 		str	r3, [sp, #4]
+ 1975 0038 0830A0E3 		mov	r3, #8
+ 1976 003c 08308DE5 		str	r3, [sp, #8]
+ 1977 0040 0830A0E3 		mov	r3, #8
+ 1978 0044 0C308DE5 		str	r3, [sp, #12]
+ 1979 0048 0030A0E3 		mov	r3, #0
+ 1980 004c 10308DE5 		str	r3, [sp, #16]
+ 1981 0050 0130A0E3 		mov	r3, #1
+ 1982 0054 14308DE5 		str	r3, [sp, #20]
+ 1983 0058 A830A0E3 		mov	r3, #168
+ 1984 005c 18308DE5 		str	r3, [sp, #24]
+ 1985 0060 28009FE5 		ldr	r0, .L158
+ 1986 0064 28109FE5 		ldr	r1, .L158+4
+ 1987 0068 28209FE5 		ldr	r2, .L158+8
+ 1988 006c 0030A0E3 		mov	r3, #0
+ 1989 0070 FEFFFFEB 		bl	_txe_thread_create
+ 1990 0074 0C000BE5 		str	r0, [fp, #-12]
+ 845:../cyfxbulklpautoenum.c ****                           "21:Bulk_loop_AUTO",                     /* Thread ID and Thread name */
+ 846:../cyfxbulklpautoenum.c ****                           BulkLpAppThread_Entry,                   /* Bulk loop App Thread Entry fu
+ 847:../cyfxbulklpautoenum.c ****                           0,                                       /* No input parameter to thread 
+ 848:../cyfxbulklpautoenum.c ****                           ptr,                                     /* Pointer to the allocated thre
+ 849:../cyfxbulklpautoenum.c ****                           CY_FX_BULKLP_THREAD_STACK,               /* Bulk loop App Thread stack si
+ 850:../cyfxbulklpautoenum.c ****                           CY_FX_BULKLP_THREAD_PRIORITY,            /* Bulk loop App Thread priority
+ 851:../cyfxbulklpautoenum.c ****                           CY_FX_BULKLP_THREAD_PRIORITY,            /* Bulk loop App Thread priority
+ 852:../cyfxbulklpautoenum.c ****                           CYU3P_NO_TIME_SLICE,                     /* No time slice for the applica
+ 853:../cyfxbulklpautoenum.c ****                           CYU3P_AUTO_START                         /* Start the Thread immediately 
+ 854:../cyfxbulklpautoenum.c ****                           );
+ 855:../cyfxbulklpautoenum.c **** 
+ 856:../cyfxbulklpautoenum.c ****     /* Check the return code */
+ 857:../cyfxbulklpautoenum.c ****     if (retThrdCreate != 0)
+ 1991              		.loc 1 857 0
+ 1992 0078 0C301BE5 		ldr	r3, [fp, #-12]
+ 1993 007c 000053E3 		cmp	r3, #0
+ 1994 0080 0000000A 		beq	.L155
+ 1995              	.L157:
+ 858:../cyfxbulklpautoenum.c ****     {
+ 859:../cyfxbulklpautoenum.c ****         /* Thread Creation failed with the error code retThrdCreate */
+ 860:../cyfxbulklpautoenum.c **** 
+ 861:../cyfxbulklpautoenum.c ****         /* Add custom recovery or debug actions here */
+ 862:../cyfxbulklpautoenum.c **** 
+ 863:../cyfxbulklpautoenum.c ****         /* Application cannot continue */
+ 864:../cyfxbulklpautoenum.c ****         /* Loop indefinitely */
+ 865:../cyfxbulklpautoenum.c ****         while(1);
+ 1996              		.loc 1 865 0 discriminator 1
+ 1997 0084 FEFFFFEA 		b	.L157
+ 1998              	.L155:
+ 866:../cyfxbulklpautoenum.c ****     }
+ 867:../cyfxbulklpautoenum.c **** }
+ 1999              		.loc 1 867 0
+ 2000 0088 04D04BE2 		sub	sp, fp, #4
+ 2001              		@ sp needed
+ 2002 008c 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 2003              	.L159:
+ 2004              		.align	2
+ 2005              	.L158:
+ 2006 0090 00000000 		.word	BulkLpAppThread
+ 2007 0094 00010000 		.word	.LC6
+ 2008 0098 00000000 		.word	BulkLpAppThread_Entry
+ 2009              		.cfi_endproc
+ 2010              	.LFE12:
+ 2012              		.section	.text.main,"ax",%progbits
+ 2013              		.align	2
+ 2014              		.global	main
+ 2016              	main:
+ 2017              	.LFB13:
+ 868:../cyfxbulklpautoenum.c **** 
+ 869:../cyfxbulklpautoenum.c **** /*
+ 870:../cyfxbulklpautoenum.c ****  * Main function
+ 871:../cyfxbulklpautoenum.c ****  */
+ 872:../cyfxbulklpautoenum.c **** int
+ 873:../cyfxbulklpautoenum.c **** main (void)
+ 874:../cyfxbulklpautoenum.c **** {
+ 2018              		.loc 1 874 0
+ 2019              		.cfi_startproc
+ 2020              		@ args = 0, pretend = 0, frame = 48
+ 2021              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2022 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 2023              	.LCFI26:
+ 2024              		.cfi_def_cfa_offset 8
+ 2025              		.cfi_offset 11, -8
+ 2026              		.cfi_offset 14, -4
+ 2027 0004 04B08DE2 		add	fp, sp, #4
+ 2028              	.LCFI27:
+ 2029              		.cfi_def_cfa 11, 4
+ 2030 0008 30D04DE2 		sub	sp, sp, #48
+ 875:../cyfxbulklpautoenum.c ****     CyU3PIoMatrixConfig_t io_cfg;
+ 876:../cyfxbulklpautoenum.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 2031              		.loc 1 876 0
+ 2032 000c 0030A0E3 		mov	r3, #0
+ 2033 0010 08300BE5 		str	r3, [fp, #-8]
+ 877:../cyfxbulklpautoenum.c **** 
+ 878:../cyfxbulklpautoenum.c ****     /* Initialize the device */
+ 879:../cyfxbulklpautoenum.c ****     status = CyU3PDeviceInit (NULL);
+ 2034              		.loc 1 879 0
+ 2035 0014 0000A0E3 		mov	r0, #0
+ 2036 0018 FEFFFFEB 		bl	CyU3PDeviceInit
+ 2037 001c 08000BE5 		str	r0, [fp, #-8]
+ 880:../cyfxbulklpautoenum.c ****     if (status != CY_U3P_SUCCESS)
+ 2038              		.loc 1 880 0
+ 2039 0020 08301BE5 		ldr	r3, [fp, #-8]
+ 2040 0024 000053E3 		cmp	r3, #0
+ 2041 0028 0000000A 		beq	.L161
+ 881:../cyfxbulklpautoenum.c ****     {
+ 882:../cyfxbulklpautoenum.c ****         goto handle_fatal_error;
+ 2042              		.loc 1 882 0
+ 2043 002c 2B0000EA 		b	.L162
+ 2044              	.L161:
+ 883:../cyfxbulklpautoenum.c ****     }
+ 884:../cyfxbulklpautoenum.c **** 
+ 885:../cyfxbulklpautoenum.c ****     /* Initialize the caches. Enable both Instruction and Data caches. */
+ 886:../cyfxbulklpautoenum.c ****     status = CyU3PDeviceCacheControl (CyTrue, CyTrue, CyTrue);
+ 2045              		.loc 1 886 0
+ 2046 0030 0100A0E3 		mov	r0, #1
+ 2047 0034 0110A0E3 		mov	r1, #1
+ 2048 0038 0120A0E3 		mov	r2, #1
+ 2049 003c FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 2050 0040 08000BE5 		str	r0, [fp, #-8]
+ 887:../cyfxbulklpautoenum.c ****     if (status != CY_U3P_SUCCESS)
+ 2051              		.loc 1 887 0
+ 2052 0044 08301BE5 		ldr	r3, [fp, #-8]
+ 2053 0048 000053E3 		cmp	r3, #0
+ 2054 004c 0000000A 		beq	.L163
+ 888:../cyfxbulklpautoenum.c ****     {
+ 889:../cyfxbulklpautoenum.c ****         goto handle_fatal_error;
+ 2055              		.loc 1 889 0
+ 2056 0050 220000EA 		b	.L162
+ 2057              	.L163:
+ 890:../cyfxbulklpautoenum.c ****     }
+ 891:../cyfxbulklpautoenum.c **** 
+ 892:../cyfxbulklpautoenum.c ****     /* Configure the IO matrix for the device. On the FX3 DVK board, the COM port 
+ 893:../cyfxbulklpautoenum.c ****      * is connected to the IO(53:56). This means that either DQ32 mode should be
+ 894:../cyfxbulklpautoenum.c ****      * selected or lppMode should be set to UART_ONLY. Here we are choosing
+ 895:../cyfxbulklpautoenum.c ****      * UART_ONLY configuration. */
+ 896:../cyfxbulklpautoenum.c ****     io_cfg.isDQ32Bit = CyFalse;
+ 2058              		.loc 1 896 0
+ 2059 0054 0030A0E3 		mov	r3, #0
+ 2060 0058 30300BE5 		str	r3, [fp, #-48]
+ 897:../cyfxbulklpautoenum.c ****     io_cfg.s0Mode = CY_U3P_SPORT_INACTIVE;
+ 2061              		.loc 1 897 0
+ 2062 005c 0030A0E3 		mov	r3, #0
+ 2063 0060 1C304BE5 		strb	r3, [fp, #-28]
+ 898:../cyfxbulklpautoenum.c ****     io_cfg.s1Mode = CY_U3P_SPORT_INACTIVE;
+ 2064              		.loc 1 898 0
+ 2065 0064 0030A0E3 		mov	r3, #0
+ 2066 0068 1B304BE5 		strb	r3, [fp, #-27]
+ 899:../cyfxbulklpautoenum.c ****     io_cfg.useUart   = CyTrue;
+ 2067              		.loc 1 899 0
+ 2068 006c 0130A0E3 		mov	r3, #1
+ 2069 0070 2C300BE5 		str	r3, [fp, #-44]
+ 900:../cyfxbulklpautoenum.c ****     io_cfg.useI2C    = CyFalse;
+ 2070              		.loc 1 900 0
+ 2071 0074 0030A0E3 		mov	r3, #0
+ 2072 0078 28300BE5 		str	r3, [fp, #-40]
+ 901:../cyfxbulklpautoenum.c ****     io_cfg.useI2S    = CyFalse;
+ 2073              		.loc 1 901 0
+ 2074 007c 0030A0E3 		mov	r3, #0
+ 2075 0080 24300BE5 		str	r3, [fp, #-36]
+ 902:../cyfxbulklpautoenum.c ****     io_cfg.useSpi    = CyFalse;
+ 2076              		.loc 1 902 0
+ 2077 0084 0030A0E3 		mov	r3, #0
+ 2078 0088 20300BE5 		str	r3, [fp, #-32]
+ 903:../cyfxbulklpautoenum.c ****     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_UART_ONLY;
+ 2079              		.loc 1 903 0
+ 2080 008c 0130A0E3 		mov	r3, #1
+ 2081 0090 1A304BE5 		strb	r3, [fp, #-26]
+ 904:../cyfxbulklpautoenum.c ****     /* No GPIOs are enabled. */
+ 905:../cyfxbulklpautoenum.c ****     io_cfg.gpioSimpleEn[0]  = 0;
+ 2082              		.loc 1 905 0
+ 2083 0094 0030A0E3 		mov	r3, #0
+ 2084 0098 18300BE5 		str	r3, [fp, #-24]
+ 906:../cyfxbulklpautoenum.c ****     io_cfg.gpioSimpleEn[1]  = 0;
+ 2085              		.loc 1 906 0
+ 2086 009c 0030A0E3 		mov	r3, #0
+ 2087 00a0 14300BE5 		str	r3, [fp, #-20]
+ 907:../cyfxbulklpautoenum.c ****     io_cfg.gpioComplexEn[0] = 0;
+ 2088              		.loc 1 907 0
+ 2089 00a4 0030A0E3 		mov	r3, #0
+ 2090 00a8 10300BE5 		str	r3, [fp, #-16]
+ 908:../cyfxbulklpautoenum.c ****     io_cfg.gpioComplexEn[1] = 0;
+ 2091              		.loc 1 908 0
+ 2092 00ac 0030A0E3 		mov	r3, #0
+ 2093 00b0 0C300BE5 		str	r3, [fp, #-12]
+ 909:../cyfxbulklpautoenum.c ****     status = CyU3PDeviceConfigureIOMatrix (&io_cfg);
+ 2094              		.loc 1 909 0
+ 2095 00b4 30304BE2 		sub	r3, fp, #48
+ 2096 00b8 0300A0E1 		mov	r0, r3
+ 2097 00bc FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 2098 00c0 08000BE5 		str	r0, [fp, #-8]
+ 910:../cyfxbulklpautoenum.c ****     if (status != CY_U3P_SUCCESS)
+ 2099              		.loc 1 910 0
+ 2100 00c4 08301BE5 		ldr	r3, [fp, #-8]
+ 2101 00c8 000053E3 		cmp	r3, #0
+ 2102 00cc 0000000A 		beq	.L164
+ 911:../cyfxbulklpautoenum.c ****     {
+ 912:../cyfxbulklpautoenum.c ****         goto handle_fatal_error;
+ 2103              		.loc 1 912 0
+ 2104 00d0 020000EA 		b	.L162
+ 2105              	.L164:
+ 913:../cyfxbulklpautoenum.c ****     }
+ 914:../cyfxbulklpautoenum.c **** 
+ 915:../cyfxbulklpautoenum.c ****     /* This is a non returnable call for initializing the RTOS kernel */
+ 916:../cyfxbulklpautoenum.c ****     CyU3PKernelEntry ();
+ 2106              		.loc 1 916 0
+ 2107 00d4 FEFFFFEB 		bl	_tx_initialize_kernel_enter
+ 917:../cyfxbulklpautoenum.c **** 
+ 918:../cyfxbulklpautoenum.c ****     /* Dummy return to make the compiler happy */
+ 919:../cyfxbulklpautoenum.c ****     return 0;
+ 2108              		.loc 1 919 0
+ 2109 00d8 0030A0E3 		mov	r3, #0
+ 2110 00dc 000000EA 		b	.L166
+ 2111              	.L162:
+ 920:../cyfxbulklpautoenum.c **** 
+ 921:../cyfxbulklpautoenum.c **** handle_fatal_error:
+ 922:../cyfxbulklpautoenum.c **** 
+ 923:../cyfxbulklpautoenum.c ****     /* Cannot recover from this error. */
+ 924:../cyfxbulklpautoenum.c ****     while (1);
+ 2112              		.loc 1 924 0 discriminator 1
+ 2113 00e0 FEFFFFEA 		b	.L162
+ 2114              	.L166:
+ 925:../cyfxbulklpautoenum.c **** }
+ 2115              		.loc 1 925 0
+ 2116 00e4 0300A0E1 		mov	r0, r3
+ 2117 00e8 04D04BE2 		sub	sp, fp, #4
+ 2118              		@ sp needed
+ 2119 00ec 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 2120              		.cfi_endproc
+ 2121              	.LFE13:
+ 2123              		.text
+ 2124              	.Letext0:
+ 2125              		.file 2 "c:\\program files (x86)\\cypress\\ez-usb fx3 sdk\\1.3\\arm gcc\\arm-none-eabi\\include\\s
+ 2126              		.file 3 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3typ
+ 2127              		.file 4 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyfx3_a
+ 2128              		.file 5 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/tx_port
+ 2129              		.file 6 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/tx_api.
+ 2130              		.file 7 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3dma
+ 2131              		.file 8 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3err
+ 2132              		.file 9 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3usb
+ 2133              		.file 10 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3us
+ 2134              		.file 11 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3ua
+ 2135              		.file 12 "../cyfxbulklpautoenum.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxbulklpautoenum.c
+                            *COM*:000000a8 BulkLpAppThread
+                            *COM*:000000ac glChHandleBulkLp
+                            *COM*:00000020 glEp0Buffer
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:23     .bss.glUsbDeviceStat:00000000 glUsbDeviceStat
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:24     .bss.glUsbDeviceStat:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:29     .bss.glUsbConfiguration:00000000 glUsbConfiguration
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:30     .bss.glUsbConfiguration:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:35     .bss.glUsbInterface:00000000 glUsbInterface
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:36     .bss.glUsbInterface:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:42     .bss.glSelBuffer:00000000 glSelBuffer
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:39     .bss.glSelBuffer:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:49     .bss.glIsApplnActive:00000000 glIsApplnActive
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:46     .bss.glIsApplnActive:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:56     .bss.glResetDevice:00000000 glResetDevice
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:53     .bss.glResetDevice:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:59     .text.CyFxAppErrorHandler:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:62     .text.CyFxAppErrorHandler:00000000 CyFxAppErrorHandler
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:89     .text.CyFxBulkLpApplnDebugInit:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:92     .text.CyFxBulkLpApplnDebugInit:00000000 CyFxBulkLpApplnDebugInit
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:197    .text.CyFxBulkLpApplnDebugInit:000000f8 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:202    .rodata:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:215    .text.CyFxBulkLpApplnStart:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:218    .text.CyFxBulkLpApplnStart:00000000 CyFxBulkLpApplnStart
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:430    .text.CyFxBulkLpApplnStart:00000224 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:443    .text.CyFxBulkLpApplnStop:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:446    .text.CyFxBulkLpApplnStop:00000000 CyFxBulkLpApplnStop
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:531    .text.CyFxBulkLpApplnStop:000000cc $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:538    .text.CyFxUsbHandleClearFeature:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:541    .text.CyFxUsbHandleClearFeature:00000000 CyFxUsbHandleClearFeature
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:754    .text.CyFxUsbHandleClearFeature:0000022c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:761    .text.CyFxUsbHandleSetFeature:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:764    .text.CyFxUsbHandleSetFeature:00000000 CyFxUsbHandleSetFeature
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:952    .text.CyFxUsbHandleSetFeature:000001e8 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:958    .text.CyFxUsbSendDescriptor:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:961    .text.CyFxUsbSendDescriptor:00000000 CyFxUsbSendDescriptor
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1005   .text.CyFxUsbSendDescriptor:00000068 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1022   .text.CyFxUsbSendDescriptor:000000a4 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1238   .text.CyFxUsbSendDescriptor:000002f0 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1252   .text.CyFxBulkLpApplnUSBSetupCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1255   .text.CyFxBulkLpApplnUSBSetupCB:00000000 CyFxBulkLpApplnUSBSetupCB
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1337   .text.CyFxBulkLpApplnUSBSetupCB:000000c8 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1389   .text.CyFxBulkLpApplnUSBSetupCB:00000190 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1678   .text.CyFxBulkLpApplnUSBSetupCB:000004a8 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1689   .text.CyFxBulkLpApplnUSBEventCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1692   .text.CyFxBulkLpApplnUSBEventCB:00000000 CyFxBulkLpApplnUSBEventCB
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1736   .text.CyFxBulkLpApplnUSBEventCB:00000050 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1741   .text.CyFxBulkLpApplnLPMRqtCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1744   .text.CyFxBulkLpApplnLPMRqtCB:00000000 CyFxBulkLpApplnLPMRqtCB
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1780   .text.CyFxBulkLpApplnInit:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1783   .text.CyFxBulkLpApplnInit:00000000 CyFxBulkLpApplnInit
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1865   .text.CyFxBulkLpApplnInit:000000c4 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1875   .text.BulkLpAppThread_Entry:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1878   .text.BulkLpAppThread_Entry:00000000 BulkLpAppThread_Entry
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1933   .text.BulkLpAppThread_Entry:00000068 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1942   .text.CyFxApplicationDefine:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:1945   .text.CyFxApplicationDefine:00000000 CyFxApplicationDefine
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:2006   .text.CyFxApplicationDefine:00000090 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:2013   .text.main:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\cc6wwpT3.s:2016   .text.main:00000000 main
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_tx_thread_sleep
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PDebugPreamble
+CyU3PUsbGetSpeed
+CyU3PDebugPrint
+CyU3PSetEpConfig
+CyU3PDmaChannelCreate
+CyU3PUsbFlushEp
+CyU3PDmaChannelSetXfer
+CyU3PDmaChannelDestroy
+CyU3PUsbAckSetup
+CyU3PUsbStall
+CyU3PDmaChannelReset
+CyU3PUsbResetEp
+CyU3PUsbSendEP0Data
+CyFxUSB30DeviceDscr
+CyFxUSB20DeviceDscr
+CyFxUSBBOSDscr
+CyFxUSBDeviceQualDscr
+CyFxUSBSSConfigDscr
+CyFxUSBHSConfigDscr
+CyFxUSBFSConfigDscr
+CyFxUSBStringLangIDDscr
+CyFxUSBManufactureDscr
+CyFxUSBProductDscr
+CyU3PUsbGetEpCfg
+CyU3PUsbGetEP0Data
+CyU3PUsbStart
+CyU3PDmaBufferAlloc
+CyU3PUsbRegisterSetupCallback
+CyU3PUsbRegisterEventCallback
+CyU3PUsbRegisterLPMRequestCallback
+CyU3PConnectState
+CyU3PDeviceReset
+CyU3PMemAlloc
+_txe_thread_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter

@@ -1,1 +1,7 @@
 # FPGAandUSB3.0
+
+
+
+
+
+FPGA+USB3.0 (FX3 CYUSB3014)通信

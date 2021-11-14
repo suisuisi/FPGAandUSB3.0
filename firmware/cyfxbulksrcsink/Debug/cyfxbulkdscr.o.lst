@@ -1,0 +1,342 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"cyfxbulkdscr.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.global	CyFxUSB30DeviceDscr
+  17              		.section	.rodata.CyFxUSB30DeviceDscr,"a",%progbits
+  18              		.align	5
+  21              	CyFxUSB30DeviceDscr:
+  22 0000 12       		.byte	18
+  23 0001 01       		.byte	1
+  24 0002 00       		.byte	0
+  25 0003 03       		.byte	3
+  26 0004 00       		.byte	0
+  27 0005 00       		.byte	0
+  28 0006 00       		.byte	0
+  29 0007 09       		.byte	9
+  30 0008 B4       		.byte	-76
+  31 0009 04       		.byte	4
+  32 000a F1       		.byte	-15
+  33 000b 00       		.byte	0
+  34 000c 00       		.byte	0
+  35 000d 00       		.byte	0
+  36 000e 01       		.byte	1
+  37 000f 02       		.byte	2
+  38 0010 00       		.byte	0
+  39 0011 01       		.byte	1
+  40              		.global	CyFxUSB20DeviceDscr
+  41 0012 00000000 		.section	.rodata.CyFxUSB20DeviceDscr,"a",%progbits
+  41      00000000 
+  41      00000000 
+  41      0000
+  42              		.align	5
+  45              	CyFxUSB20DeviceDscr:
+  46 0000 12       		.byte	18
+  47 0001 01       		.byte	1
+  48 0002 10       		.byte	16
+  49 0003 02       		.byte	2
+  50 0004 00       		.byte	0
+  51 0005 00       		.byte	0
+  52 0006 00       		.byte	0
+  53 0007 40       		.byte	64
+  54 0008 B4       		.byte	-76
+  55 0009 04       		.byte	4
+  56 000a F1       		.byte	-15
+  57 000b 00       		.byte	0
+  58 000c 00       		.byte	0
+  59 000d 00       		.byte	0
+  60 000e 01       		.byte	1
+  61 000f 02       		.byte	2
+  62 0010 00       		.byte	0
+  63 0011 01       		.byte	1
+  64              		.global	CyFxUSBBOSDscr
+  65 0012 00000000 		.section	.rodata.CyFxUSBBOSDscr,"a",%progbits
+  65      00000000 
+  65      00000000 
+  65      0000
+  66              		.align	5
+  69              	CyFxUSBBOSDscr:
+  70 0000 05       		.byte	5
+  71 0001 0F       		.byte	15
+  72 0002 16       		.byte	22
+  73 0003 00       		.byte	0
+  74 0004 02       		.byte	2
+  75 0005 07       		.byte	7
+  76 0006 10       		.byte	16
+  77 0007 02       		.byte	2
+  78 0008 02       		.byte	2
+  79 0009 00       		.byte	0
+  80 000a 00       		.byte	0
+  81 000b 00       		.byte	0
+  82 000c 0A       		.byte	10
+  83 000d 10       		.byte	16
+  84 000e 03       		.byte	3
+  85 000f 00       		.byte	0
+  86 0010 0E       		.byte	14
+  87 0011 00       		.byte	0
+  88 0012 03       		.byte	3
+  89 0013 0A       		.byte	10
+  90 0014 FF       		.byte	-1
+  91 0015 07       		.byte	7
+  92              		.global	CyFxUSBDeviceQualDscr
+  93 0016 00000000 		.section	.rodata.CyFxUSBDeviceQualDscr,"a",%progbits
+  93      00000000 
+  93      0000
+  94              		.align	5
+  97              	CyFxUSBDeviceQualDscr:
+  98 0000 0A       		.byte	10
+  99 0001 06       		.byte	6
+ 100 0002 00       		.byte	0
+ 101 0003 02       		.byte	2
+ 102 0004 00       		.byte	0
+ 103 0005 00       		.byte	0
+ 104 0006 00       		.byte	0
+ 105 0007 40       		.byte	64
+ 106 0008 01       		.byte	1
+ 107 0009 00       		.byte	0
+ 108              		.global	CyFxUSBSSConfigDscr
+ 109 000a 00000000 		.section	.rodata.CyFxUSBSSConfigDscr,"a",%progbits
+ 109      00000000 
+ 109      00000000 
+ 109      00000000 
+ 109      00000000 
+ 110              		.align	5
+ 113              	CyFxUSBSSConfigDscr:
+ 114 0000 09       		.byte	9
+ 115 0001 02       		.byte	2
+ 116 0002 2C       		.byte	44
+ 117 0003 00       		.byte	0
+ 118 0004 01       		.byte	1
+ 119 0005 01       		.byte	1
+ 120 0006 00       		.byte	0
+ 121 0007 80       		.byte	-128
+ 122 0008 32       		.byte	50
+ 123 0009 09       		.byte	9
+ 124 000a 04       		.byte	4
+ 125 000b 00       		.byte	0
+ 126 000c 00       		.byte	0
+ 127 000d 02       		.byte	2
+ 128 000e FF       		.byte	-1
+ 129 000f 00       		.byte	0
+ 130 0010 00       		.byte	0
+ 131 0011 00       		.byte	0
+ 132 0012 07       		.byte	7
+ 133 0013 05       		.byte	5
+ 134 0014 01       		.byte	1
+ 135 0015 02       		.byte	2
+ 136 0016 00       		.byte	0
+ 137 0017 04       		.byte	4
+ 138 0018 00       		.byte	0
+ 139 0019 06       		.byte	6
+ 140 001a 30       		.byte	48
+ 141 001b 07       		.byte	7
+ 142 001c 00       		.byte	0
+ 143 001d 00       		.byte	0
+ 144 001e 00       		.byte	0
+ 145 001f 07       		.byte	7
+ 146 0020 05       		.byte	5
+ 147 0021 81       		.byte	-127
+ 148 0022 02       		.byte	2
+ 149 0023 00       		.byte	0
+ 150 0024 04       		.byte	4
+ 151 0025 00       		.byte	0
+ 152 0026 06       		.byte	6
+ 153 0027 30       		.byte	48
+ 154 0028 07       		.byte	7
+ 155 0029 00       		.byte	0
+ 156 002a 00       		.byte	0
+ 157 002b 00       		.byte	0
+ 158              		.global	CyFxUSBHSConfigDscr
+ 159 002c 00000000 		.section	.rodata.CyFxUSBHSConfigDscr,"a",%progbits
+ 159      00000000 
+ 159      00000000 
+ 159      00000000 
+ 159      00000000 
+ 160              		.align	5
+ 163              	CyFxUSBHSConfigDscr:
+ 164 0000 09       		.byte	9
+ 165 0001 02       		.byte	2
+ 166 0002 20       		.byte	32
+ 167 0003 00       		.byte	0
+ 168 0004 01       		.byte	1
+ 169 0005 01       		.byte	1
+ 170 0006 00       		.byte	0
+ 171 0007 80       		.byte	-128
+ 172 0008 32       		.byte	50
+ 173 0009 09       		.byte	9
+ 174 000a 04       		.byte	4
+ 175 000b 00       		.byte	0
+ 176 000c 00       		.byte	0
+ 177 000d 02       		.byte	2
+ 178 000e FF       		.byte	-1
+ 179 000f 00       		.byte	0
+ 180 0010 00       		.byte	0
+ 181 0011 00       		.byte	0
+ 182 0012 07       		.byte	7
+ 183 0013 05       		.byte	5
+ 184 0014 01       		.byte	1
+ 185 0015 02       		.byte	2
+ 186 0016 00       		.byte	0
+ 187 0017 02       		.byte	2
+ 188 0018 00       		.byte	0
+ 189 0019 07       		.byte	7
+ 190 001a 05       		.byte	5
+ 191 001b 81       		.byte	-127
+ 192 001c 02       		.byte	2
+ 193 001d 00       		.byte	0
+ 194 001e 02       		.byte	2
+ 195 001f 00       		.byte	0
+ 196              		.global	CyFxUSBFSConfigDscr
+ 197              		.section	.rodata.CyFxUSBFSConfigDscr,"a",%progbits
+ 198              		.align	5
+ 201              	CyFxUSBFSConfigDscr:
+ 202 0000 09       		.byte	9
+ 203 0001 02       		.byte	2
+ 204 0002 20       		.byte	32
+ 205 0003 00       		.byte	0
+ 206 0004 01       		.byte	1
+ 207 0005 01       		.byte	1
+ 208 0006 00       		.byte	0
+ 209 0007 80       		.byte	-128
+ 210 0008 32       		.byte	50
+ 211 0009 09       		.byte	9
+ 212 000a 04       		.byte	4
+ 213 000b 00       		.byte	0
+ 214 000c 00       		.byte	0
+ 215 000d 02       		.byte	2
+ 216 000e FF       		.byte	-1
+ 217 000f 00       		.byte	0
+ 218 0010 00       		.byte	0
+ 219 0011 00       		.byte	0
+ 220 0012 07       		.byte	7
+ 221 0013 05       		.byte	5
+ 222 0014 01       		.byte	1
+ 223 0015 02       		.byte	2
+ 224 0016 40       		.byte	64
+ 225 0017 00       		.byte	0
+ 226 0018 00       		.byte	0
+ 227 0019 07       		.byte	7
+ 228 001a 05       		.byte	5
+ 229 001b 81       		.byte	-127
+ 230 001c 02       		.byte	2
+ 231 001d 40       		.byte	64
+ 232 001e 00       		.byte	0
+ 233 001f 00       		.byte	0
+ 234              		.global	CyFxUSBStringLangIDDscr
+ 235              		.section	.rodata.CyFxUSBStringLangIDDscr,"a",%progbits
+ 236              		.align	5
+ 239              	CyFxUSBStringLangIDDscr:
+ 240 0000 04       		.byte	4
+ 241 0001 03       		.byte	3
+ 242 0002 09       		.byte	9
+ 243 0003 04       		.byte	4
+ 244              		.global	CyFxUSBManufactureDscr
+ 245 0004 00000000 		.section	.rodata.CyFxUSBManufactureDscr,"a",%progbits
+ 245      00000000 
+ 245      00000000 
+ 245      00000000 
+ 245      00000000 
+ 246              		.align	5
+ 249              	CyFxUSBManufactureDscr:
+ 250 0000 10       		.byte	16
+ 251 0001 03       		.byte	3
+ 252 0002 43       		.byte	67
+ 253 0003 00       		.byte	0
+ 254 0004 79       		.byte	121
+ 255 0005 00       		.byte	0
+ 256 0006 70       		.byte	112
+ 257 0007 00       		.byte	0
+ 258 0008 72       		.byte	114
+ 259 0009 00       		.byte	0
+ 260 000a 65       		.byte	101
+ 261 000b 00       		.byte	0
+ 262 000c 73       		.byte	115
+ 263 000d 00       		.byte	0
+ 264 000e 73       		.byte	115
+ 265 000f 00       		.byte	0
+ 266              		.global	CyFxUSBProductDscr
+ 267 0010 00000000 		.section	.rodata.CyFxUSBProductDscr,"a",%progbits
+ 267      00000000 
+ 267      00000000 
+ 267      00000000 
+ 268              		.align	5
+ 271              	CyFxUSBProductDscr:
+ 272 0000 08       		.byte	8
+ 273 0001 03       		.byte	3
+ 274 0002 46       		.byte	70
+ 275 0003 00       		.byte	0
+ 276 0004 58       		.byte	88
+ 277 0005 00       		.byte	0
+ 278 0006 33       		.byte	51
+ 279 0007 00       		.byte	0
+ 280              		.global	CyFxUsbOSDscr
+ 281 0008 00000000 		.section	.rodata.CyFxUsbOSDscr,"a",%progbits
+ 281      00000000 
+ 281      00000000 
+ 281      00000000 
+ 281      00000000 
+ 282              		.align	5
+ 285              	CyFxUsbOSDscr:
+ 286 0000 0E       		.byte	14
+ 287 0001 03       		.byte	3
+ 288 0002 4F       		.byte	79
+ 289 0003 00       		.byte	0
+ 290 0004 53       		.byte	83
+ 291 0005 00       		.byte	0
+ 292 0006 20       		.byte	32
+ 293 0007 00       		.byte	0
+ 294 0008 44       		.byte	68
+ 295 0009 00       		.byte	0
+ 296 000a 65       		.byte	101
+ 297 000b 00       		.byte	0
+ 298 000c 73       		.byte	115
+ 299 000d 00       		.byte	0
+ 300 000e 63       		.byte	99
+ 301 000f 00       		.byte	0
+ 302              		.comm	CyFxUsbDscrAlignBuffer,32,32
+ 303 0010 00000000 		.text
+ 303      00000000 
+ 303      00000000 
+ 303      00000000 
+ 304              	.Letext0:
+ 305              		.file 1 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3usb
+ 306              		.file 2 "../cyfxbulkdscr.c"
+ 307              		.file 3 "c:\\program files (x86)\\cypress\\ez-usb fx3 sdk\\1.3\\arm gcc\\arm-none-eabi\\include\\s
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxbulkdscr.c
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:21     .rodata.CyFxUSB30DeviceDscr:00000000 CyFxUSB30DeviceDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:18     .rodata.CyFxUSB30DeviceDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:45     .rodata.CyFxUSB20DeviceDscr:00000000 CyFxUSB20DeviceDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:42     .rodata.CyFxUSB20DeviceDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:69     .rodata.CyFxUSBBOSDscr:00000000 CyFxUSBBOSDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:66     .rodata.CyFxUSBBOSDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:97     .rodata.CyFxUSBDeviceQualDscr:00000000 CyFxUSBDeviceQualDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:94     .rodata.CyFxUSBDeviceQualDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:113    .rodata.CyFxUSBSSConfigDscr:00000000 CyFxUSBSSConfigDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:110    .rodata.CyFxUSBSSConfigDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:163    .rodata.CyFxUSBHSConfigDscr:00000000 CyFxUSBHSConfigDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:160    .rodata.CyFxUSBHSConfigDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:201    .rodata.CyFxUSBFSConfigDscr:00000000 CyFxUSBFSConfigDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:198    .rodata.CyFxUSBFSConfigDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:239    .rodata.CyFxUSBStringLangIDDscr:00000000 CyFxUSBStringLangIDDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:236    .rodata.CyFxUSBStringLangIDDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:249    .rodata.CyFxUSBManufactureDscr:00000000 CyFxUSBManufactureDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:246    .rodata.CyFxUSBManufactureDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:271    .rodata.CyFxUSBProductDscr:00000000 CyFxUSBProductDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:268    .rodata.CyFxUSBProductDscr:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:285    .rodata.CyFxUsbOSDscr:00000000 CyFxUsbOSDscr
+C:\Users\ADMINI~1\AppData\Local\Temp\ccCb5EIj.s:282    .rodata.CyFxUsbOSDscr:00000000 $d
+                            *COM*:00000020 CyFxUsbDscrAlignBuffer
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,4120 @@
+   1              		.cpu arm926ej-s
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"cyfxbulksrcsink.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.comm	bulkSrcSinkAppThread,168,4
+  17              		.comm	glChHandleBulkSink,172,4
+  18              		.comm	glChHandleBulkSrc,172,4
+  19              		.global	glIsApplnActive
+  20              		.section	.bss.glIsApplnActive,"aw",%nobits
+  21              		.align	2
+  24              	glIsApplnActive:
+  25 0000 00000000 		.space	4
+  26              		.global	glDMARxCount
+  27              		.section	.bss.glDMARxCount,"aw",%nobits
+  28              		.align	2
+  31              	glDMARxCount:
+  32 0000 00000000 		.space	4
+  33              		.global	glDMATxCount
+  34              		.section	.bss.glDMATxCount,"aw",%nobits
+  35              		.align	2
+  38              	glDMATxCount:
+  39 0000 00000000 		.space	4
+  40              		.global	glDataTransStarted
+  41              		.section	.bss.glDataTransStarted,"aw",%nobits
+  42              		.align	2
+  45              	glDataTransStarted:
+  46 0000 00000000 		.space	4
+  47              		.global	StandbyModeEnable
+  48              		.section	.bss.StandbyModeEnable,"aw",%nobits
+  49              		.align	2
+  52              	StandbyModeEnable:
+  53 0000 00000000 		.space	4
+  54              		.global	TriggerStandbyMode
+  55              		.section	.bss.TriggerStandbyMode,"aw",%nobits
+  56              		.align	2
+  59              	TriggerStandbyMode:
+  60 0000 00000000 		.space	4
+  61              		.global	glForceLinkU2
+  62              		.section	.bss.glForceLinkU2,"aw",%nobits
+  63              		.align	2
+  66              	glForceLinkU2:
+  67 0000 00000000 		.space	4
+  68              		.global	glEp0StatCount
+  69              		.section	.bss.glEp0StatCount,"aw",%nobits
+  70              		.align	2
+  73              	glEp0StatCount:
+  74 0000 00000000 		.space	4
+  75              		.comm	glEp0Buffer,32,32
+  76              		.comm	glBulkLpEvent,40,4
+  77              		.comm	gl_setupdat0,4,4
+  78              		.comm	gl_setupdat1,4,4
+  79              		.global	gl_UsbLogBuffer
+  80              		.section	.bss.gl_UsbLogBuffer,"aw",%nobits
+  81              		.align	2
+  84              	gl_UsbLogBuffer:
+  85 0000 00000000 		.space	4
+  86              		.section	.text.CyFxAppErrorHandler,"ax",%progbits
+  87              		.align	2
+  88              		.global	CyFxAppErrorHandler
+  90              	CyFxAppErrorHandler:
+  91              	.LFB0:
+  92              		.file 1 "../cyfxbulksrcsink.c"
+   1:../cyfxbulksrcsink.c **** /*
+   2:../cyfxbulksrcsink.c ****  ## Cypress USB 3.0 Platform source file (cyfxbulksrcsink.c)
+   3:../cyfxbulksrcsink.c ****  ## ===========================
+   4:../cyfxbulksrcsink.c ****  ##
+   5:../cyfxbulksrcsink.c ****  ##  Copyright Cypress Semiconductor Corporation, 2010-2011,
+   6:../cyfxbulksrcsink.c ****  ##  All Rights Reserved
+   7:../cyfxbulksrcsink.c ****  ##  UNPUBLISHED, LICENSED SOFTWARE.
+   8:../cyfxbulksrcsink.c ****  ##
+   9:../cyfxbulksrcsink.c ****  ##  CONFIDENTIAL AND PROPRIETARY INFORMATION
+  10:../cyfxbulksrcsink.c ****  ##  WHICH IS THE PROPERTY OF CYPRESS.
+  11:../cyfxbulksrcsink.c ****  ##
+  12:../cyfxbulksrcsink.c ****  ##  Use of this file is governed
+  13:../cyfxbulksrcsink.c ****  ##  by the license agreement included in the file
+  14:../cyfxbulksrcsink.c ****  ##
+  15:../cyfxbulksrcsink.c ****  ##     <install>/license/license.txt
+  16:../cyfxbulksrcsink.c ****  ##
+  17:../cyfxbulksrcsink.c ****  ##  where <install> is the Cypress software
+  18:../cyfxbulksrcsink.c ****  ##  installation root directory path.
+  19:../cyfxbulksrcsink.c ****  ##
+  20:../cyfxbulksrcsink.c ****  ## ===========================
+  21:../cyfxbulksrcsink.c **** */
+  22:../cyfxbulksrcsink.c **** 
+  23:../cyfxbulksrcsink.c **** /* This file illustrates the bulk source sink application example using the DMA MANUAL_IN
+  24:../cyfxbulksrcsink.c ****    and DMA MANUAL_OUT mode */
+  25:../cyfxbulksrcsink.c **** 
+  26:../cyfxbulksrcsink.c **** /*
+  27:../cyfxbulksrcsink.c ****    This example illustrates USB endpoint data source and data sink mechanism. The example
+  28:../cyfxbulksrcsink.c ****    comprises of vendor class USB enumeration descriptors with 2 bulk endpoints. A bulk OUT
+  29:../cyfxbulksrcsink.c ****    endpoint acts as the producer of data and acts as the sink to the host. A bulk IN endpoint
+  30:../cyfxbulksrcsink.c ****    acts as the consumer of data and acts as the source to the host.
+  31:../cyfxbulksrcsink.c **** 
+  32:../cyfxbulksrcsink.c ****    The data source and sink is achieved with the help of a DMA MANUAL IN channel and a DMA
+  33:../cyfxbulksrcsink.c ****    MANUAL OUT channel. A DMA MANUAL IN channel is created between the producer USB bulk
+  34:../cyfxbulksrcsink.c ****    endpoint and the CPU. A DMA MANUAL OUT channel is created between the CPU and the consumer
+  35:../cyfxbulksrcsink.c ****    USB bulk endpoint. Data is received in the IN channel DMA buffer from the host through the
+  36:../cyfxbulksrcsink.c ****    producer endpoint. CPU is signalled of the data reception using DMA callbacks. The CPU
+  37:../cyfxbulksrcsink.c ****    discards this buffer. This leads to the sink mechanism. A constant patern data is loaded
+  38:../cyfxbulksrcsink.c ****    onto the OUT Channel DMA buffer whenever the buffer is available. CPU issues commit of
+  39:../cyfxbulksrcsink.c ****    the DMA data transfer to the consumer endpoint which then gets transferred to the host.
+  40:../cyfxbulksrcsink.c ****    This leads to a constant source mechanism.
+  41:../cyfxbulksrcsink.c **** 
+  42:../cyfxbulksrcsink.c ****    The DMA buffer size is defined based on the USB speed. 64 for full speed, 512 for high speed
+  43:../cyfxbulksrcsink.c ****    and 1024 for super speed. CY_FX_BULKSRCSINK_DMA_BUF_COUNT in the header file defines the
+  44:../cyfxbulksrcsink.c ****    number of DMA buffers.
+  45:../cyfxbulksrcsink.c ****    
+  46:../cyfxbulksrcsink.c ****    For performance optimizations refer the readme.txt
+  47:../cyfxbulksrcsink.c ****  */
+  48:../cyfxbulksrcsink.c **** 
+  49:../cyfxbulksrcsink.c **** #include "cyu3system.h"
+  50:../cyfxbulksrcsink.c **** #include "cyu3os.h"
+  51:../cyfxbulksrcsink.c **** #include "cyu3dma.h"
+  52:../cyfxbulksrcsink.c **** #include "cyu3error.h"
+  53:../cyfxbulksrcsink.c **** #include "cyfxbulksrcsink.h"
+  54:../cyfxbulksrcsink.c **** #include "cyu3usb.h"
+  55:../cyfxbulksrcsink.c **** #include "cyu3uart.h"
+  56:../cyfxbulksrcsink.c **** #include "cyu3gpio.h"
+  57:../cyfxbulksrcsink.c **** #include "cyu3utils.h"
+  58:../cyfxbulksrcsink.c **** 
+  59:../cyfxbulksrcsink.c **** CyU3PThread     bulkSrcSinkAppThread;	 /* Application thread structure */
+  60:../cyfxbulksrcsink.c **** CyU3PDmaChannel glChHandleBulkSink;      /* DMA MANUAL_IN channel handle.          */
+  61:../cyfxbulksrcsink.c **** CyU3PDmaChannel glChHandleBulkSrc;       /* DMA MANUAL_OUT channel handle.         */
+  62:../cyfxbulksrcsink.c **** 
+  63:../cyfxbulksrcsink.c **** CyBool_t glIsApplnActive = CyFalse;      /* Whether the source sink application is active or not. *
+  64:../cyfxbulksrcsink.c **** uint32_t glDMARxCount = 0;               /* Counter to track the number of buffers received. */
+  65:../cyfxbulksrcsink.c **** uint32_t glDMATxCount = 0;               /* Counter to track the number of buffers transmitted. */
+  66:../cyfxbulksrcsink.c **** CyBool_t glDataTransStarted = CyFalse;   /* Whether DMA transfer has been started after enumeration
+  67:../cyfxbulksrcsink.c **** CyBool_t StandbyModeEnable  = CyFalse;   /* Whether standby mode entry is enabled. */
+  68:../cyfxbulksrcsink.c **** CyBool_t TriggerStandbyMode = CyFalse;   /* Request to initiate standby entry. */
+  69:../cyfxbulksrcsink.c **** CyBool_t glForceLinkU2      = CyFalse;   /* Whether the device should try to initiate U2 mode. */
+  70:../cyfxbulksrcsink.c **** 
+  71:../cyfxbulksrcsink.c **** volatile uint32_t glEp0StatCount = 0;           /* Number of EP0 status events received. */
+  72:../cyfxbulksrcsink.c **** uint8_t glEp0Buffer[32] __attribute__ ((aligned (32))); /* Local buffer used for vendor command han
+  73:../cyfxbulksrcsink.c **** 
+  74:../cyfxbulksrcsink.c **** /* Control request related variables. */
+  75:../cyfxbulksrcsink.c **** CyU3PEvent glBulkLpEvent;       /* Event group used to signal the thread that there is a pending re
+  76:../cyfxbulksrcsink.c **** uint32_t   gl_setupdat0;        /* Variable that holds the setupdat0 value (bmRequestType, bRequest
+  77:../cyfxbulksrcsink.c **** uint32_t   gl_setupdat1;        /* Variable that holds the setupdat1 value (wIndex and wLength). */
+  78:../cyfxbulksrcsink.c **** #define CYFX_USB_CTRL_TASK      (1 << 0)        /* Event that indicates that there is a pending USB
+  79:../cyfxbulksrcsink.c **** #define CYFX_USB_HOSTWAKE_TASK  (1 << 1)        /* Event that indicates the a Remote Wake should be
+  80:../cyfxbulksrcsink.c **** 
+  81:../cyfxbulksrcsink.c **** /* Buffer used for USB event logs. */
+  82:../cyfxbulksrcsink.c **** uint8_t *gl_UsbLogBuffer = NULL;
+  83:../cyfxbulksrcsink.c **** #define CYFX_USBLOG_SIZE        (0x1000)
+  84:../cyfxbulksrcsink.c **** 
+  85:../cyfxbulksrcsink.c **** /* GPIO used for testing IO state retention when switching from boot firmware to full firmware. */
+  86:../cyfxbulksrcsink.c **** #define FX3_GPIO_TEST_OUT               (50)
+  87:../cyfxbulksrcsink.c **** #define FX3_GPIO_TO_LOFLAG(gpio)        (1 << (gpio))
+  88:../cyfxbulksrcsink.c **** #define FX3_GPIO_TO_HIFLAG(gpio)        (1 << ((gpio) - 32))
+  89:../cyfxbulksrcsink.c **** 
+  90:../cyfxbulksrcsink.c **** 
+  91:../cyfxbulksrcsink.c **** /* Application Error Handler */
+  92:../cyfxbulksrcsink.c **** void
+  93:../cyfxbulksrcsink.c **** CyFxAppErrorHandler (
+  94:../cyfxbulksrcsink.c ****         CyU3PReturnStatus_t apiRetStatus    /* API return status */
+  95:../cyfxbulksrcsink.c ****         )
+  96:../cyfxbulksrcsink.c **** {
+  93              		.loc 1 96 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 8
+  96              		@ frame_needed = 1, uses_anonymous_args = 0
+  97 0000 00482DE9 		stmfd	sp!, {fp, lr}
+  98              	.LCFI0:
+  99              		.cfi_def_cfa_offset 8
+ 100              		.cfi_offset 11, -8
+ 101              		.cfi_offset 14, -4
+ 102 0004 04B08DE2 		add	fp, sp, #4
+ 103              	.LCFI1:
+ 104              		.cfi_def_cfa 11, 4
+ 105 0008 08D04DE2 		sub	sp, sp, #8
+ 106 000c 08000BE5 		str	r0, [fp, #-8]
+ 107              	.L2:
+  97:../cyfxbulksrcsink.c ****     /* Application failed with the error code apiRetStatus */
+  98:../cyfxbulksrcsink.c **** 
+  99:../cyfxbulksrcsink.c ****     /* Add custom debug or recovery actions here */
+ 100:../cyfxbulksrcsink.c **** 
+ 101:../cyfxbulksrcsink.c ****     /* Loop Indefinitely */
+ 102:../cyfxbulksrcsink.c ****     for (;;)
+ 103:../cyfxbulksrcsink.c ****     {
+ 104:../cyfxbulksrcsink.c ****         /* Thread sleep : 100 ms */
+ 105:../cyfxbulksrcsink.c ****         CyU3PThreadSleep (100);
+ 108              		.loc 1 105 0 discriminator 1
+ 109 0010 6400A0E3 		mov	r0, #100
+ 110 0014 FEFFFFEB 		bl	_tx_thread_sleep
+ 106:../cyfxbulksrcsink.c ****     }
+ 111              		.loc 1 106 0 discriminator 1
+ 112 0018 FCFFFFEA 		b	.L2
+ 113              		.cfi_endproc
+ 114              	.LFE0:
+ 116              		.section	.rodata
+ 117              		.align	2
+ 118              	.LC0:
+ 119 0000 01000000 		.word	1
+ 120 0004 01000000 		.word	1
+ 121 0008 01000000 		.word	1
+ 122 000c 00000000 		.word	0
+ 123 0010 00       		.byte	0
+ 124 0011 000000   		.space	3
+ 125              		.section	.text.CyFxBulkSrcSinkApplnDebugInit,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	CyFxBulkSrcSinkApplnDebugInit
+ 129              	CyFxBulkSrcSinkApplnDebugInit:
+ 130              	.LFB1:
+ 107:../cyfxbulksrcsink.c **** }
+ 108:../cyfxbulksrcsink.c **** 
+ 109:../cyfxbulksrcsink.c **** /* This function initializes the debug module. The debug prints
+ 110:../cyfxbulksrcsink.c ****  * are routed to the UART and can be seen using a UART console
+ 111:../cyfxbulksrcsink.c ****  * running at 115200 baud rate. */
+ 112:../cyfxbulksrcsink.c **** void
+ 113:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnDebugInit (void)
+ 114:../cyfxbulksrcsink.c **** {
+ 131              		.loc 1 114 0
+ 132              		.cfi_startproc
+ 133              		@ args = 0, pretend = 0, frame = 64
+ 134              		@ frame_needed = 1, uses_anonymous_args = 0
+ 135 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 136              	.LCFI2:
+ 137              		.cfi_def_cfa_offset 8
+ 138              		.cfi_offset 11, -8
+ 139              		.cfi_offset 14, -4
+ 140 0004 04B08DE2 		add	fp, sp, #4
+ 141              	.LCFI3:
+ 142              		.cfi_def_cfa 11, 4
+ 143 0008 40D04DE2 		sub	sp, sp, #64
+ 115:../cyfxbulksrcsink.c ****     CyU3PGpioClock_t  gpioClock;
+ 116:../cyfxbulksrcsink.c ****     CyU3PUartConfig_t uartConfig;
+ 117:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 144              		.loc 1 117 0
+ 145 000c 0030A0E3 		mov	r3, #0
+ 146 0010 08300BE5 		str	r3, [fp, #-8]
+ 118:../cyfxbulksrcsink.c **** 
+ 119:../cyfxbulksrcsink.c ****     /* Initialize the GPIO block. If we are transitioning from the boot app, we can verify whether 
+ 120:../cyfxbulksrcsink.c ****        state is retained. */
+ 121:../cyfxbulksrcsink.c ****     gpioClock.fastClkDiv = 2;
+ 147              		.loc 1 121 0
+ 148 0014 0230A0E3 		mov	r3, #2
+ 149 0018 14304BE5 		strb	r3, [fp, #-20]
+ 122:../cyfxbulksrcsink.c ****     gpioClock.slowClkDiv = 32;
+ 150              		.loc 1 122 0
+ 151 001c 2030A0E3 		mov	r3, #32
+ 152 0020 13304BE5 		strb	r3, [fp, #-19]
+ 123:../cyfxbulksrcsink.c ****     gpioClock.simpleDiv  = CY_U3P_GPIO_SIMPLE_DIV_BY_16;
+ 153              		.loc 1 123 0
+ 154 0024 0230A0E3 		mov	r3, #2
+ 155 0028 0C304BE5 		strb	r3, [fp, #-12]
+ 124:../cyfxbulksrcsink.c ****     gpioClock.clkSrc     = CY_U3P_SYS_CLK_BY_2;
+ 156              		.loc 1 124 0
+ 157 002c 0230A0E3 		mov	r3, #2
+ 158 0030 0B304BE5 		strb	r3, [fp, #-11]
+ 125:../cyfxbulksrcsink.c ****     gpioClock.halfDiv    = 0;
+ 159              		.loc 1 125 0
+ 160 0034 0030A0E3 		mov	r3, #0
+ 161 0038 10300BE5 		str	r3, [fp, #-16]
+ 126:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PGpioInit (&gpioClock, NULL);
+ 162              		.loc 1 126 0
+ 163 003c 14304BE2 		sub	r3, fp, #20
+ 164 0040 0300A0E1 		mov	r0, r3
+ 165 0044 0010A0E3 		mov	r1, #0
+ 166 0048 FEFFFFEB 		bl	CyU3PGpioInit
+ 167 004c 08000BE5 		str	r0, [fp, #-8]
+ 127:../cyfxbulksrcsink.c **** 
+ 128:../cyfxbulksrcsink.c ****     /* When FX3 is restarting from standby mode, the GPIO block would already be ON and need not be
+ 129:../cyfxbulksrcsink.c ****        again. */
+ 130:../cyfxbulksrcsink.c ****     if ((apiRetStatus != 0) && (apiRetStatus != CY_U3P_ERROR_ALREADY_STARTED))
+ 168              		.loc 1 130 0
+ 169 0050 08301BE5 		ldr	r3, [fp, #-8]
+ 170 0054 000053E3 		cmp	r3, #0
+ 171 0058 0500000A 		beq	.L4
+ 172              		.loc 1 130 0 is_stmt 0 discriminator 1
+ 173 005c 08301BE5 		ldr	r3, [fp, #-8]
+ 174 0060 430053E3 		cmp	r3, #67
+ 175 0064 0200000A 		beq	.L4
+ 131:../cyfxbulksrcsink.c ****     {
+ 132:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 176              		.loc 1 132 0 is_stmt 1
+ 177 0068 08001BE5 		ldr	r0, [fp, #-8]
+ 178 006c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 179 0070 100000EA 		b	.L5
+ 180              	.L4:
+ 181              	.LBB2:
+ 133:../cyfxbulksrcsink.c ****     }
+ 134:../cyfxbulksrcsink.c ****     else
+ 135:../cyfxbulksrcsink.c ****     {
+ 136:../cyfxbulksrcsink.c ****         /* Set the test GPIO as an output and update the value to 1. */
+ 137:../cyfxbulksrcsink.c ****         CyU3PGpioSimpleConfig_t testConf = {CyTrue, CyTrue, CyTrue, CyFalse, CY_U3P_GPIO_NO_INTR};
+ 182              		.loc 1 137 0
+ 183 0074 20319FE5 		ldr	r3, .L11
+ 184 0078 40C04BE2 		sub	ip, fp, #64
+ 185 007c 03E0A0E1 		mov	lr, r3
+ 186 0080 0F00BEE8 		ldmia	lr!, {r0, r1, r2, r3}
+ 187 0084 0F00ACE8 		stmia	ip!, {r0, r1, r2, r3}
+ 188 0088 00309EE5 		ldr	r3, [lr]
+ 189 008c 00308CE5 		str	r3, [ip]
+ 138:../cyfxbulksrcsink.c **** 
+ 139:../cyfxbulksrcsink.c ****         apiRetStatus = CyU3PGpioSetSimpleConfig (FX3_GPIO_TEST_OUT, &testConf);
+ 190              		.loc 1 139 0
+ 191 0090 40304BE2 		sub	r3, fp, #64
+ 192 0094 3200A0E3 		mov	r0, #50
+ 193 0098 0310A0E1 		mov	r1, r3
+ 194 009c FEFFFFEB 		bl	CyU3PGpioSetSimpleConfig
+ 195 00a0 08000BE5 		str	r0, [fp, #-8]
+ 140:../cyfxbulksrcsink.c ****         if (apiRetStatus != 0)
+ 196              		.loc 1 140 0
+ 197 00a4 08301BE5 		ldr	r3, [fp, #-8]
+ 198 00a8 000053E3 		cmp	r3, #0
+ 199 00ac 0100000A 		beq	.L5
+ 141:../cyfxbulksrcsink.c ****             CyFxAppErrorHandler (apiRetStatus);
+ 200              		.loc 1 141 0
+ 201 00b0 08001BE5 		ldr	r0, [fp, #-8]
+ 202 00b4 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 203              	.L5:
+ 204              	.LBE2:
+ 142:../cyfxbulksrcsink.c ****     }
+ 143:../cyfxbulksrcsink.c **** 
+ 144:../cyfxbulksrcsink.c ****     /* Initialize the UART for printing debug messages */
+ 145:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUartInit();
+ 205              		.loc 1 145 0
+ 206 00b8 FEFFFFEB 		bl	CyU3PUartInit
+ 207 00bc 08000BE5 		str	r0, [fp, #-8]
+ 146:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 208              		.loc 1 146 0
+ 209 00c0 08301BE5 		ldr	r3, [fp, #-8]
+ 210 00c4 000053E3 		cmp	r3, #0
+ 211 00c8 0100000A 		beq	.L7
+ 147:../cyfxbulksrcsink.c ****     {
+ 148:../cyfxbulksrcsink.c ****         /* Error handling */
+ 149:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 212              		.loc 1 149 0
+ 213 00cc 08001BE5 		ldr	r0, [fp, #-8]
+ 214 00d0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 215              	.L7:
+ 150:../cyfxbulksrcsink.c ****     }
+ 151:../cyfxbulksrcsink.c **** 
+ 152:../cyfxbulksrcsink.c ****     /* Set UART configuration */
+ 153:../cyfxbulksrcsink.c ****     CyU3PMemSet ((uint8_t *)&uartConfig, 0, sizeof (uartConfig));
+ 216              		.loc 1 153 0
+ 217 00d4 2C304BE2 		sub	r3, fp, #44
+ 218 00d8 0300A0E1 		mov	r0, r3
+ 219 00dc 0010A0E3 		mov	r1, #0
+ 220 00e0 1820A0E3 		mov	r2, #24
+ 221 00e4 FEFFFFEB 		bl	CyU3PMemSet
+ 154:../cyfxbulksrcsink.c ****     uartConfig.baudRate = CY_U3P_UART_BAUDRATE_115200;
+ 222              		.loc 1 154 0
+ 223 00e8 B0309FE5 		ldr	r3, .L11+4
+ 224 00ec 1C300BE5 		str	r3, [fp, #-28]
+ 155:../cyfxbulksrcsink.c ****     uartConfig.stopBit = CY_U3P_UART_ONE_STOP_BIT;
+ 225              		.loc 1 155 0
+ 226 00f0 0130A0E3 		mov	r3, #1
+ 227 00f4 18304BE5 		strb	r3, [fp, #-24]
+ 156:../cyfxbulksrcsink.c ****     uartConfig.parity = CY_U3P_UART_NO_PARITY;
+ 228              		.loc 1 156 0
+ 229 00f8 0030A0E3 		mov	r3, #0
+ 230 00fc 17304BE5 		strb	r3, [fp, #-23]
+ 157:../cyfxbulksrcsink.c ****     uartConfig.txEnable = CyTrue;
+ 231              		.loc 1 157 0
+ 232 0100 0130A0E3 		mov	r3, #1
+ 233 0104 2C300BE5 		str	r3, [fp, #-44]
+ 158:../cyfxbulksrcsink.c ****     uartConfig.rxEnable = CyFalse;
+ 234              		.loc 1 158 0
+ 235 0108 0030A0E3 		mov	r3, #0
+ 236 010c 28300BE5 		str	r3, [fp, #-40]
+ 159:../cyfxbulksrcsink.c ****     uartConfig.flowCtrl = CyFalse;
+ 237              		.loc 1 159 0
+ 238 0110 0030A0E3 		mov	r3, #0
+ 239 0114 24300BE5 		str	r3, [fp, #-36]
+ 160:../cyfxbulksrcsink.c ****     uartConfig.isDma = CyTrue;
+ 240              		.loc 1 160 0
+ 241 0118 0130A0E3 		mov	r3, #1
+ 242 011c 20300BE5 		str	r3, [fp, #-32]
+ 161:../cyfxbulksrcsink.c **** 
+ 162:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUartSetConfig (&uartConfig, NULL);
+ 243              		.loc 1 162 0
+ 244 0120 2C304BE2 		sub	r3, fp, #44
+ 245 0124 0300A0E1 		mov	r0, r3
+ 246 0128 0010A0E3 		mov	r1, #0
+ 247 012c FEFFFFEB 		bl	CyU3PUartSetConfig
+ 248 0130 08000BE5 		str	r0, [fp, #-8]
+ 163:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 249              		.loc 1 163 0
+ 250 0134 08301BE5 		ldr	r3, [fp, #-8]
+ 251 0138 000053E3 		cmp	r3, #0
+ 252 013c 0100000A 		beq	.L8
+ 164:../cyfxbulksrcsink.c ****     {
+ 165:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 253              		.loc 1 165 0
+ 254 0140 08001BE5 		ldr	r0, [fp, #-8]
+ 255 0144 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 256              	.L8:
+ 166:../cyfxbulksrcsink.c ****     }
+ 167:../cyfxbulksrcsink.c **** 
+ 168:../cyfxbulksrcsink.c ****     /* Set the UART transfer to a really large value. */
+ 169:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUartTxSetBlockXfer (0xFFFFFFFF);
+ 257              		.loc 1 169 0
+ 258 0148 0000E0E3 		mvn	r0, #0
+ 259 014c FEFFFFEB 		bl	CyU3PUartTxSetBlockXfer
+ 260 0150 08000BE5 		str	r0, [fp, #-8]
+ 170:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 261              		.loc 1 170 0
+ 262 0154 08301BE5 		ldr	r3, [fp, #-8]
+ 263 0158 000053E3 		cmp	r3, #0
+ 264 015c 0100000A 		beq	.L9
+ 171:../cyfxbulksrcsink.c ****     {
+ 172:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 265              		.loc 1 172 0
+ 266 0160 08001BE5 		ldr	r0, [fp, #-8]
+ 267 0164 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 268              	.L9:
+ 173:../cyfxbulksrcsink.c ****     }
+ 174:../cyfxbulksrcsink.c **** 
+ 175:../cyfxbulksrcsink.c ****     /* Initialize the debug module. */
+ 176:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PDebugInit (CY_U3P_LPP_SOCKET_UART_CONS, 8);
+ 269              		.loc 1 176 0
+ 270 0168 0300A0E3 		mov	r0, #3
+ 271 016c 0810A0E3 		mov	r1, #8
+ 272 0170 FEFFFFEB 		bl	CyU3PDebugInit
+ 273 0174 08000BE5 		str	r0, [fp, #-8]
+ 177:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 274              		.loc 1 177 0
+ 275 0178 08301BE5 		ldr	r3, [fp, #-8]
+ 276 017c 000053E3 		cmp	r3, #0
+ 277 0180 0100000A 		beq	.L10
+ 178:../cyfxbulksrcsink.c ****     {
+ 179:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 278              		.loc 1 179 0
+ 279 0184 08001BE5 		ldr	r0, [fp, #-8]
+ 280 0188 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 281              	.L10:
+ 180:../cyfxbulksrcsink.c ****     }
+ 181:../cyfxbulksrcsink.c **** 
+ 182:../cyfxbulksrcsink.c ****     CyU3PDebugPreamble(CyFalse);
+ 282              		.loc 1 182 0
+ 283 018c 0000A0E3 		mov	r0, #0
+ 284 0190 FEFFFFEB 		bl	CyU3PDebugPreamble
+ 183:../cyfxbulksrcsink.c **** }
+ 285              		.loc 1 183 0
+ 286 0194 04D04BE2 		sub	sp, fp, #4
+ 287              		@ sp needed
+ 288 0198 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 289              	.L12:
+ 290              		.align	2
+ 291              	.L11:
+ 292 019c 00000000 		.word	.LC0
+ 293 01a0 00C20100 		.word	115200
+ 294              		.cfi_endproc
+ 295              	.LFE1:
+ 297              		.section	.rodata
+ 298              		.align	2
+ 299              	.LC1:
+ 300 0014 43795533 		.ascii	"CyU3PDmaChannelDiscardBuffer failed, Error code = %"
+ 300      50446D61 
+ 300      4368616E 
+ 300      6E656C44 
+ 300      69736361 
+ 301 0047 640A00   		.ascii	"d\012\000"
+ 302 004a 0000     		.align	2
+ 303              	.LC2:
+ 304 004c 43795533 		.ascii	"CyU3PDmaChannelCommitBuffer failed, Error code = %d"
+ 304      50446D61 
+ 304      4368616E 
+ 304      6E656C43 
+ 304      6F6D6D69 
+ 305 007f 0A00     		.ascii	"\012\000"
+ 306 0081 000000   		.align	2
+ 307              	.LC3:
+ 308 0084 43795533 		.ascii	"CyU3PDmaChannelGetBuffer failed, Error code = %d\012"
+ 308      50446D61 
+ 308      4368616E 
+ 308      6E656C47 
+ 308      65744275 
+ 309 00b5 00       		.ascii	"\000"
+ 310              		.section	.text.CyFxBulkSrcSinkDmaCallback,"ax",%progbits
+ 311              		.align	2
+ 312              		.global	CyFxBulkSrcSinkDmaCallback
+ 314              	CyFxBulkSrcSinkDmaCallback:
+ 315              	.LFB2:
+ 184:../cyfxbulksrcsink.c **** 
+ 185:../cyfxbulksrcsink.c **** /* Callback funtion for the DMA event notification. */
+ 186:../cyfxbulksrcsink.c **** void
+ 187:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkDmaCallback (
+ 188:../cyfxbulksrcsink.c ****         CyU3PDmaChannel   *chHandle, /* Handle to the DMA channel. */
+ 189:../cyfxbulksrcsink.c ****         CyU3PDmaCbType_t  type,      /* Callback type.             */
+ 190:../cyfxbulksrcsink.c ****         CyU3PDmaCBInput_t *input)    /* Callback status.           */
+ 191:../cyfxbulksrcsink.c **** {
+ 316              		.loc 1 191 0
+ 317              		.cfi_startproc
+ 318              		@ args = 0, pretend = 0, frame = 32
+ 319              		@ frame_needed = 1, uses_anonymous_args = 0
+ 320 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 321              	.LCFI4:
+ 322              		.cfi_def_cfa_offset 8
+ 323              		.cfi_offset 11, -8
+ 324              		.cfi_offset 14, -4
+ 325 0004 04B08DE2 		add	fp, sp, #4
+ 326              	.LCFI5:
+ 327              		.cfi_def_cfa 11, 4
+ 328 0008 20D04DE2 		sub	sp, sp, #32
+ 329 000c 18000BE5 		str	r0, [fp, #-24]
+ 330 0010 0130A0E1 		mov	r3, r1
+ 331 0014 20200BE5 		str	r2, [fp, #-32]
+ 332 0018 BA314BE1 		strh	r3, [fp, #-26]	@ movhi
+ 192:../cyfxbulksrcsink.c ****     CyU3PDmaBuffer_t buf_p;
+ 193:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 333              		.loc 1 193 0
+ 334 001c 0030A0E3 		mov	r3, #0
+ 335 0020 08300BE5 		str	r3, [fp, #-8]
+ 194:../cyfxbulksrcsink.c **** 
+ 195:../cyfxbulksrcsink.c ****     glDataTransStarted = CyTrue;
+ 336              		.loc 1 195 0
+ 337 0024 E0309FE5 		ldr	r3, .L20
+ 338 0028 0120A0E3 		mov	r2, #1
+ 339 002c 002083E5 		str	r2, [r3]
+ 196:../cyfxbulksrcsink.c **** 
+ 197:../cyfxbulksrcsink.c ****     if (type == CY_U3P_DMA_CB_PROD_EVENT)
+ 340              		.loc 1 197 0
+ 341 0030 BA315BE1 		ldrh	r3, [fp, #-26]
+ 342 0034 080053E3 		cmp	r3, #8
+ 343 0038 0E00001A 		bne	.L14
+ 198:../cyfxbulksrcsink.c ****     {
+ 199:../cyfxbulksrcsink.c ****         /* This is a produce event notification to the CPU. This notification is 
+ 200:../cyfxbulksrcsink.c ****          * received upon reception of every buffer. We have to discard the buffer
+ 201:../cyfxbulksrcsink.c ****          * as soon as it is received to implement the data sink. */
+ 202:../cyfxbulksrcsink.c ****         status = CyU3PDmaChannelDiscardBuffer (chHandle);
+ 344              		.loc 1 202 0
+ 345 003c 18001BE5 		ldr	r0, [fp, #-24]
+ 346 0040 FEFFFFEB 		bl	CyU3PDmaChannelDiscardBuffer
+ 347 0044 08000BE5 		str	r0, [fp, #-8]
+ 203:../cyfxbulksrcsink.c ****         if (status != CY_U3P_SUCCESS)
+ 348              		.loc 1 203 0
+ 349 0048 08301BE5 		ldr	r3, [fp, #-8]
+ 350 004c 000053E3 		cmp	r3, #0
+ 351 0050 0300000A 		beq	.L15
+ 204:../cyfxbulksrcsink.c ****         {
+ 205:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelDiscardBuffer failed, Error code = %d\n", status);
+ 352              		.loc 1 205 0
+ 353 0054 0400A0E3 		mov	r0, #4
+ 354 0058 B0109FE5 		ldr	r1, .L20+4
+ 355 005c 08201BE5 		ldr	r2, [fp, #-8]
+ 356 0060 FEFFFFEB 		bl	CyU3PDebugPrint
+ 357              	.L15:
+ 206:../cyfxbulksrcsink.c ****         }
+ 207:../cyfxbulksrcsink.c **** 
+ 208:../cyfxbulksrcsink.c ****         /* Increment the counter. */
+ 209:../cyfxbulksrcsink.c ****         glDMARxCount++;
+ 358              		.loc 1 209 0
+ 359 0064 A8309FE5 		ldr	r3, .L20+8
+ 360 0068 003093E5 		ldr	r3, [r3]
+ 361 006c 012083E2 		add	r2, r3, #1
+ 362 0070 9C309FE5 		ldr	r3, .L20+8
+ 363 0074 002083E5 		str	r2, [r3]
+ 364              	.L14:
+ 210:../cyfxbulksrcsink.c ****     }
+ 211:../cyfxbulksrcsink.c ****     if (type == CY_U3P_DMA_CB_CONS_EVENT)
+ 365              		.loc 1 211 0
+ 366 0078 BA315BE1 		ldrh	r3, [fp, #-26]
+ 367 007c 100053E3 		cmp	r3, #16
+ 368 0080 1F00001A 		bne	.L13
+ 212:../cyfxbulksrcsink.c ****     {
+ 213:../cyfxbulksrcsink.c ****         /* This is a consume event notification to the CPU. This notification is 
+ 214:../cyfxbulksrcsink.c ****          * received when a buffer is sent out from the device. We have to commit
+ 215:../cyfxbulksrcsink.c ****          * a new buffer as soon as a buffer is available to implement the data
+ 216:../cyfxbulksrcsink.c ****          * source. The data is preloaded into the buffer at that start. So just
+ 217:../cyfxbulksrcsink.c ****          * commit the buffer. */
+ 218:../cyfxbulksrcsink.c ****         status = CyU3PDmaChannelGetBuffer (chHandle, &buf_p, CYU3P_NO_WAIT);
+ 369              		.loc 1 218 0
+ 370 0084 14304BE2 		sub	r3, fp, #20
+ 371 0088 18001BE5 		ldr	r0, [fp, #-24]
+ 372 008c 0310A0E1 		mov	r1, r3
+ 373 0090 0020A0E3 		mov	r2, #0
+ 374 0094 FEFFFFEB 		bl	CyU3PDmaChannelGetBuffer
+ 375 0098 08000BE5 		str	r0, [fp, #-8]
+ 219:../cyfxbulksrcsink.c ****         if (status == CY_U3P_SUCCESS)
+ 376              		.loc 1 219 0
+ 377 009c 08301BE5 		ldr	r3, [fp, #-8]
+ 378 00a0 000053E3 		cmp	r3, #0
+ 379 00a4 0D00001A 		bne	.L17
+ 220:../cyfxbulksrcsink.c ****         {
+ 221:../cyfxbulksrcsink.c ****             /* Commit the full buffer with default status. */
+ 222:../cyfxbulksrcsink.c ****             status = CyU3PDmaChannelCommitBuffer (chHandle, buf_p.size, 0);
+ 380              		.loc 1 222 0
+ 381 00a8 BE305BE1 		ldrh	r3, [fp, #-14]
+ 382 00ac 18001BE5 		ldr	r0, [fp, #-24]
+ 383 00b0 0310A0E1 		mov	r1, r3
+ 384 00b4 0020A0E3 		mov	r2, #0
+ 385 00b8 FEFFFFEB 		bl	CyU3PDmaChannelCommitBuffer
+ 386 00bc 08000BE5 		str	r0, [fp, #-8]
+ 223:../cyfxbulksrcsink.c ****             if (status != CY_U3P_SUCCESS)
+ 387              		.loc 1 223 0
+ 388 00c0 08301BE5 		ldr	r3, [fp, #-8]
+ 389 00c4 000053E3 		cmp	r3, #0
+ 390 00c8 0800000A 		beq	.L19
+ 224:../cyfxbulksrcsink.c ****             {
+ 225:../cyfxbulksrcsink.c ****                 CyU3PDebugPrint (4, "CyU3PDmaChannelCommitBuffer failed, Error code = %d\n", status
+ 391              		.loc 1 225 0
+ 392 00cc 0400A0E3 		mov	r0, #4
+ 393 00d0 40109FE5 		ldr	r1, .L20+12
+ 394 00d4 08201BE5 		ldr	r2, [fp, #-8]
+ 395 00d8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 396 00dc 030000EA 		b	.L19
+ 397              	.L17:
+ 226:../cyfxbulksrcsink.c ****             }
+ 227:../cyfxbulksrcsink.c ****         }
+ 228:../cyfxbulksrcsink.c ****         else
+ 229:../cyfxbulksrcsink.c ****         {
+ 230:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelGetBuffer failed, Error code = %d\n", status);
+ 398              		.loc 1 230 0
+ 399 00e0 0400A0E3 		mov	r0, #4
+ 400 00e4 30109FE5 		ldr	r1, .L20+16
+ 401 00e8 08201BE5 		ldr	r2, [fp, #-8]
+ 402 00ec FEFFFFEB 		bl	CyU3PDebugPrint
+ 403              	.L19:
+ 231:../cyfxbulksrcsink.c ****         }
+ 232:../cyfxbulksrcsink.c **** 
+ 233:../cyfxbulksrcsink.c ****         /* Increment the counter. */
+ 234:../cyfxbulksrcsink.c ****         glDMATxCount++;
+ 404              		.loc 1 234 0
+ 405 00f0 28309FE5 		ldr	r3, .L20+20
+ 406 00f4 003093E5 		ldr	r3, [r3]
+ 407 00f8 012083E2 		add	r2, r3, #1
+ 408 00fc 1C309FE5 		ldr	r3, .L20+20
+ 409 0100 002083E5 		str	r2, [r3]
+ 410              	.L13:
+ 235:../cyfxbulksrcsink.c ****     }
+ 236:../cyfxbulksrcsink.c **** }
+ 411              		.loc 1 236 0
+ 412 0104 04D04BE2 		sub	sp, fp, #4
+ 413              		@ sp needed
+ 414 0108 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 415              	.L21:
+ 416              		.align	2
+ 417              	.L20:
+ 418 010c 00000000 		.word	glDataTransStarted
+ 419 0110 14000000 		.word	.LC1
+ 420 0114 00000000 		.word	glDMARxCount
+ 421 0118 4C000000 		.word	.LC2
+ 422 011c 84000000 		.word	.LC3
+ 423 0120 00000000 		.word	glDMATxCount
+ 424              		.cfi_endproc
+ 425              	.LFE2:
+ 427              		.section	.text.CyFxBulkSrcSinkFillInBuffers,"ax",%progbits
+ 428              		.align	2
+ 430              	CyFxBulkSrcSinkFillInBuffers:
+ 431              	.LFB3:
+ 237:../cyfxbulksrcsink.c **** 
+ 238:../cyfxbulksrcsink.c **** /*
+ 239:../cyfxbulksrcsink.c ****  * Fill all DMA buffers on the IN endpoint with data. This gets data moving after an endpoint reset
+ 240:../cyfxbulksrcsink.c ****  */
+ 241:../cyfxbulksrcsink.c **** static void
+ 242:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkFillInBuffers (
+ 243:../cyfxbulksrcsink.c ****         void)
+ 244:../cyfxbulksrcsink.c **** {
+ 432              		.loc 1 244 0
+ 433              		.cfi_startproc
+ 434              		@ args = 0, pretend = 0, frame = 24
+ 435              		@ frame_needed = 1, uses_anonymous_args = 0
+ 436 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 437              	.LCFI6:
+ 438              		.cfi_def_cfa_offset 8
+ 439              		.cfi_offset 11, -8
+ 440              		.cfi_offset 14, -4
+ 441 0004 04B08DE2 		add	fp, sp, #4
+ 442              	.LCFI7:
+ 443              		.cfi_def_cfa 11, 4
+ 444 0008 18D04DE2 		sub	sp, sp, #24
+ 245:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t stat;
+ 246:../cyfxbulksrcsink.c ****     CyU3PDmaBuffer_t    buf_p;
+ 247:../cyfxbulksrcsink.c ****     uint16_t            index = 0;
+ 445              		.loc 1 247 0
+ 446 000c 0030A0E3 		mov	r3, #0
+ 447 0010 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 248:../cyfxbulksrcsink.c **** 
+ 249:../cyfxbulksrcsink.c ****     /* Now preload all buffers in the MANUAL_OUT pipe with the required data. */
+ 250:../cyfxbulksrcsink.c ****     for (index = 0; index < CY_FX_BULKSRCSINK_DMA_BUF_COUNT; index++)
+ 448              		.loc 1 250 0
+ 449 0014 0030A0E3 		mov	r3, #0
+ 450 0018 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 451 001c 260000EA 		b	.L23
+ 452              	.L26:
+ 251:../cyfxbulksrcsink.c ****     {
+ 252:../cyfxbulksrcsink.c ****         stat = CyU3PDmaChannelGetBuffer (&glChHandleBulkSrc, &buf_p, CYU3P_NO_WAIT);
+ 453              		.loc 1 252 0
+ 454 0020 18304BE2 		sub	r3, fp, #24
+ 455 0024 A4009FE5 		ldr	r0, .L27
+ 456 0028 0310A0E1 		mov	r1, r3
+ 457 002c 0020A0E3 		mov	r2, #0
+ 458 0030 FEFFFFEB 		bl	CyU3PDmaChannelGetBuffer
+ 459 0034 0C000BE5 		str	r0, [fp, #-12]
+ 253:../cyfxbulksrcsink.c ****         if (stat != CY_U3P_SUCCESS)
+ 460              		.loc 1 253 0
+ 461 0038 0C301BE5 		ldr	r3, [fp, #-12]
+ 462 003c 000053E3 		cmp	r3, #0
+ 463 0040 0500000A 		beq	.L24
+ 254:../cyfxbulksrcsink.c ****         {
+ 255:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelGetBuffer failed, Error code = %d\n", stat);
+ 464              		.loc 1 255 0
+ 465 0044 0400A0E3 		mov	r0, #4
+ 466 0048 84109FE5 		ldr	r1, .L27+4
+ 467 004c 0C201BE5 		ldr	r2, [fp, #-12]
+ 468 0050 FEFFFFEB 		bl	CyU3PDebugPrint
+ 256:../cyfxbulksrcsink.c ****             CyFxAppErrorHandler(stat);
+ 469              		.loc 1 256 0
+ 470 0054 0C001BE5 		ldr	r0, [fp, #-12]
+ 471 0058 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 472              	.L24:
+ 257:../cyfxbulksrcsink.c ****         }
+ 258:../cyfxbulksrcsink.c **** 
+ 259:../cyfxbulksrcsink.c ****         CyU3PMemSet (buf_p.buffer, CY_FX_BULKSRCSINK_PATTERN, buf_p.size);
+ 473              		.loc 1 259 0
+ 474 005c 18201BE5 		ldr	r2, [fp, #-24]
+ 475 0060 B2315BE1 		ldrh	r3, [fp, #-18]
+ 476 0064 0200A0E1 		mov	r0, r2
+ 477 0068 AA10A0E3 		mov	r1, #170
+ 478 006c 0320A0E1 		mov	r2, r3
+ 479 0070 FEFFFFEB 		bl	CyU3PMemSet
+ 260:../cyfxbulksrcsink.c ****         stat = CyU3PDmaChannelCommitBuffer (&glChHandleBulkSrc, buf_p.size, 0);
+ 480              		.loc 1 260 0
+ 481 0074 B2315BE1 		ldrh	r3, [fp, #-18]
+ 482 0078 50009FE5 		ldr	r0, .L27
+ 483 007c 0310A0E1 		mov	r1, r3
+ 484 0080 0020A0E3 		mov	r2, #0
+ 485 0084 FEFFFFEB 		bl	CyU3PDmaChannelCommitBuffer
+ 486 0088 0C000BE5 		str	r0, [fp, #-12]
+ 261:../cyfxbulksrcsink.c ****         if (stat != CY_U3P_SUCCESS)
+ 487              		.loc 1 261 0
+ 488 008c 0C301BE5 		ldr	r3, [fp, #-12]
+ 489 0090 000053E3 		cmp	r3, #0
+ 490 0094 0500000A 		beq	.L25
+ 262:../cyfxbulksrcsink.c ****         {
+ 263:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (4, "CyU3PDmaChannelCommitBuffer failed, Error code = %d\n", stat);
+ 491              		.loc 1 263 0
+ 492 0098 0400A0E3 		mov	r0, #4
+ 493 009c 34109FE5 		ldr	r1, .L27+8
+ 494 00a0 0C201BE5 		ldr	r2, [fp, #-12]
+ 495 00a4 FEFFFFEB 		bl	CyU3PDebugPrint
+ 264:../cyfxbulksrcsink.c ****             CyFxAppErrorHandler(stat);
+ 496              		.loc 1 264 0
+ 497 00a8 0C001BE5 		ldr	r0, [fp, #-12]
+ 498 00ac FEFFFFEB 		bl	CyFxAppErrorHandler
+ 499              	.L25:
+ 250:../cyfxbulksrcsink.c ****     {
+ 500              		.loc 1 250 0
+ 501 00b0 B6305BE1 		ldrh	r3, [fp, #-6]
+ 502 00b4 013083E2 		add	r3, r3, #1
+ 503 00b8 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 504              	.L23:
+ 250:../cyfxbulksrcsink.c ****     {
+ 505              		.loc 1 250 0 is_stmt 0 discriminator 1
+ 506 00bc B6305BE1 		ldrh	r3, [fp, #-6]
+ 507 00c0 030053E3 		cmp	r3, #3
+ 508 00c4 D5FFFF9A 		bls	.L26
+ 265:../cyfxbulksrcsink.c ****         }
+ 266:../cyfxbulksrcsink.c ****     }
+ 267:../cyfxbulksrcsink.c **** }
+ 509              		.loc 1 267 0 is_stmt 1
+ 510 00c8 04D04BE2 		sub	sp, fp, #4
+ 511              		@ sp needed
+ 512 00cc 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 513              	.L28:
+ 514              		.align	2
+ 515              	.L27:
+ 516 00d0 00000000 		.word	glChHandleBulkSrc
+ 517 00d4 84000000 		.word	.LC3
+ 518 00d8 4C000000 		.word	.LC2
+ 519              		.cfi_endproc
+ 520              	.LFE3:
+ 522              		.section	.rodata
+ 523 00b6 0000     		.align	2
+ 524              	.LC4:
+ 525 00b8 4572726F 		.ascii	"Error! Invalid USB speed.\012\000"
+ 525      72212049 
+ 525      6E76616C 
+ 525      69642055 
+ 525      53422073 
+ 526 00d3 00       		.align	2
+ 527              	.LC5:
+ 528 00d4 43795533 		.ascii	"CyU3PSetEpConfig failed, Error code = %d\012\000"
+ 528      50536574 
+ 528      4570436F 
+ 528      6E666967 
+ 528      20666169 
+ 529 00fe 0000     		.align	2
+ 530              	.LC6:
+ 531 0100 43795533 		.ascii	"CyU3PDmaChannelCreate failed, Error code = %d\012\000"
+ 531      50446D61 
+ 531      4368616E 
+ 531      6E656C43 
+ 531      72656174 
+ 532 012f 00       		.align	2
+ 533              	.LC7:
+ 534 0130 43795533 		.ascii	"CyU3PDmaChannelSetXfer failed, Error code = %d\012\000"
+ 534      50446D61 
+ 534      4368616E 
+ 534      6E656C53 
+ 534      65745866 
+ 535              		.section	.text.CyFxBulkSrcSinkApplnStart,"ax",%progbits
+ 536              		.align	2
+ 537              		.global	CyFxBulkSrcSinkApplnStart
+ 539              	CyFxBulkSrcSinkApplnStart:
+ 540              	.LFB4:
+ 268:../cyfxbulksrcsink.c **** 
+ 269:../cyfxbulksrcsink.c **** /* This function starts the application. This is called
+ 270:../cyfxbulksrcsink.c ****  * when a SET_CONF event is received from the USB host. The endpoints
+ 271:../cyfxbulksrcsink.c ****  * are configured and the DMA pipe is setup in this function. */
+ 272:../cyfxbulksrcsink.c **** void
+ 273:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnStart (
+ 274:../cyfxbulksrcsink.c ****         void)
+ 275:../cyfxbulksrcsink.c **** {
+ 541              		.loc 1 275 0
+ 542              		.cfi_startproc
+ 543              		@ args = 0, pretend = 0, frame = 56
+ 544              		@ frame_needed = 1, uses_anonymous_args = 0
+ 545 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 546              	.LCFI8:
+ 547              		.cfi_def_cfa_offset 8
+ 548              		.cfi_offset 11, -8
+ 549              		.cfi_offset 14, -4
+ 550 0004 04B08DE2 		add	fp, sp, #4
+ 551              	.LCFI9:
+ 552              		.cfi_def_cfa 11, 4
+ 553 0008 38D04DE2 		sub	sp, sp, #56
+ 276:../cyfxbulksrcsink.c ****     uint16_t size = 0;
+ 554              		.loc 1 276 0
+ 555 000c 0030A0E3 		mov	r3, #0
+ 556 0010 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 277:../cyfxbulksrcsink.c ****     CyU3PEpConfig_t epCfg;
+ 278:../cyfxbulksrcsink.c ****     CyU3PDmaChannelConfig_t dmaCfg;
+ 279:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 557              		.loc 1 279 0
+ 558 0014 0030A0E3 		mov	r3, #0
+ 559 0018 0C300BE5 		str	r3, [fp, #-12]
+ 280:../cyfxbulksrcsink.c ****     CyU3PUSBSpeed_t usbSpeed = CyU3PUsbGetSpeed();
+ 560              		.loc 1 280 0
+ 561 001c FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 562 0020 0030A0E1 		mov	r3, r0
+ 563 0024 0D304BE5 		strb	r3, [fp, #-13]
+ 281:../cyfxbulksrcsink.c **** 
+ 282:../cyfxbulksrcsink.c ****     /* First identify the usb speed. Once that is identified,
+ 283:../cyfxbulksrcsink.c ****      * create a DMA channel and start the transfer on this. */
+ 284:../cyfxbulksrcsink.c **** 
+ 285:../cyfxbulksrcsink.c ****     /* Based on the Bus Speed configure the endpoint packet size */
+ 286:../cyfxbulksrcsink.c ****     switch (usbSpeed)
+ 564              		.loc 1 286 0
+ 565 0028 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 566 002c 020053E3 		cmp	r3, #2
+ 567 0030 0600000A 		beq	.L31
+ 568 0034 030053E3 		cmp	r3, #3
+ 569 0038 0700000A 		beq	.L32
+ 570 003c 010053E3 		cmp	r3, #1
+ 571 0040 0800001A 		bne	.L43
+ 287:../cyfxbulksrcsink.c ****     {
+ 288:../cyfxbulksrcsink.c ****     case CY_U3P_FULL_SPEED:
+ 289:../cyfxbulksrcsink.c ****         size = 64;
+ 572              		.loc 1 289 0
+ 573 0044 4030A0E3 		mov	r3, #64
+ 574 0048 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 290:../cyfxbulksrcsink.c ****         break;
+ 575              		.loc 1 290 0
+ 576 004c 0B0000EA 		b	.L34
+ 577              	.L31:
+ 291:../cyfxbulksrcsink.c **** 
+ 292:../cyfxbulksrcsink.c ****     case CY_U3P_HIGH_SPEED:
+ 293:../cyfxbulksrcsink.c ****         size = 512;
+ 578              		.loc 1 293 0
+ 579 0050 023CA0E3 		mov	r3, #512
+ 580 0054 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 294:../cyfxbulksrcsink.c ****         break;
+ 581              		.loc 1 294 0
+ 582 0058 080000EA 		b	.L34
+ 583              	.L32:
+ 295:../cyfxbulksrcsink.c **** 
+ 296:../cyfxbulksrcsink.c ****     case  CY_U3P_SUPER_SPEED:
+ 297:../cyfxbulksrcsink.c ****         size = 1024;
+ 584              		.loc 1 297 0
+ 585 005c 013BA0E3 		mov	r3, #1024
+ 586 0060 B6304BE1 		strh	r3, [fp, #-6]	@ movhi
+ 298:../cyfxbulksrcsink.c ****         break;
+ 587              		.loc 1 298 0
+ 588 0064 050000EA 		b	.L34
+ 589              	.L43:
+ 299:../cyfxbulksrcsink.c **** 
+ 300:../cyfxbulksrcsink.c ****     default:
+ 301:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "Error! Invalid USB speed.\n");
+ 590              		.loc 1 301 0
+ 591 0068 0400A0E3 		mov	r0, #4
+ 592 006c 78129FE5 		ldr	r1, .L44
+ 593 0070 FEFFFFEB 		bl	CyU3PDebugPrint
+ 302:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler (CY_U3P_ERROR_FAILURE);
+ 594              		.loc 1 302 0
+ 595 0074 4A00A0E3 		mov	r0, #74
+ 596 0078 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 303:../cyfxbulksrcsink.c ****         break;
+ 597              		.loc 1 303 0
+ 598 007c 0000A0E1 		mov	r0, r0	@ nop
+ 599              	.L34:
+ 304:../cyfxbulksrcsink.c ****     }
+ 305:../cyfxbulksrcsink.c **** 
+ 306:../cyfxbulksrcsink.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 600              		.loc 1 306 0
+ 601 0080 1C304BE2 		sub	r3, fp, #28
+ 602 0084 0300A0E1 		mov	r0, r3
+ 603 0088 0010A0E3 		mov	r1, #0
+ 604 008c 0C20A0E3 		mov	r2, #12
+ 605 0090 FEFFFFEB 		bl	CyU3PMemSet
+ 307:../cyfxbulksrcsink.c ****     epCfg.enable = CyTrue;
+ 606              		.loc 1 307 0
+ 607 0094 0130A0E3 		mov	r3, #1
+ 608 0098 1C300BE5 		str	r3, [fp, #-28]
+ 308:../cyfxbulksrcsink.c ****     epCfg.epType = CY_U3P_USB_EP_BULK;
+ 609              		.loc 1 308 0
+ 610 009c 0230A0E3 		mov	r3, #2
+ 611 00a0 18304BE5 		strb	r3, [fp, #-24]
+ 309:../cyfxbulksrcsink.c ****     epCfg.burstLen = (usbSpeed == CY_U3P_SUPER_SPEED) ?
+ 612              		.loc 1 309 0
+ 613 00a4 0D305BE5 		ldrb	r3, [fp, #-13]	@ zero_extendqisi2
+ 614 00a8 030053E3 		cmp	r3, #3
+ 615 00ac 0100001A 		bne	.L35
+ 616              		.loc 1 309 0 is_stmt 0 discriminator 1
+ 617 00b0 0830A0E3 		mov	r3, #8
+ 618 00b4 000000EA 		b	.L36
+ 619              	.L35:
+ 620              		.loc 1 309 0 discriminator 2
+ 621 00b8 0130A0E3 		mov	r3, #1
+ 622              	.L36:
+ 623              		.loc 1 309 0 discriminator 3
+ 624 00bc 12304BE5 		strb	r3, [fp, #-18]
+ 310:../cyfxbulksrcsink.c ****         (CY_FX_EP_BURST_LENGTH) : 1;
+ 311:../cyfxbulksrcsink.c ****     epCfg.streams = 0;
+ 625              		.loc 1 311 0 is_stmt 1 discriminator 3
+ 626 00c0 0030A0E3 		mov	r3, #0
+ 627 00c4 B6314BE1 		strh	r3, [fp, #-22]	@ movhi
+ 312:../cyfxbulksrcsink.c ****     epCfg.pcktSize = size;
+ 628              		.loc 1 312 0 discriminator 3
+ 629 00c8 B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 630 00cc B4314BE1 		strh	r3, [fp, #-20]	@ movhi
+ 313:../cyfxbulksrcsink.c **** 
+ 314:../cyfxbulksrcsink.c ****     /* Producer endpoint configuration */
+ 315:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 631              		.loc 1 315 0 discriminator 3
+ 632 00d0 1C304BE2 		sub	r3, fp, #28
+ 633 00d4 0100A0E3 		mov	r0, #1
+ 634 00d8 0310A0E1 		mov	r1, r3
+ 635 00dc FEFFFFEB 		bl	CyU3PSetEpConfig
+ 636 00e0 0C000BE5 		str	r0, [fp, #-12]
+ 316:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 637              		.loc 1 316 0 discriminator 3
+ 638 00e4 0C301BE5 		ldr	r3, [fp, #-12]
+ 639 00e8 000053E3 		cmp	r3, #0
+ 640 00ec 0500000A 		beq	.L37
+ 317:../cyfxbulksrcsink.c ****     {
+ 318:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 641              		.loc 1 318 0
+ 642 00f0 0400A0E3 		mov	r0, #4
+ 643 00f4 F4119FE5 		ldr	r1, .L44+4
+ 644 00f8 0C201BE5 		ldr	r2, [fp, #-12]
+ 645 00fc FEFFFFEB 		bl	CyU3PDebugPrint
+ 319:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 646              		.loc 1 319 0
+ 647 0100 0C001BE5 		ldr	r0, [fp, #-12]
+ 648 0104 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 649              	.L37:
+ 320:../cyfxbulksrcsink.c ****     }
+ 321:../cyfxbulksrcsink.c **** 
+ 322:../cyfxbulksrcsink.c ****     /* Consumer endpoint configuration */
+ 323:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 650              		.loc 1 323 0
+ 651 0108 1C304BE2 		sub	r3, fp, #28
+ 652 010c 8100A0E3 		mov	r0, #129
+ 653 0110 0310A0E1 		mov	r1, r3
+ 654 0114 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 655 0118 0C000BE5 		str	r0, [fp, #-12]
+ 324:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 656              		.loc 1 324 0
+ 657 011c 0C301BE5 		ldr	r3, [fp, #-12]
+ 658 0120 000053E3 		cmp	r3, #0
+ 659 0124 0500000A 		beq	.L38
+ 325:../cyfxbulksrcsink.c ****     {
+ 326:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 660              		.loc 1 326 0
+ 661 0128 0400A0E3 		mov	r0, #4
+ 662 012c BC119FE5 		ldr	r1, .L44+4
+ 663 0130 0C201BE5 		ldr	r2, [fp, #-12]
+ 664 0134 FEFFFFEB 		bl	CyU3PDebugPrint
+ 327:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 665              		.loc 1 327 0
+ 666 0138 0C001BE5 		ldr	r0, [fp, #-12]
+ 667 013c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 668              	.L38:
+ 328:../cyfxbulksrcsink.c ****     }
+ 329:../cyfxbulksrcsink.c **** 
+ 330:../cyfxbulksrcsink.c ****     /* Flush the endpoint memory */
+ 331:../cyfxbulksrcsink.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 669              		.loc 1 331 0
+ 670 0140 0100A0E3 		mov	r0, #1
+ 671 0144 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 332:../cyfxbulksrcsink.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 672              		.loc 1 332 0
+ 673 0148 8100A0E3 		mov	r0, #129
+ 674 014c FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 333:../cyfxbulksrcsink.c **** 
+ 334:../cyfxbulksrcsink.c ****     /* Create a DMA MANUAL_IN channel for the producer socket. */
+ 335:../cyfxbulksrcsink.c ****     CyU3PMemSet ((uint8_t *)&dmaCfg, 0, sizeof (dmaCfg));
+ 675              		.loc 1 335 0
+ 676 0150 38304BE2 		sub	r3, fp, #56
+ 677 0154 0300A0E1 		mov	r0, r3
+ 678 0158 0010A0E3 		mov	r1, #0
+ 679 015c 1C20A0E3 		mov	r2, #28
+ 680 0160 FEFFFFEB 		bl	CyU3PMemSet
+ 336:../cyfxbulksrcsink.c ****     /* The buffer size will be same as packet size for the
+ 337:../cyfxbulksrcsink.c ****      * full speed, high speed and super speed non-burst modes.
+ 338:../cyfxbulksrcsink.c ****      * For super speed burst mode of operation, the buffers will be
+ 339:../cyfxbulksrcsink.c ****      * 1024 * burst length so that a full burst can be completed.
+ 340:../cyfxbulksrcsink.c ****      * This will mean that a buffer will be available only after it
+ 341:../cyfxbulksrcsink.c ****      * has been filled or when a short packet is received. */
+ 342:../cyfxbulksrcsink.c ****     dmaCfg.size  = (size * CY_FX_EP_BURST_LENGTH);
+ 681              		.loc 1 342 0
+ 682 0164 B6305BE1 		ldrh	r3, [fp, #-6]	@ movhi
+ 683 0168 8331A0E1 		mov	r3, r3, asl #3
+ 684 016c 0338A0E1 		mov	r3, r3, asl #16
+ 685 0170 2338A0E1 		mov	r3, r3, lsr #16
+ 686 0174 B8334BE1 		strh	r3, [fp, #-56]	@ movhi
+ 343:../cyfxbulksrcsink.c ****     /* Multiply the buffer size with the multiplier
+ 344:../cyfxbulksrcsink.c ****      * for performance improvement. */
+ 345:../cyfxbulksrcsink.c ****     dmaCfg.size *= CY_FX_DMA_SIZE_MULTIPLIER;
+ 687              		.loc 1 345 0
+ 688 0178 B8335BE1 		ldrh	r3, [fp, #-56]
+ 689 017c 8330A0E1 		mov	r3, r3, asl #1
+ 690 0180 0338A0E1 		mov	r3, r3, asl #16
+ 691 0184 2338A0E1 		mov	r3, r3, lsr #16
+ 692 0188 B8334BE1 		strh	r3, [fp, #-56]	@ movhi
+ 346:../cyfxbulksrcsink.c ****     dmaCfg.count = CY_FX_BULKSRCSINK_DMA_BUF_COUNT;
+ 693              		.loc 1 346 0
+ 694 018c 0430A0E3 		mov	r3, #4
+ 695 0190 B6334BE1 		strh	r3, [fp, #-54]	@ movhi
+ 347:../cyfxbulksrcsink.c ****     dmaCfg.prodSckId = CY_FX_EP_PRODUCER_SOCKET;
+ 696              		.loc 1 347 0
+ 697 0194 58319FE5 		ldr	r3, .L44+8
+ 698 0198 B4334BE1 		strh	r3, [fp, #-52]	@ movhi
+ 348:../cyfxbulksrcsink.c ****     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
+ 699              		.loc 1 348 0
+ 700 019c 3F3CA0E3 		mov	r3, #16128
+ 701 01a0 B2334BE1 		strh	r3, [fp, #-50]	@ movhi
+ 349:../cyfxbulksrcsink.c ****     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
+ 702              		.loc 1 349 0
+ 703 01a4 0030A0E3 		mov	r3, #0
+ 704 01a8 28304BE5 		strb	r3, [fp, #-40]
+ 350:../cyfxbulksrcsink.c ****     dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
+ 705              		.loc 1 350 0
+ 706 01ac 0830A0E3 		mov	r3, #8
+ 707 01b0 24300BE5 		str	r3, [fp, #-36]
+ 351:../cyfxbulksrcsink.c ****     dmaCfg.cb = CyFxBulkSrcSinkDmaCallback;
+ 708              		.loc 1 351 0
+ 709 01b4 3C319FE5 		ldr	r3, .L44+12
+ 710 01b8 20300BE5 		str	r3, [fp, #-32]
+ 352:../cyfxbulksrcsink.c ****     dmaCfg.prodHeader = 0;
+ 711              		.loc 1 352 0
+ 712 01bc 0030A0E3 		mov	r3, #0
+ 713 01c0 BE324BE1 		strh	r3, [fp, #-46]	@ movhi
+ 353:../cyfxbulksrcsink.c ****     dmaCfg.prodFooter = 0;
+ 714              		.loc 1 353 0
+ 715 01c4 0030A0E3 		mov	r3, #0
+ 716 01c8 BC324BE1 		strh	r3, [fp, #-44]	@ movhi
+ 354:../cyfxbulksrcsink.c ****     dmaCfg.consHeader = 0;
+ 717              		.loc 1 354 0
+ 718 01cc 0030A0E3 		mov	r3, #0
+ 719 01d0 BA324BE1 		strh	r3, [fp, #-42]	@ movhi
+ 355:../cyfxbulksrcsink.c ****     dmaCfg.prodAvailCount = 0;
+ 720              		.loc 1 355 0
+ 721 01d4 0030A0E3 		mov	r3, #0
+ 722 01d8 B0334BE1 		strh	r3, [fp, #-48]	@ movhi
+ 356:../cyfxbulksrcsink.c **** 
+ 357:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PDmaChannelCreate (&glChHandleBulkSink,
+ 723              		.loc 1 357 0
+ 724 01dc 38304BE2 		sub	r3, fp, #56
+ 725 01e0 14019FE5 		ldr	r0, .L44+16
+ 726 01e4 0310A0E3 		mov	r1, #3
+ 727 01e8 0320A0E1 		mov	r2, r3
+ 728 01ec FEFFFFEB 		bl	CyU3PDmaChannelCreate
+ 729 01f0 0C000BE5 		str	r0, [fp, #-12]
+ 358:../cyfxbulksrcsink.c ****             CY_U3P_DMA_TYPE_MANUAL_IN, &dmaCfg);
+ 359:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 730              		.loc 1 359 0
+ 731 01f4 0C301BE5 		ldr	r3, [fp, #-12]
+ 732 01f8 000053E3 		cmp	r3, #0
+ 733 01fc 0500000A 		beq	.L39
+ 360:../cyfxbulksrcsink.c ****     {
+ 361:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelCreate failed, Error code = %d\n", apiRetStatus);
+ 734              		.loc 1 361 0
+ 735 0200 0400A0E3 		mov	r0, #4
+ 736 0204 F4109FE5 		ldr	r1, .L44+20
+ 737 0208 0C201BE5 		ldr	r2, [fp, #-12]
+ 738 020c FEFFFFEB 		bl	CyU3PDebugPrint
+ 362:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 739              		.loc 1 362 0
+ 740 0210 0C001BE5 		ldr	r0, [fp, #-12]
+ 741 0214 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 742              	.L39:
+ 363:../cyfxbulksrcsink.c ****     }
+ 364:../cyfxbulksrcsink.c **** 
+ 365:../cyfxbulksrcsink.c ****     /* Create a DMA MANUAL_OUT channel for the consumer socket. */
+ 366:../cyfxbulksrcsink.c ****     dmaCfg.notification = CY_U3P_DMA_CB_CONS_EVENT;
+ 743              		.loc 1 366 0
+ 744 0218 1030A0E3 		mov	r3, #16
+ 745 021c 24300BE5 		str	r3, [fp, #-36]
+ 367:../cyfxbulksrcsink.c ****     dmaCfg.prodSckId = CY_U3P_CPU_SOCKET_PROD;
+ 746              		.loc 1 367 0
+ 747 0220 DC309FE5 		ldr	r3, .L44+24
+ 748 0224 B4334BE1 		strh	r3, [fp, #-52]	@ movhi
+ 368:../cyfxbulksrcsink.c ****     dmaCfg.consSckId = CY_FX_EP_CONSUMER_SOCKET;
+ 749              		.loc 1 368 0
+ 750 0228 D8309FE5 		ldr	r3, .L44+28
+ 751 022c B2334BE1 		strh	r3, [fp, #-50]	@ movhi
+ 369:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PDmaChannelCreate (&glChHandleBulkSrc,
+ 752              		.loc 1 369 0
+ 753 0230 38304BE2 		sub	r3, fp, #56
+ 754 0234 D0009FE5 		ldr	r0, .L44+32
+ 755 0238 0410A0E3 		mov	r1, #4
+ 756 023c 0320A0E1 		mov	r2, r3
+ 757 0240 FEFFFFEB 		bl	CyU3PDmaChannelCreate
+ 758 0244 0C000BE5 		str	r0, [fp, #-12]
+ 370:../cyfxbulksrcsink.c ****             CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg);
+ 371:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 759              		.loc 1 371 0
+ 760 0248 0C301BE5 		ldr	r3, [fp, #-12]
+ 761 024c 000053E3 		cmp	r3, #0
+ 762 0250 0500000A 		beq	.L40
+ 372:../cyfxbulksrcsink.c ****     {
+ 373:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelCreate failed, Error code = %d\n", apiRetStatus);
+ 763              		.loc 1 373 0
+ 764 0254 0400A0E3 		mov	r0, #4
+ 765 0258 A0109FE5 		ldr	r1, .L44+20
+ 766 025c 0C201BE5 		ldr	r2, [fp, #-12]
+ 767 0260 FEFFFFEB 		bl	CyU3PDebugPrint
+ 374:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 768              		.loc 1 374 0
+ 769 0264 0C001BE5 		ldr	r0, [fp, #-12]
+ 770 0268 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 771              	.L40:
+ 375:../cyfxbulksrcsink.c ****     }
+ 376:../cyfxbulksrcsink.c **** 
+ 377:../cyfxbulksrcsink.c ****     /* Set DMA Channel transfer size */
+ 378:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PDmaChannelSetXfer (&glChHandleBulkSink, CY_FX_BULKSRCSINK_DMA_TX_SIZE);
+ 772              		.loc 1 378 0
+ 773 026c 88009FE5 		ldr	r0, .L44+16
+ 774 0270 0010A0E3 		mov	r1, #0
+ 775 0274 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 776 0278 0C000BE5 		str	r0, [fp, #-12]
+ 379:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 777              		.loc 1 379 0
+ 778 027c 0C301BE5 		ldr	r3, [fp, #-12]
+ 779 0280 000053E3 		cmp	r3, #0
+ 780 0284 0500000A 		beq	.L41
+ 380:../cyfxbulksrcsink.c ****     {
+ 381:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelSetXfer failed, Error code = %d\n", apiRetStatus);
+ 781              		.loc 1 381 0
+ 782 0288 0400A0E3 		mov	r0, #4
+ 783 028c 7C109FE5 		ldr	r1, .L44+36
+ 784 0290 0C201BE5 		ldr	r2, [fp, #-12]
+ 785 0294 FEFFFFEB 		bl	CyU3PDebugPrint
+ 382:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 786              		.loc 1 382 0
+ 787 0298 0C001BE5 		ldr	r0, [fp, #-12]
+ 788 029c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 789              	.L41:
+ 383:../cyfxbulksrcsink.c ****     }
+ 384:../cyfxbulksrcsink.c **** 
+ 385:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PDmaChannelSetXfer (&glChHandleBulkSrc, CY_FX_BULKSRCSINK_DMA_TX_SIZE);
+ 790              		.loc 1 385 0
+ 791 02a0 64009FE5 		ldr	r0, .L44+32
+ 792 02a4 0010A0E3 		mov	r1, #0
+ 793 02a8 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 794 02ac 0C000BE5 		str	r0, [fp, #-12]
+ 386:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 795              		.loc 1 386 0
+ 796 02b0 0C301BE5 		ldr	r3, [fp, #-12]
+ 797 02b4 000053E3 		cmp	r3, #0
+ 798 02b8 0500000A 		beq	.L42
+ 387:../cyfxbulksrcsink.c ****     {
+ 388:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PDmaChannelSetXfer failed, Error code = %d\n", apiRetStatus);
+ 799              		.loc 1 388 0
+ 800 02bc 0400A0E3 		mov	r0, #4
+ 801 02c0 48109FE5 		ldr	r1, .L44+36
+ 802 02c4 0C201BE5 		ldr	r2, [fp, #-12]
+ 803 02c8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 389:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 804              		.loc 1 389 0
+ 805 02cc 0C001BE5 		ldr	r0, [fp, #-12]
+ 806 02d0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 807              	.L42:
+ 390:../cyfxbulksrcsink.c ****     }
+ 391:../cyfxbulksrcsink.c **** 
+ 392:../cyfxbulksrcsink.c ****     CyFxBulkSrcSinkFillInBuffers ();
+ 808              		.loc 1 392 0
+ 809 02d4 FEFFFFEB 		bl	CyFxBulkSrcSinkFillInBuffers
+ 393:../cyfxbulksrcsink.c **** 
+ 394:../cyfxbulksrcsink.c ****     /* Update the flag so that the application thread is notified of this. */
+ 395:../cyfxbulksrcsink.c ****     glIsApplnActive = CyTrue;
+ 810              		.loc 1 395 0
+ 811 02d8 34309FE5 		ldr	r3, .L44+40
+ 812 02dc 0120A0E3 		mov	r2, #1
+ 813 02e0 002083E5 		str	r2, [r3]
+ 396:../cyfxbulksrcsink.c **** }
+ 814              		.loc 1 396 0
+ 815 02e4 04D04BE2 		sub	sp, fp, #4
+ 816              		@ sp needed
+ 817 02e8 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 818              	.L45:
+ 819              		.align	2
+ 820              	.L44:
+ 821 02ec B8000000 		.word	.LC4
+ 822 02f0 D4000000 		.word	.LC5
+ 823 02f4 01040000 		.word	1025
+ 824 02f8 00000000 		.word	CyFxBulkSrcSinkDmaCallback
+ 825 02fc 00000000 		.word	glChHandleBulkSink
+ 826 0300 00010000 		.word	.LC6
+ 827 0304 013F0000 		.word	16129
+ 828 0308 01030000 		.word	769
+ 829 030c 00000000 		.word	glChHandleBulkSrc
+ 830 0310 30010000 		.word	.LC7
+ 831 0314 00000000 		.word	glIsApplnActive
+ 832              		.cfi_endproc
+ 833              	.LFE4:
+ 835              		.section	.text.CyFxBulkSrcSinkApplnStop,"ax",%progbits
+ 836              		.align	2
+ 837              		.global	CyFxBulkSrcSinkApplnStop
+ 839              	CyFxBulkSrcSinkApplnStop:
+ 840              	.LFB5:
+ 397:../cyfxbulksrcsink.c **** 
+ 398:../cyfxbulksrcsink.c **** /* This function stops the application. This shall be called whenever a RESET
+ 399:../cyfxbulksrcsink.c ****  * or DISCONNECT event is received from the USB host. The endpoints are
+ 400:../cyfxbulksrcsink.c ****  * disabled and the DMA pipe is destroyed by this function. */
+ 401:../cyfxbulksrcsink.c **** void
+ 402:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnStop (
+ 403:../cyfxbulksrcsink.c ****         void)
+ 404:../cyfxbulksrcsink.c **** {
+ 841              		.loc 1 404 0
+ 842              		.cfi_startproc
+ 843              		@ args = 0, pretend = 0, frame = 16
+ 844              		@ frame_needed = 1, uses_anonymous_args = 0
+ 845 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 846              	.LCFI10:
+ 847              		.cfi_def_cfa_offset 8
+ 848              		.cfi_offset 11, -8
+ 849              		.cfi_offset 14, -4
+ 850 0004 04B08DE2 		add	fp, sp, #4
+ 851              	.LCFI11:
+ 852              		.cfi_def_cfa 11, 4
+ 853 0008 10D04DE2 		sub	sp, sp, #16
+ 405:../cyfxbulksrcsink.c ****     CyU3PEpConfig_t epCfg;
+ 406:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 854              		.loc 1 406 0
+ 855 000c 0030A0E3 		mov	r3, #0
+ 856 0010 08300BE5 		str	r3, [fp, #-8]
+ 407:../cyfxbulksrcsink.c **** 
+ 408:../cyfxbulksrcsink.c ****     /* Update the flag so that the application thread is notified of this. */
+ 409:../cyfxbulksrcsink.c ****     glIsApplnActive = CyFalse;
+ 857              		.loc 1 409 0
+ 858 0014 B8309FE5 		ldr	r3, .L49
+ 859 0018 0020A0E3 		mov	r2, #0
+ 860 001c 002083E5 		str	r2, [r3]
+ 410:../cyfxbulksrcsink.c **** 
+ 411:../cyfxbulksrcsink.c ****     /* Destroy the channels */
+ 412:../cyfxbulksrcsink.c ****     CyU3PDmaChannelDestroy (&glChHandleBulkSink);
+ 861              		.loc 1 412 0
+ 862 0020 B0009FE5 		ldr	r0, .L49+4
+ 863 0024 FEFFFFEB 		bl	CyU3PDmaChannelDestroy
+ 413:../cyfxbulksrcsink.c ****     CyU3PDmaChannelDestroy (&glChHandleBulkSrc);
+ 864              		.loc 1 413 0
+ 865 0028 AC009FE5 		ldr	r0, .L49+8
+ 866 002c FEFFFFEB 		bl	CyU3PDmaChannelDestroy
+ 414:../cyfxbulksrcsink.c **** 
+ 415:../cyfxbulksrcsink.c ****     /* Flush the endpoint memory */
+ 416:../cyfxbulksrcsink.c ****     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 867              		.loc 1 416 0
+ 868 0030 0100A0E3 		mov	r0, #1
+ 869 0034 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 417:../cyfxbulksrcsink.c ****     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 870              		.loc 1 417 0
+ 871 0038 8100A0E3 		mov	r0, #129
+ 872 003c FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 418:../cyfxbulksrcsink.c **** 
+ 419:../cyfxbulksrcsink.c ****     /* Disable endpoints. */
+ 420:../cyfxbulksrcsink.c ****     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
+ 873              		.loc 1 420 0
+ 874 0040 14304BE2 		sub	r3, fp, #20
+ 875 0044 0300A0E1 		mov	r0, r3
+ 876 0048 0010A0E3 		mov	r1, #0
+ 877 004c 0C20A0E3 		mov	r2, #12
+ 878 0050 FEFFFFEB 		bl	CyU3PMemSet
+ 421:../cyfxbulksrcsink.c ****     epCfg.enable = CyFalse;
+ 879              		.loc 1 421 0
+ 880 0054 0030A0E3 		mov	r3, #0
+ 881 0058 14300BE5 		str	r3, [fp, #-20]
+ 422:../cyfxbulksrcsink.c **** 
+ 423:../cyfxbulksrcsink.c ****     /* Producer endpoint configuration. */
+ 424:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_PRODUCER, &epCfg);
+ 882              		.loc 1 424 0
+ 883 005c 14304BE2 		sub	r3, fp, #20
+ 884 0060 0100A0E3 		mov	r0, #1
+ 885 0064 0310A0E1 		mov	r1, r3
+ 886 0068 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 887 006c 08000BE5 		str	r0, [fp, #-8]
+ 425:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 888              		.loc 1 425 0
+ 889 0070 08301BE5 		ldr	r3, [fp, #-8]
+ 890 0074 000053E3 		cmp	r3, #0
+ 891 0078 0500000A 		beq	.L47
+ 426:../cyfxbulksrcsink.c ****     {
+ 427:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 892              		.loc 1 427 0
+ 893 007c 0400A0E3 		mov	r0, #4
+ 894 0080 58109FE5 		ldr	r1, .L49+12
+ 895 0084 08201BE5 		ldr	r2, [fp, #-8]
+ 896 0088 FEFFFFEB 		bl	CyU3PDebugPrint
+ 428:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 897              		.loc 1 428 0
+ 898 008c 08001BE5 		ldr	r0, [fp, #-8]
+ 899 0090 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 900              	.L47:
+ 429:../cyfxbulksrcsink.c ****     }
+ 430:../cyfxbulksrcsink.c **** 
+ 431:../cyfxbulksrcsink.c ****     /* Consumer endpoint configuration. */
+ 432:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PSetEpConfig(CY_FX_EP_CONSUMER, &epCfg);
+ 901              		.loc 1 432 0
+ 902 0094 14304BE2 		sub	r3, fp, #20
+ 903 0098 8100A0E3 		mov	r0, #129
+ 904 009c 0310A0E1 		mov	r1, r3
+ 905 00a0 FEFFFFEB 		bl	CyU3PSetEpConfig
+ 906 00a4 08000BE5 		str	r0, [fp, #-8]
+ 433:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 907              		.loc 1 433 0
+ 908 00a8 08301BE5 		ldr	r3, [fp, #-8]
+ 909 00ac 000053E3 		cmp	r3, #0
+ 910 00b0 0500000A 		beq	.L46
+ 434:../cyfxbulksrcsink.c ****     {
+ 435:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PSetEpConfig failed, Error code = %d\n", apiRetStatus);
+ 911              		.loc 1 435 0
+ 912 00b4 0400A0E3 		mov	r0, #4
+ 913 00b8 20109FE5 		ldr	r1, .L49+12
+ 914 00bc 08201BE5 		ldr	r2, [fp, #-8]
+ 915 00c0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 436:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler (apiRetStatus);
+ 916              		.loc 1 436 0
+ 917 00c4 08001BE5 		ldr	r0, [fp, #-8]
+ 918 00c8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 919              	.L46:
+ 437:../cyfxbulksrcsink.c ****     }
+ 438:../cyfxbulksrcsink.c **** }
+ 920              		.loc 1 438 0
+ 921 00cc 04D04BE2 		sub	sp, fp, #4
+ 922              		@ sp needed
+ 923 00d0 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 924              	.L50:
+ 925              		.align	2
+ 926              	.L49:
+ 927 00d4 00000000 		.word	glIsApplnActive
+ 928 00d8 00000000 		.word	glChHandleBulkSink
+ 929 00dc 00000000 		.word	glChHandleBulkSrc
+ 930 00e0 D4000000 		.word	.LC5
+ 931              		.cfi_endproc
+ 932              	.LFE5:
+ 934              		.section	.text.CyFxBulkSrcSinkApplnUSBSetupCB,"ax",%progbits
+ 935              		.align	2
+ 936              		.global	CyFxBulkSrcSinkApplnUSBSetupCB
+ 938              	CyFxBulkSrcSinkApplnUSBSetupCB:
+ 939              	.LFB6:
+ 439:../cyfxbulksrcsink.c **** 
+ 440:../cyfxbulksrcsink.c **** /* Callback to handle the USB setup requests. */
+ 441:../cyfxbulksrcsink.c **** CyBool_t
+ 442:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnUSBSetupCB (
+ 443:../cyfxbulksrcsink.c ****         uint32_t setupdat0, /* SETUP Data 0 */
+ 444:../cyfxbulksrcsink.c ****         uint32_t setupdat1  /* SETUP Data 1 */
+ 445:../cyfxbulksrcsink.c ****     )
+ 446:../cyfxbulksrcsink.c **** {
+ 940              		.loc 1 446 0
+ 941              		.cfi_startproc
+ 942              		@ args = 0, pretend = 0, frame = 24
+ 943              		@ frame_needed = 1, uses_anonymous_args = 0
+ 944 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 945              	.LCFI12:
+ 946              		.cfi_def_cfa_offset 8
+ 947              		.cfi_offset 11, -8
+ 948              		.cfi_offset 14, -4
+ 949 0004 04B08DE2 		add	fp, sp, #4
+ 950              	.LCFI13:
+ 951              		.cfi_def_cfa 11, 4
+ 952 0008 18D04DE2 		sub	sp, sp, #24
+ 953 000c 18000BE5 		str	r0, [fp, #-24]
+ 954 0010 1C100BE5 		str	r1, [fp, #-28]
+ 447:../cyfxbulksrcsink.c ****     /* Fast enumeration is used. Only requests addressed to the interface, class,
+ 448:../cyfxbulksrcsink.c ****      * vendor and unknown control requests are received by this function.
+ 449:../cyfxbulksrcsink.c ****      * This application does not support any class or vendor requests. */
+ 450:../cyfxbulksrcsink.c **** 
+ 451:../cyfxbulksrcsink.c ****     uint8_t  bRequest, bReqType;
+ 452:../cyfxbulksrcsink.c ****     uint8_t  bType, bTarget;
+ 453:../cyfxbulksrcsink.c ****     uint16_t wValue, wIndex, wLength;
+ 454:../cyfxbulksrcsink.c ****     CyBool_t isHandled = CyFalse;
+ 955              		.loc 1 454 0
+ 956 0014 0030A0E3 		mov	r3, #0
+ 957 0018 08300BE5 		str	r3, [fp, #-8]
+ 455:../cyfxbulksrcsink.c **** 
+ 456:../cyfxbulksrcsink.c ****     /* Decode the fields from the setup request. */
+ 457:../cyfxbulksrcsink.c ****     bReqType = (setupdat0 & CY_U3P_USB_REQUEST_TYPE_MASK);
+ 958              		.loc 1 457 0
+ 959 001c 18301BE5 		ldr	r3, [fp, #-24]
+ 960 0020 09304BE5 		strb	r3, [fp, #-9]
+ 458:../cyfxbulksrcsink.c ****     bType    = (bReqType & CY_U3P_USB_TYPE_MASK);
+ 961              		.loc 1 458 0
+ 962 0024 09305BE5 		ldrb	r3, [fp, #-9]
+ 963 0028 603003E2 		and	r3, r3, #96
+ 964 002c 0A304BE5 		strb	r3, [fp, #-10]
+ 459:../cyfxbulksrcsink.c ****     bTarget  = (bReqType & CY_U3P_USB_TARGET_MASK);
+ 965              		.loc 1 459 0
+ 966 0030 09305BE5 		ldrb	r3, [fp, #-9]
+ 967 0034 033003E2 		and	r3, r3, #3
+ 968 0038 0B304BE5 		strb	r3, [fp, #-11]
+ 460:../cyfxbulksrcsink.c ****     bRequest = ((setupdat0 & CY_U3P_USB_REQUEST_MASK) >> CY_U3P_USB_REQUEST_POS);
+ 969              		.loc 1 460 0
+ 970 003c 18301BE5 		ldr	r3, [fp, #-24]
+ 971 0040 FF3C03E2 		and	r3, r3, #65280
+ 972 0044 2334A0E1 		mov	r3, r3, lsr #8
+ 973 0048 0C304BE5 		strb	r3, [fp, #-12]
+ 461:../cyfxbulksrcsink.c ****     wValue   = ((setupdat0 & CY_U3P_USB_VALUE_MASK)   >> CY_U3P_USB_VALUE_POS);
+ 974              		.loc 1 461 0
+ 975 004c 18301BE5 		ldr	r3, [fp, #-24]
+ 976 0050 2338A0E1 		mov	r3, r3, lsr #16
+ 977 0054 BE304BE1 		strh	r3, [fp, #-14]	@ movhi
+ 462:../cyfxbulksrcsink.c ****     wIndex   = ((setupdat1 & CY_U3P_USB_INDEX_MASK)   >> CY_U3P_USB_INDEX_POS);
+ 978              		.loc 1 462 0
+ 979 0058 1C301BE5 		ldr	r3, [fp, #-28]
+ 980 005c B0314BE1 		strh	r3, [fp, #-16]	@ movhi
+ 463:../cyfxbulksrcsink.c ****     wLength  = ((setupdat1 & CY_U3P_USB_LENGTH_MASK)  >> CY_U3P_USB_LENGTH_POS);
+ 981              		.loc 1 463 0
+ 982 0060 1C301BE5 		ldr	r3, [fp, #-28]
+ 983 0064 2338A0E1 		mov	r3, r3, lsr #16
+ 984 0068 B2314BE1 		strh	r3, [fp, #-18]	@ movhi
+ 464:../cyfxbulksrcsink.c **** 
+ 465:../cyfxbulksrcsink.c ****     if (bType == CY_U3P_USB_STANDARD_RQT)
+ 985              		.loc 1 465 0
+ 986 006c 0A305BE5 		ldrb	r3, [fp, #-10]	@ zero_extendqisi2
+ 987 0070 000053E3 		cmp	r3, #0
+ 988 0074 6C00001A 		bne	.L52
+ 466:../cyfxbulksrcsink.c ****     {
+ 467:../cyfxbulksrcsink.c ****         /* Handle SET_FEATURE(FUNCTION_SUSPEND) and CLEAR_FEATURE(FUNCTION_SUSPEND)
+ 468:../cyfxbulksrcsink.c ****          * requests here. It should be allowed to pass if the device is in configured
+ 469:../cyfxbulksrcsink.c ****          * state and failed otherwise. */
+ 470:../cyfxbulksrcsink.c ****         if ((bTarget == CY_U3P_USB_TARGET_INTF) && ((bRequest == CY_U3P_USB_SC_SET_FEATURE)
+ 989              		.loc 1 470 0
+ 990 0078 0B305BE5 		ldrb	r3, [fp, #-11]	@ zero_extendqisi2
+ 991 007c 010053E3 		cmp	r3, #1
+ 992 0080 2100001A 		bne	.L53
+ 993              		.loc 1 470 0 is_stmt 0 discriminator 1
+ 994 0084 0C305BE5 		ldrb	r3, [fp, #-12]	@ zero_extendqisi2
+ 995 0088 030053E3 		cmp	r3, #3
+ 996 008c 0200000A 		beq	.L54
+ 471:../cyfxbulksrcsink.c ****                     || (bRequest == CY_U3P_USB_SC_CLEAR_FEATURE)) && (wValue == 0))
+ 997              		.loc 1 471 0 is_stmt 1
+ 998 0090 0C305BE5 		ldrb	r3, [fp, #-12]	@ zero_extendqisi2
+ 999 0094 010053E3 		cmp	r3, #1
+ 1000 0098 1B00001A 		bne	.L53
+ 1001              	.L54:
+ 1002              		.loc 1 471 0 is_stmt 0 discriminator 1
+ 1003 009c BE305BE1 		ldrh	r3, [fp, #-14]
+ 1004 00a0 000053E3 		cmp	r3, #0
+ 1005 00a4 1800001A 		bne	.L53
+ 472:../cyfxbulksrcsink.c ****         {
+ 473:../cyfxbulksrcsink.c ****             if (glIsApplnActive)
+ 1006              		.loc 1 473 0 is_stmt 1
+ 1007 00a8 D4319FE5 		ldr	r3, .L62
+ 1008 00ac 003093E5 		ldr	r3, [r3]
+ 1009 00b0 000053E3 		cmp	r3, #0
+ 1010 00b4 0E00000A 		beq	.L55
+ 474:../cyfxbulksrcsink.c ****             {
+ 475:../cyfxbulksrcsink.c ****                 CyU3PUsbAckSetup ();
+ 1011              		.loc 1 475 0
+ 1012 00b8 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 476:../cyfxbulksrcsink.c **** 
+ 477:../cyfxbulksrcsink.c ****                 /* As we have only one interface, the link can be pushed into U2 state as soon as
+ 478:../cyfxbulksrcsink.c ****                    this interface is suspended.
+ 479:../cyfxbulksrcsink.c ****                  */
+ 480:../cyfxbulksrcsink.c ****                 if (bRequest == CY_U3P_USB_SC_SET_FEATURE)
+ 1013              		.loc 1 480 0
+ 1014 00bc 0C305BE5 		ldrb	r3, [fp, #-12]	@ zero_extendqisi2
+ 1015 00c0 030053E3 		cmp	r3, #3
+ 1016 00c4 0600001A 		bne	.L56
+ 481:../cyfxbulksrcsink.c ****                 {
+ 482:../cyfxbulksrcsink.c ****                     glDataTransStarted = CyFalse;
+ 1017              		.loc 1 482 0
+ 1018 00c8 B8319FE5 		ldr	r3, .L62+4
+ 1019 00cc 0020A0E3 		mov	r2, #0
+ 1020 00d0 002083E5 		str	r2, [r3]
+ 483:../cyfxbulksrcsink.c ****                     glForceLinkU2      = CyTrue;
+ 1021              		.loc 1 483 0
+ 1022 00d4 B0319FE5 		ldr	r3, .L62+8
+ 1023 00d8 0120A0E3 		mov	r2, #1
+ 1024 00dc 002083E5 		str	r2, [r3]
+ 1025 00e0 070000EA 		b	.L58
+ 1026              	.L56:
+ 484:../cyfxbulksrcsink.c ****                 }
+ 485:../cyfxbulksrcsink.c ****                 else
+ 486:../cyfxbulksrcsink.c ****                 {
+ 487:../cyfxbulksrcsink.c ****                     glForceLinkU2 = CyFalse;
+ 1027              		.loc 1 487 0
+ 1028 00e4 A0319FE5 		ldr	r3, .L62+8
+ 1029 00e8 0020A0E3 		mov	r2, #0
+ 1030 00ec 002083E5 		str	r2, [r3]
+ 1031 00f0 030000EA 		b	.L58
+ 1032              	.L55:
+ 488:../cyfxbulksrcsink.c ****                 }
+ 489:../cyfxbulksrcsink.c ****             }
+ 490:../cyfxbulksrcsink.c ****             else
+ 491:../cyfxbulksrcsink.c ****                 CyU3PUsbStall (0, CyTrue, CyFalse);
+ 1033              		.loc 1 491 0
+ 1034 00f4 0000A0E3 		mov	r0, #0
+ 1035 00f8 0110A0E3 		mov	r1, #1
+ 1036 00fc 0020A0E3 		mov	r2, #0
+ 1037 0100 FEFFFFEB 		bl	CyU3PUsbStall
+ 1038              	.L58:
+ 492:../cyfxbulksrcsink.c **** 
+ 493:../cyfxbulksrcsink.c ****             isHandled = CyTrue;
+ 1039              		.loc 1 493 0
+ 1040 0104 0130A0E3 		mov	r3, #1
+ 1041 0108 08300BE5 		str	r3, [fp, #-8]
+ 1042              	.L53:
+ 494:../cyfxbulksrcsink.c ****         }
+ 495:../cyfxbulksrcsink.c **** 
+ 496:../cyfxbulksrcsink.c ****         /* CLEAR_FEATURE request for endpoint is always passed to the setup callback
+ 497:../cyfxbulksrcsink.c ****          * regardless of the enumeration model used. When a clear feature is received,
+ 498:../cyfxbulksrcsink.c ****          * the previous transfer has to be flushed and cleaned up. This is done at the
+ 499:../cyfxbulksrcsink.c ****          * protocol level. Since this is just a loopback operation, there is no higher
+ 500:../cyfxbulksrcsink.c ****          * level protocol. So flush the EP memory and reset the DMA channel associated
+ 501:../cyfxbulksrcsink.c ****          * with it. If there are more than one EP associated with the channel reset both
+ 502:../cyfxbulksrcsink.c ****          * the EPs. The endpoint stall and toggle / sequence number is also expected to be
+ 503:../cyfxbulksrcsink.c ****          * reset. Return CyFalse to make the library clear the stall and reset the endpoint
+ 504:../cyfxbulksrcsink.c ****          * toggle. Or invoke the CyU3PUsbStall (ep, CyFalse, CyTrue) and return CyTrue.
+ 505:../cyfxbulksrcsink.c ****          * Here we are clearing the stall. */
+ 506:../cyfxbulksrcsink.c ****         if ((bTarget == CY_U3P_USB_TARGET_ENDPT) && (bRequest == CY_U3P_USB_SC_CLEAR_FEATURE)
+ 1043              		.loc 1 506 0
+ 1044 010c 0B305BE5 		ldrb	r3, [fp, #-11]	@ zero_extendqisi2
+ 1045 0110 020053E3 		cmp	r3, #2
+ 1046 0114 4400001A 		bne	.L52
+ 1047              		.loc 1 506 0 is_stmt 0 discriminator 1
+ 1048 0118 0C305BE5 		ldrb	r3, [fp, #-12]	@ zero_extendqisi2
+ 1049 011c 010053E3 		cmp	r3, #1
+ 1050 0120 4100001A 		bne	.L52
+ 507:../cyfxbulksrcsink.c ****                 && (wValue == CY_U3P_USBX_FS_EP_HALT))
+ 1051              		.loc 1 507 0 is_stmt 1
+ 1052 0124 BE305BE1 		ldrh	r3, [fp, #-14]
+ 1053 0128 000053E3 		cmp	r3, #0
+ 1054 012c 3E00001A 		bne	.L52
+ 508:../cyfxbulksrcsink.c ****         {
+ 509:../cyfxbulksrcsink.c ****             if (glIsApplnActive)
+ 1055              		.loc 1 509 0
+ 1056 0130 4C319FE5 		ldr	r3, .L62
+ 1057 0134 003093E5 		ldr	r3, [r3]
+ 1058 0138 000053E3 		cmp	r3, #0
+ 1059 013c 3A00000A 		beq	.L52
+ 510:../cyfxbulksrcsink.c ****             {
+ 511:../cyfxbulksrcsink.c ****                 if (wIndex == CY_FX_EP_PRODUCER)
+ 1060              		.loc 1 511 0
+ 1061 0140 B0315BE1 		ldrh	r3, [fp, #-16]
+ 1062 0144 010053E3 		cmp	r3, #1
+ 1063 0148 1900001A 		bne	.L59
+ 512:../cyfxbulksrcsink.c ****                 {
+ 513:../cyfxbulksrcsink.c ****                     CyU3PUsbSetEpNak (CY_FX_EP_PRODUCER, CyTrue);
+ 1064              		.loc 1 513 0
+ 1065 014c 0100A0E3 		mov	r0, #1
+ 1066 0150 0110A0E3 		mov	r1, #1
+ 1067 0154 FEFFFFEB 		bl	CyU3PUsbSetEpNak
+ 514:../cyfxbulksrcsink.c ****                     CyU3PBusyWait (125);
+ 1068              		.loc 1 514 0
+ 1069 0158 7D00A0E3 		mov	r0, #125
+ 1070 015c FEFFFFEB 		bl	CyFx3BusyWait
+ 515:../cyfxbulksrcsink.c **** 
+ 516:../cyfxbulksrcsink.c ****                     CyU3PDmaChannelReset (&glChHandleBulkSink);
+ 1071              		.loc 1 516 0
+ 1072 0160 28019FE5 		ldr	r0, .L62+12
+ 1073 0164 FEFFFFEB 		bl	CyU3PDmaChannelReset
+ 517:../cyfxbulksrcsink.c ****                     CyU3PUsbFlushEp(CY_FX_EP_PRODUCER);
+ 1074              		.loc 1 517 0
+ 1075 0168 0100A0E3 		mov	r0, #1
+ 1076 016c FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 518:../cyfxbulksrcsink.c ****                     CyU3PUsbResetEp (CY_FX_EP_PRODUCER);
+ 1077              		.loc 1 518 0
+ 1078 0170 0100A0E3 		mov	r0, #1
+ 1079 0174 FEFFFFEB 		bl	CyU3PUsbResetEp
+ 519:../cyfxbulksrcsink.c ****                     CyU3PUsbSetEpNak (CY_FX_EP_PRODUCER, CyFalse);
+ 1080              		.loc 1 519 0
+ 1081 0178 0100A0E3 		mov	r0, #1
+ 1082 017c 0010A0E3 		mov	r1, #0
+ 1083 0180 FEFFFFEB 		bl	CyU3PUsbSetEpNak
+ 520:../cyfxbulksrcsink.c **** 
+ 521:../cyfxbulksrcsink.c ****                     CyU3PDmaChannelSetXfer (&glChHandleBulkSink, CY_FX_BULKSRCSINK_DMA_TX_SIZE);
+ 1084              		.loc 1 521 0
+ 1085 0184 04019FE5 		ldr	r0, .L62+12
+ 1086 0188 0010A0E3 		mov	r1, #0
+ 1087 018c FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 522:../cyfxbulksrcsink.c ****                     CyU3PUsbStall (wIndex, CyFalse, CyTrue);
+ 1088              		.loc 1 522 0
+ 1089 0190 B0315BE1 		ldrh	r3, [fp, #-16]	@ movhi
+ 1090 0194 FF3003E2 		and	r3, r3, #255
+ 1091 0198 0300A0E1 		mov	r0, r3
+ 1092 019c 0010A0E3 		mov	r1, #0
+ 1093 01a0 0120A0E3 		mov	r2, #1
+ 1094 01a4 FEFFFFEB 		bl	CyU3PUsbStall
+ 523:../cyfxbulksrcsink.c ****                     isHandled = CyTrue;
+ 1095              		.loc 1 523 0
+ 1096 01a8 0130A0E3 		mov	r3, #1
+ 1097 01ac 08300BE5 		str	r3, [fp, #-8]
+ 524:../cyfxbulksrcsink.c ****                     CyU3PUsbAckSetup ();
+ 1098              		.loc 1 524 0
+ 1099 01b0 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 1100              	.L59:
+ 525:../cyfxbulksrcsink.c ****                 }
+ 526:../cyfxbulksrcsink.c **** 
+ 527:../cyfxbulksrcsink.c ****                 if (wIndex == CY_FX_EP_CONSUMER)
+ 1101              		.loc 1 527 0
+ 1102 01b4 B0315BE1 		ldrh	r3, [fp, #-16]
+ 1103 01b8 810053E3 		cmp	r3, #129
+ 1104 01bc 1A00001A 		bne	.L52
+ 528:../cyfxbulksrcsink.c ****                 {
+ 529:../cyfxbulksrcsink.c ****                     CyU3PUsbSetEpNak (CY_FX_EP_CONSUMER, CyTrue);
+ 1105              		.loc 1 529 0
+ 1106 01c0 8100A0E3 		mov	r0, #129
+ 1107 01c4 0110A0E3 		mov	r1, #1
+ 1108 01c8 FEFFFFEB 		bl	CyU3PUsbSetEpNak
+ 530:../cyfxbulksrcsink.c ****                     CyU3PBusyWait (125);
+ 1109              		.loc 1 530 0
+ 1110 01cc 7D00A0E3 		mov	r0, #125
+ 1111 01d0 FEFFFFEB 		bl	CyFx3BusyWait
+ 531:../cyfxbulksrcsink.c **** 
+ 532:../cyfxbulksrcsink.c ****                     CyU3PDmaChannelReset (&glChHandleBulkSrc);
+ 1112              		.loc 1 532 0
+ 1113 01d4 B8009FE5 		ldr	r0, .L62+16
+ 1114 01d8 FEFFFFEB 		bl	CyU3PDmaChannelReset
+ 533:../cyfxbulksrcsink.c ****                     CyU3PUsbFlushEp(CY_FX_EP_CONSUMER);
+ 1115              		.loc 1 533 0
+ 1116 01dc 8100A0E3 		mov	r0, #129
+ 1117 01e0 FEFFFFEB 		bl	CyU3PUsbFlushEp
+ 534:../cyfxbulksrcsink.c ****                     CyU3PUsbResetEp (CY_FX_EP_CONSUMER);
+ 1118              		.loc 1 534 0
+ 1119 01e4 8100A0E3 		mov	r0, #129
+ 1120 01e8 FEFFFFEB 		bl	CyU3PUsbResetEp
+ 535:../cyfxbulksrcsink.c ****                     CyU3PUsbSetEpNak (CY_FX_EP_CONSUMER, CyFalse);
+ 1121              		.loc 1 535 0
+ 1122 01ec 8100A0E3 		mov	r0, #129
+ 1123 01f0 0010A0E3 		mov	r1, #0
+ 1124 01f4 FEFFFFEB 		bl	CyU3PUsbSetEpNak
+ 536:../cyfxbulksrcsink.c **** 
+ 537:../cyfxbulksrcsink.c ****                     CyU3PDmaChannelSetXfer (&glChHandleBulkSrc, CY_FX_BULKSRCSINK_DMA_TX_SIZE);
+ 1125              		.loc 1 537 0
+ 1126 01f8 94009FE5 		ldr	r0, .L62+16
+ 1127 01fc 0010A0E3 		mov	r1, #0
+ 1128 0200 FEFFFFEB 		bl	CyU3PDmaChannelSetXfer
+ 538:../cyfxbulksrcsink.c ****                     CyU3PUsbStall (wIndex, CyFalse, CyTrue);
+ 1129              		.loc 1 538 0
+ 1130 0204 B0315BE1 		ldrh	r3, [fp, #-16]	@ movhi
+ 1131 0208 FF3003E2 		and	r3, r3, #255
+ 1132 020c 0300A0E1 		mov	r0, r3
+ 1133 0210 0010A0E3 		mov	r1, #0
+ 1134 0214 0120A0E3 		mov	r2, #1
+ 1135 0218 FEFFFFEB 		bl	CyU3PUsbStall
+ 539:../cyfxbulksrcsink.c ****                     isHandled = CyTrue;
+ 1136              		.loc 1 539 0
+ 1137 021c 0130A0E3 		mov	r3, #1
+ 1138 0220 08300BE5 		str	r3, [fp, #-8]
+ 540:../cyfxbulksrcsink.c ****                     CyU3PUsbAckSetup ();
+ 1139              		.loc 1 540 0
+ 1140 0224 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 541:../cyfxbulksrcsink.c **** 
+ 542:../cyfxbulksrcsink.c ****                     CyFxBulkSrcSinkFillInBuffers ();
+ 1141              		.loc 1 542 0
+ 1142 0228 FEFFFFEB 		bl	CyFxBulkSrcSinkFillInBuffers
+ 1143              	.L52:
+ 543:../cyfxbulksrcsink.c ****                 }
+ 544:../cyfxbulksrcsink.c ****             }
+ 545:../cyfxbulksrcsink.c ****         }
+ 546:../cyfxbulksrcsink.c ****     }
+ 547:../cyfxbulksrcsink.c **** 
+ 548:../cyfxbulksrcsink.c ****     if ((bType == CY_U3P_USB_VENDOR_RQT) && (bTarget == CY_U3P_USB_TARGET_DEVICE))
+ 1144              		.loc 1 548 0
+ 1145 022c 0A305BE5 		ldrb	r3, [fp, #-10]	@ zero_extendqisi2
+ 1146 0230 400053E3 		cmp	r3, #64
+ 1147 0234 0E00001A 		bne	.L60
+ 1148              		.loc 1 548 0 is_stmt 0 discriminator 1
+ 1149 0238 0B305BE5 		ldrb	r3, [fp, #-11]	@ zero_extendqisi2
+ 1150 023c 000053E3 		cmp	r3, #0
+ 1151 0240 0B00001A 		bne	.L60
+ 549:../cyfxbulksrcsink.c ****     {
+ 550:../cyfxbulksrcsink.c ****         /* We set an event here and let the application thread below handle these requests.
+ 551:../cyfxbulksrcsink.c ****          * isHandled needs to be set to True, so that the driver does not stall EP0. */
+ 552:../cyfxbulksrcsink.c ****         isHandled = CyTrue;
+ 1152              		.loc 1 552 0 is_stmt 1
+ 1153 0244 0130A0E3 		mov	r3, #1
+ 1154 0248 08300BE5 		str	r3, [fp, #-8]
+ 553:../cyfxbulksrcsink.c ****         gl_setupdat0 = setupdat0;
+ 1155              		.loc 1 553 0
+ 1156 024c 44309FE5 		ldr	r3, .L62+20
+ 1157 0250 18201BE5 		ldr	r2, [fp, #-24]
+ 1158 0254 002083E5 		str	r2, [r3]
+ 554:../cyfxbulksrcsink.c ****         gl_setupdat1 = setupdat1;
+ 1159              		.loc 1 554 0
+ 1160 0258 3C309FE5 		ldr	r3, .L62+24
+ 1161 025c 1C201BE5 		ldr	r2, [fp, #-28]
+ 1162 0260 002083E5 		str	r2, [r3]
+ 555:../cyfxbulksrcsink.c ****         CyU3PEventSet (&glBulkLpEvent, CYFX_USB_CTRL_TASK, CYU3P_EVENT_OR);
+ 1163              		.loc 1 555 0
+ 1164 0264 34009FE5 		ldr	r0, .L62+28
+ 1165 0268 0110A0E3 		mov	r1, #1
+ 1166 026c 0020A0E3 		mov	r2, #0
+ 1167 0270 FEFFFFEB 		bl	_txe_event_flags_set
+ 1168              	.L60:
+ 556:../cyfxbulksrcsink.c ****     }
+ 557:../cyfxbulksrcsink.c **** 
+ 558:../cyfxbulksrcsink.c ****     return isHandled;
+ 1169              		.loc 1 558 0
+ 1170 0274 08301BE5 		ldr	r3, [fp, #-8]
+ 559:../cyfxbulksrcsink.c **** }
+ 1171              		.loc 1 559 0
+ 1172 0278 0300A0E1 		mov	r0, r3
+ 1173 027c 04D04BE2 		sub	sp, fp, #4
+ 1174              		@ sp needed
+ 1175 0280 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1176              	.L63:
+ 1177              		.align	2
+ 1178              	.L62:
+ 1179 0284 00000000 		.word	glIsApplnActive
+ 1180 0288 00000000 		.word	glDataTransStarted
+ 1181 028c 00000000 		.word	glForceLinkU2
+ 1182 0290 00000000 		.word	glChHandleBulkSink
+ 1183 0294 00000000 		.word	glChHandleBulkSrc
+ 1184 0298 00000000 		.word	gl_setupdat0
+ 1185 029c 00000000 		.word	gl_setupdat1
+ 1186 02a0 00000000 		.word	glBulkLpEvent
+ 1187              		.cfi_endproc
+ 1188              	.LFE6:
+ 1190              		.section	.rodata
+ 1191              		.align	2
+ 1192              	.LC8:
+ 1193 0160 43595F55 		.ascii	"CY_U3P_USB_EVENT_CONNECT detected (%d)\012\000"
+ 1193      33505F55 
+ 1193      53425F45 
+ 1193      56454E54 
+ 1193      5F434F4E 
+ 1194              		.align	2
+ 1195              	.LC9:
+ 1196 0188 43595F55 		.ascii	"CY_U3P_USB_EVENT_DISCONNECT detected (%d)\012\000"
+ 1196      33505F55 
+ 1196      53425F45 
+ 1196      56454E54 
+ 1196      5F444953 
+ 1197              		.section	.text.CyFxBulkSrcSinkApplnUSBEventCB,"ax",%progbits
+ 1198              		.align	2
+ 1199              		.global	CyFxBulkSrcSinkApplnUSBEventCB
+ 1201              	CyFxBulkSrcSinkApplnUSBEventCB:
+ 1202              	.LFB7:
+ 560:../cyfxbulksrcsink.c **** 
+ 561:../cyfxbulksrcsink.c **** /* This is the callback function to handle the USB events. */
+ 562:../cyfxbulksrcsink.c **** void
+ 563:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnUSBEventCB (
+ 564:../cyfxbulksrcsink.c ****     CyU3PUsbEventType_t evtype, /* Event type */
+ 565:../cyfxbulksrcsink.c ****     uint16_t            evdata  /* Event data */
+ 566:../cyfxbulksrcsink.c ****     )
+ 567:../cyfxbulksrcsink.c **** {
+ 1203              		.loc 1 567 0
+ 1204              		.cfi_startproc
+ 1205              		@ args = 0, pretend = 0, frame = 8
+ 1206              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1207 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1208              	.LCFI14:
+ 1209              		.cfi_def_cfa_offset 8
+ 1210              		.cfi_offset 11, -8
+ 1211              		.cfi_offset 14, -4
+ 1212 0004 04B08DE2 		add	fp, sp, #4
+ 1213              	.LCFI15:
+ 1214              		.cfi_def_cfa 11, 4
+ 1215 0008 08D04DE2 		sub	sp, sp, #8
+ 1216 000c 0020A0E1 		mov	r2, r0
+ 1217 0010 0130A0E1 		mov	r3, r1
+ 1218 0014 05204BE5 		strb	r2, [fp, #-5]
+ 1219 0018 B8304BE1 		strh	r3, [fp, #-8]	@ movhi
+ 568:../cyfxbulksrcsink.c ****     static uint32_t num_connect    = 0;
+ 569:../cyfxbulksrcsink.c ****     static uint32_t num_disconnect = 0;
+ 570:../cyfxbulksrcsink.c **** 
+ 571:../cyfxbulksrcsink.c ****     switch (evtype)
+ 1220              		.loc 1 571 0
+ 1221 001c 05305BE5 		ldrb	r3, [fp, #-5]	@ zero_extendqisi2
+ 1222 0020 0C0053E3 		cmp	r3, #12
+ 1223 0024 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 1224 0028 4C0000EA 		b	.L77
+ 1225              	.L67:
+ 1226 002c 60000000 		.word	.L66
+ 1227 0030 AC000000 		.word	.L68
+ 1228 0034 60010000 		.word	.L77
+ 1229 0038 60010000 		.word	.L77
+ 1230 003c AC000000 		.word	.L68
+ 1231 0040 90000000 		.word	.L69
+ 1232 0044 60010000 		.word	.L77
+ 1233 0048 60010000 		.word	.L77
+ 1234 004c 60010000 		.word	.L77
+ 1235 0050 60010000 		.word	.L77
+ 1236 0054 18010000 		.word	.L70
+ 1237 0058 60010000 		.word	.L77
+ 1238 005c 30010000 		.word	.L71
+ 1239              	.L66:
+ 572:../cyfxbulksrcsink.c ****     {
+ 573:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_CONNECT:
+ 574:../cyfxbulksrcsink.c ****       ++num_connect;
+ 1240              		.loc 1 574 0
+ 1241 0060 04319FE5 		ldr	r3, .L78
+ 1242 0064 003093E5 		ldr	r3, [r3]
+ 1243 0068 012083E2 		add	r2, r3, #1
+ 1244 006c F8309FE5 		ldr	r3, .L78
+ 1245 0070 002083E5 		str	r2, [r3]
+ 575:../cyfxbulksrcsink.c ****       CyU3PDebugPrint (8, "CY_U3P_USB_EVENT_CONNECT detected (%d)\n",
+ 1246              		.loc 1 575 0
+ 1247 0074 F0309FE5 		ldr	r3, .L78
+ 1248 0078 003093E5 		ldr	r3, [r3]
+ 1249 007c 0800A0E3 		mov	r0, #8
+ 1250 0080 E8109FE5 		ldr	r1, .L78+4
+ 1251 0084 0320A0E1 		mov	r2, r3
+ 1252 0088 FEFFFFEB 		bl	CyU3PDebugPrint
+ 576:../cyfxbulksrcsink.c ****                        num_connect);
+ 577:../cyfxbulksrcsink.c ****       break;
+ 1253              		.loc 1 577 0
+ 1254 008c 340000EA 		b	.L64
+ 1255              	.L69:
+ 578:../cyfxbulksrcsink.c **** 
+ 579:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_SETCONF:
+ 580:../cyfxbulksrcsink.c ****         /* If the application is already active
+ 581:../cyfxbulksrcsink.c ****          * stop it before re-enabling. */
+ 582:../cyfxbulksrcsink.c ****         if (glIsApplnActive)
+ 1256              		.loc 1 582 0
+ 1257 0090 DC309FE5 		ldr	r3, .L78+8
+ 1258 0094 003093E5 		ldr	r3, [r3]
+ 1259 0098 000053E3 		cmp	r3, #0
+ 1260 009c 0000000A 		beq	.L73
+ 583:../cyfxbulksrcsink.c ****         {
+ 584:../cyfxbulksrcsink.c ****             CyFxBulkSrcSinkApplnStop ();
+ 1261              		.loc 1 584 0
+ 1262 00a0 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStop
+ 1263              	.L73:
+ 585:../cyfxbulksrcsink.c ****         }
+ 586:../cyfxbulksrcsink.c **** 
+ 587:../cyfxbulksrcsink.c ****         /* Start the source sink function. */
+ 588:../cyfxbulksrcsink.c ****         CyFxBulkSrcSinkApplnStart ();
+ 1264              		.loc 1 588 0
+ 1265 00a4 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStart
+ 589:../cyfxbulksrcsink.c ****         break;
+ 1266              		.loc 1 589 0
+ 1267 00a8 2D0000EA 		b	.L64
+ 1268              	.L68:
+ 590:../cyfxbulksrcsink.c **** 
+ 591:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_RESET:
+ 592:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_DISCONNECT:
+ 593:../cyfxbulksrcsink.c ****         glForceLinkU2 = CyFalse;
+ 1269              		.loc 1 593 0
+ 1270 00ac C4309FE5 		ldr	r3, .L78+12
+ 1271 00b0 0020A0E3 		mov	r2, #0
+ 1272 00b4 002083E5 		str	r2, [r3]
+ 594:../cyfxbulksrcsink.c **** 
+ 595:../cyfxbulksrcsink.c ****         /* Stop the source sink function. */
+ 596:../cyfxbulksrcsink.c ****         if (glIsApplnActive)
+ 1273              		.loc 1 596 0
+ 1274 00b8 B4309FE5 		ldr	r3, .L78+8
+ 1275 00bc 003093E5 		ldr	r3, [r3]
+ 1276 00c0 000053E3 		cmp	r3, #0
+ 1277 00c4 0000000A 		beq	.L74
+ 597:../cyfxbulksrcsink.c ****         {
+ 598:../cyfxbulksrcsink.c ****             CyFxBulkSrcSinkApplnStop ();
+ 1278              		.loc 1 598 0
+ 1279 00c8 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStop
+ 1280              	.L74:
+ 599:../cyfxbulksrcsink.c ****         }
+ 600:../cyfxbulksrcsink.c ****         glDataTransStarted = CyFalse;
+ 1281              		.loc 1 600 0
+ 1282 00cc A8309FE5 		ldr	r3, .L78+16
+ 1283 00d0 0020A0E3 		mov	r2, #0
+ 1284 00d4 002083E5 		str	r2, [r3]
+ 601:../cyfxbulksrcsink.c **** 
+ 602:../cyfxbulksrcsink.c ****         if (evtype == CY_U3P_USB_EVENT_DISCONNECT) {
+ 1285              		.loc 1 602 0
+ 1286 00d8 05305BE5 		ldrb	r3, [fp, #-5]	@ zero_extendqisi2
+ 1287 00dc 010053E3 		cmp	r3, #1
+ 1288 00e0 0B00001A 		bne	.L75
+ 603:../cyfxbulksrcsink.c ****             ++num_disconnect;
+ 1289              		.loc 1 603 0
+ 1290 00e4 94309FE5 		ldr	r3, .L78+20
+ 1291 00e8 003093E5 		ldr	r3, [r3]
+ 1292 00ec 012083E2 		add	r2, r3, #1
+ 1293 00f0 88309FE5 		ldr	r3, .L78+20
+ 1294 00f4 002083E5 		str	r2, [r3]
+ 604:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (8, "CY_U3P_USB_EVENT_DISCONNECT detected (%d)\n",
+ 1295              		.loc 1 604 0
+ 1296 00f8 80309FE5 		ldr	r3, .L78+20
+ 1297 00fc 003093E5 		ldr	r3, [r3]
+ 1298 0100 0800A0E3 		mov	r0, #8
+ 1299 0104 78109FE5 		ldr	r1, .L78+24
+ 1300 0108 0320A0E1 		mov	r2, r3
+ 1301 010c FEFFFFEB 		bl	CyU3PDebugPrint
+ 605:../cyfxbulksrcsink.c ****                              num_disconnect);
+ 606:../cyfxbulksrcsink.c ****         }
+ 607:../cyfxbulksrcsink.c ****         break;
+ 1302              		.loc 1 607 0
+ 1303 0110 130000EA 		b	.L64
+ 1304              	.L75:
+ 1305 0114 120000EA 		b	.L64
+ 1306              	.L70:
+ 608:../cyfxbulksrcsink.c **** 
+ 609:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_EP0_STAT_CPLT:
+ 610:../cyfxbulksrcsink.c ****         glEp0StatCount++;
+ 1307              		.loc 1 610 0
+ 1308 0118 68309FE5 		ldr	r3, .L78+28
+ 1309 011c 003093E5 		ldr	r3, [r3]
+ 1310 0120 012083E2 		add	r2, r3, #1
+ 1311 0124 5C309FE5 		ldr	r3, .L78+28
+ 1312 0128 002083E5 		str	r2, [r3]
+ 611:../cyfxbulksrcsink.c ****         break;
+ 1313              		.loc 1 611 0
+ 1314 012c 0C0000EA 		b	.L64
+ 1315              	.L71:
+ 612:../cyfxbulksrcsink.c **** 
+ 613:../cyfxbulksrcsink.c ****     case CY_U3P_USB_EVENT_VBUS_REMOVED:
+ 614:../cyfxbulksrcsink.c ****         if (StandbyModeEnable)
+ 1316              		.loc 1 614 0
+ 1317 0130 54309FE5 		ldr	r3, .L78+32
+ 1318 0134 003093E5 		ldr	r3, [r3]
+ 1319 0138 000053E3 		cmp	r3, #0
+ 1320 013c 0600000A 		beq	.L76
+ 615:../cyfxbulksrcsink.c ****         {
+ 616:../cyfxbulksrcsink.c ****         TriggerStandbyMode = CyTrue;
+ 1321              		.loc 1 616 0
+ 1322 0140 48309FE5 		ldr	r3, .L78+36
+ 1323 0144 0120A0E3 		mov	r2, #1
+ 1324 0148 002083E5 		str	r2, [r3]
+ 617:../cyfxbulksrcsink.c ****             StandbyModeEnable  = CyFalse;
+ 1325              		.loc 1 617 0
+ 1326 014c 38309FE5 		ldr	r3, .L78+32
+ 1327 0150 0020A0E3 		mov	r2, #0
+ 1328 0154 002083E5 		str	r2, [r3]
+ 618:../cyfxbulksrcsink.c ****         }
+ 619:../cyfxbulksrcsink.c ****         break;
+ 1329              		.loc 1 619 0
+ 1330 0158 010000EA 		b	.L64
+ 1331              	.L76:
+ 1332 015c 000000EA 		b	.L64
+ 1333              	.L77:
+ 620:../cyfxbulksrcsink.c **** 
+ 621:../cyfxbulksrcsink.c ****     default:
+ 622:../cyfxbulksrcsink.c ****         break;
+ 1334              		.loc 1 622 0
+ 1335 0160 0000A0E1 		mov	r0, r0	@ nop
+ 1336              	.L64:
+ 623:../cyfxbulksrcsink.c ****     }
+ 624:../cyfxbulksrcsink.c **** }
+ 1337              		.loc 1 624 0
+ 1338 0164 04D04BE2 		sub	sp, fp, #4
+ 1339              		@ sp needed
+ 1340 0168 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1341              	.L79:
+ 1342              		.align	2
+ 1343              	.L78:
+ 1344 016c 00000000 		.word	num_connect.7272
+ 1345 0170 60010000 		.word	.LC8
+ 1346 0174 00000000 		.word	glIsApplnActive
+ 1347 0178 00000000 		.word	glForceLinkU2
+ 1348 017c 00000000 		.word	glDataTransStarted
+ 1349 0180 00000000 		.word	num_disconnect.7273
+ 1350 0184 88010000 		.word	.LC9
+ 1351 0188 00000000 		.word	glEp0StatCount
+ 1352 018c 00000000 		.word	StandbyModeEnable
+ 1353 0190 00000000 		.word	TriggerStandbyMode
+ 1354              		.cfi_endproc
+ 1355              	.LFE7:
+ 1357              		.section	.text.CyFxBulkSrcSinkApplnLPMRqtCB,"ax",%progbits
+ 1358              		.align	2
+ 1359              		.global	CyFxBulkSrcSinkApplnLPMRqtCB
+ 1361              	CyFxBulkSrcSinkApplnLPMRqtCB:
+ 1362              	.LFB8:
+ 625:../cyfxbulksrcsink.c **** 
+ 626:../cyfxbulksrcsink.c **** /* Callback function to handle LPM requests from the USB 3.0 host. This function is invoked by the 
+ 627:../cyfxbulksrcsink.c ****    whenever a state change from U0 -> U1 or U0 -> U2 happens. If we return CyTrue from this functio
+ 628:../cyfxbulksrcsink.c ****    FX3 device is retained in the low power state. If we return CyFalse, the FX3 device immediately 
+ 629:../cyfxbulksrcsink.c ****    to trigger an exit back to U0.
+ 630:../cyfxbulksrcsink.c **** 
+ 631:../cyfxbulksrcsink.c ****    This application does not have any state in which we should not allow U1/U2 transitions; and the
+ 632:../cyfxbulksrcsink.c ****    the function always return CyTrue.
+ 633:../cyfxbulksrcsink.c ****  */
+ 634:../cyfxbulksrcsink.c **** CyBool_t
+ 635:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnLPMRqtCB (
+ 636:../cyfxbulksrcsink.c ****         CyU3PUsbLinkPowerMode link_mode)
+ 637:../cyfxbulksrcsink.c **** {
+ 1363              		.loc 1 637 0
+ 1364              		.cfi_startproc
+ 1365              		@ args = 0, pretend = 0, frame = 8
+ 1366              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1367              		@ link register save eliminated.
+ 1368 0000 04B02DE5 		str	fp, [sp, #-4]!
+ 1369              	.LCFI16:
+ 1370              		.cfi_def_cfa_offset 4
+ 1371              		.cfi_offset 11, -4
+ 1372 0004 00B08DE2 		add	fp, sp, #0
+ 1373              	.LCFI17:
+ 1374              		.cfi_def_cfa_register 11
+ 1375 0008 0CD04DE2 		sub	sp, sp, #12
+ 1376 000c 0030A0E1 		mov	r3, r0
+ 1377 0010 05304BE5 		strb	r3, [fp, #-5]
+ 638:../cyfxbulksrcsink.c ****     return CyTrue;
+ 1378              		.loc 1 638 0
+ 1379 0014 0130A0E3 		mov	r3, #1
+ 639:../cyfxbulksrcsink.c **** }
+ 1380              		.loc 1 639 0
+ 1381 0018 0300A0E1 		mov	r0, r3
+ 1382 001c 00D04BE2 		sub	sp, fp, #0
+ 1383              		@ sp needed
+ 1384 0020 04B09DE4 		ldr	fp, [sp], #4
+ 1385 0024 1EFF2FE1 		bx	lr
+ 1386              		.cfi_endproc
+ 1387              	.LFE8:
+ 1389              		.section	.rodata
+ 1390 01b3 00       		.align	2
+ 1391              	.LC10:
+ 1392 01b4 43795533 		.ascii	"CyU3PUsbStart failed to Start, Error code = %d\012\000"
+ 1392      50557362 
+ 1392      53746172 
+ 1392      74206661 
+ 1392      696C6564 
+ 1393              		.align	2
+ 1394              	.LC11:
+ 1395 01e4 55534220 		.ascii	"USB set device descriptor failed, Error code = %d\012"
+ 1395      73657420 
+ 1395      64657669 
+ 1395      63652064 
+ 1395      65736372 
+ 1396 0216 00       		.ascii	"\000"
+ 1397 0217 00       		.align	2
+ 1398              	.LC12:
+ 1399 0218 55534220 		.ascii	"USB set configuration descriptor failed, Error code"
+ 1399      73657420 
+ 1399      636F6E66 
+ 1399      69677572 
+ 1399      6174696F 
+ 1400 024b 203D2025 		.ascii	" = %d\012\000"
+ 1400      640A00
+ 1401 0252 0000     		.align	2
+ 1402              	.LC13:
+ 1403 0254 55534220 		.ascii	"USB set device qualifier descriptor failed, Error c"
+ 1403      73657420 
+ 1403      64657669 
+ 1403      63652071 
+ 1403      75616C69 
+ 1404 0287 6F646520 		.ascii	"ode = %d\012\000"
+ 1404      3D202564 
+ 1404      0A00
+ 1405 0291 000000   		.align	2
+ 1406              	.LC14:
+ 1407 0294 55534220 		.ascii	"USB Set Other Speed Descriptor failed, Error Code ="
+ 1407      53657420 
+ 1407      4F746865 
+ 1407      72205370 
+ 1407      65656420 
+ 1408 02c7 2025640A 		.ascii	" %d\012\000"
+ 1408      00
+ 1409              		.align	2
+ 1410              	.LC15:
+ 1411 02cc 55534220 		.ascii	"USB Set Configuration Descriptor failed, Error Code"
+ 1411      53657420 
+ 1411      436F6E66 
+ 1411      69677572 
+ 1411      6174696F 
+ 1412 02ff 203D2025 		.ascii	" = %d\012\000"
+ 1412      640A00
+ 1413 0306 0000     		.align	2
+ 1414              	.LC16:
+ 1415 0308 55534220 		.ascii	"USB set string descriptor failed, Error code = %d\012"
+ 1415      73657420 
+ 1415      73747269 
+ 1415      6E672064 
+ 1415      65736372 
+ 1416 033a 00       		.ascii	"\000"
+ 1417 033b 00       		.align	2
+ 1418              	.LC17:
+ 1419 033c 41626F75 		.ascii	"About to connect to USB host\015\012\000"
+ 1419      7420746F 
+ 1419      20636F6E 
+ 1419      6E656374 
+ 1419      20746F20 
+ 1420 035b 00       		.align	2
+ 1421              	.LC18:
+ 1422 035c 55534220 		.ascii	"USB Connect failed, Error code = %d\012\000"
+ 1422      436F6E6E 
+ 1422      65637420 
+ 1422      6661696C 
+ 1422      65642C20 
+ 1423 0381 000000   		.align	2
+ 1424              	.LC19:
+ 1425 0384 43794678 		.ascii	"CyFxBulkSrcSinkApplnInit complete\015\012\000"
+ 1425      42756C6B 
+ 1425      53726353 
+ 1425      696E6B41 
+ 1425      70706C6E 
+ 1426              		.section	.text.CyFxBulkSrcSinkApplnInit,"ax",%progbits
+ 1427              		.align	2
+ 1428              		.global	CyFxBulkSrcSinkApplnInit
+ 1430              	CyFxBulkSrcSinkApplnInit:
+ 1431              	.LFB9:
+ 640:../cyfxbulksrcsink.c **** 
+ 641:../cyfxbulksrcsink.c **** /* This function initializes the USB Module, sets the enumeration descriptors.
+ 642:../cyfxbulksrcsink.c ****  * This function does not start the bulk streaming and this is done only when
+ 643:../cyfxbulksrcsink.c ****  * SET_CONF event is received. */
+ 644:../cyfxbulksrcsink.c **** void
+ 645:../cyfxbulksrcsink.c **** CyFxBulkSrcSinkApplnInit (void)
+ 646:../cyfxbulksrcsink.c **** {
+ 1432              		.loc 1 646 0
+ 1433              		.cfi_startproc
+ 1434              		@ args = 0, pretend = 0, frame = 8
+ 1435              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1436 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1437              	.LCFI18:
+ 1438              		.cfi_def_cfa_offset 8
+ 1439              		.cfi_offset 11, -8
+ 1440              		.cfi_offset 14, -4
+ 1441 0004 04B08DE2 		add	fp, sp, #4
+ 1442              	.LCFI19:
+ 1443              		.cfi_def_cfa 11, 4
+ 1444 0008 08D04DE2 		sub	sp, sp, #8
+ 647:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
+ 1445              		.loc 1 647 0
+ 1446 000c 0030A0E3 		mov	r3, #0
+ 1447 0010 0C300BE5 		str	r3, [fp, #-12]
+ 648:../cyfxbulksrcsink.c ****     CyBool_t no_renum = CyFalse;
+ 1448              		.loc 1 648 0
+ 1449 0014 0030A0E3 		mov	r3, #0
+ 1450 0018 08300BE5 		str	r3, [fp, #-8]
+ 649:../cyfxbulksrcsink.c **** 
+ 650:../cyfxbulksrcsink.c ****     /* Start the USB functionality. */
+ 651:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbStart();
+ 1451              		.loc 1 651 0
+ 1452 001c FEFFFFEB 		bl	CyU3PUsbStart
+ 1453 0020 0C000BE5 		str	r0, [fp, #-12]
+ 652:../cyfxbulksrcsink.c ****     if (apiRetStatus == CY_U3P_ERROR_NO_REENUM_REQUIRED)
+ 1454              		.loc 1 652 0
+ 1455 0024 0C301BE5 		ldr	r3, [fp, #-12]
+ 1456 0028 FE0053E3 		cmp	r3, #254
+ 1457 002c 0200001A 		bne	.L83
+ 653:../cyfxbulksrcsink.c ****         no_renum = CyTrue;
+ 1458              		.loc 1 653 0
+ 1459 0030 0130A0E3 		mov	r3, #1
+ 1460 0034 08300BE5 		str	r3, [fp, #-8]
+ 1461 0038 080000EA 		b	.L84
+ 1462              	.L83:
+ 654:../cyfxbulksrcsink.c ****     else if (apiRetStatus != CY_U3P_SUCCESS)
+ 1463              		.loc 1 654 0
+ 1464 003c 0C301BE5 		ldr	r3, [fp, #-12]
+ 1465 0040 000053E3 		cmp	r3, #0
+ 1466 0044 0500000A 		beq	.L84
+ 655:../cyfxbulksrcsink.c ****     {
+ 656:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "CyU3PUsbStart failed to Start, Error code = %d\n", apiRetStatus);
+ 1467              		.loc 1 656 0
+ 1468 0048 0400A0E3 		mov	r0, #4
+ 1469 004c F8129FE5 		ldr	r1, .L99
+ 1470 0050 0C201BE5 		ldr	r2, [fp, #-12]
+ 1471 0054 FEFFFFEB 		bl	CyU3PDebugPrint
+ 657:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1472              		.loc 1 657 0
+ 1473 0058 0C001BE5 		ldr	r0, [fp, #-12]
+ 1474 005c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1475              	.L84:
+ 658:../cyfxbulksrcsink.c ****     }
+ 659:../cyfxbulksrcsink.c **** 
+ 660:../cyfxbulksrcsink.c ****     /* The fast enumeration is the easiest way to setup a USB connection,
+ 661:../cyfxbulksrcsink.c ****      * where all enumeration phase is handled by the library. Only the
+ 662:../cyfxbulksrcsink.c ****      * class / vendor requests need to be handled by the application. */
+ 663:../cyfxbulksrcsink.c ****     CyU3PUsbRegisterSetupCallback(CyFxBulkSrcSinkApplnUSBSetupCB, CyTrue);
+ 1476              		.loc 1 663 0
+ 1477 0060 E8029FE5 		ldr	r0, .L99+4
+ 1478 0064 0110A0E3 		mov	r1, #1
+ 1479 0068 FEFFFFEB 		bl	CyU3PUsbRegisterSetupCallback
+ 664:../cyfxbulksrcsink.c **** 
+ 665:../cyfxbulksrcsink.c ****     /* Setup the callback to handle the USB events. */
+ 666:../cyfxbulksrcsink.c ****     CyU3PUsbRegisterEventCallback(CyFxBulkSrcSinkApplnUSBEventCB);
+ 1480              		.loc 1 666 0
+ 1481 006c E0029FE5 		ldr	r0, .L99+8
+ 1482 0070 FEFFFFEB 		bl	CyU3PUsbRegisterEventCallback
+ 667:../cyfxbulksrcsink.c **** 
+ 668:../cyfxbulksrcsink.c ****     /* Register a callback to handle LPM requests from the USB 3.0 host. */
+ 669:../cyfxbulksrcsink.c ****     CyU3PUsbRegisterLPMRequestCallback(CyFxBulkSrcSinkApplnLPMRqtCB);
+ 1483              		.loc 1 669 0
+ 1484 0074 DC029FE5 		ldr	r0, .L99+12
+ 1485 0078 FEFFFFEB 		bl	CyU3PUsbRegisterLPMRequestCallback
+ 670:../cyfxbulksrcsink.c **** 
+ 671:../cyfxbulksrcsink.c ****     /* Set the USB Enumeration descriptors */
+ 672:../cyfxbulksrcsink.c **** 
+ 673:../cyfxbulksrcsink.c ****     /* Super speed device descriptor. */
+ 674:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_DEVICE_DESCR, NULL, (uint8_t *)CyFxUSB30Device
+ 1486              		.loc 1 674 0
+ 1487 007c 0000A0E3 		mov	r0, #0
+ 1488 0080 0010A0E3 		mov	r1, #0
+ 1489 0084 D0229FE5 		ldr	r2, .L99+16
+ 1490 0088 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1491 008c 0C000BE5 		str	r0, [fp, #-12]
+ 675:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1492              		.loc 1 675 0
+ 1493 0090 0C301BE5 		ldr	r3, [fp, #-12]
+ 1494 0094 000053E3 		cmp	r3, #0
+ 1495 0098 0500000A 		beq	.L85
+ 676:../cyfxbulksrcsink.c ****     {
+ 677:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set device descriptor failed, Error code = %d\n", apiRetStatus);
+ 1496              		.loc 1 677 0
+ 1497 009c 0400A0E3 		mov	r0, #4
+ 1498 00a0 B8129FE5 		ldr	r1, .L99+20
+ 1499 00a4 0C201BE5 		ldr	r2, [fp, #-12]
+ 1500 00a8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 678:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1501              		.loc 1 678 0
+ 1502 00ac 0C001BE5 		ldr	r0, [fp, #-12]
+ 1503 00b0 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1504              	.L85:
+ 679:../cyfxbulksrcsink.c ****     }
+ 680:../cyfxbulksrcsink.c **** 
+ 681:../cyfxbulksrcsink.c ****     /* High speed device descriptor. */
+ 682:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_HS_DEVICE_DESCR, NULL, (uint8_t *)CyFxUSB20Device
+ 1505              		.loc 1 682 0
+ 1506 00b4 0100A0E3 		mov	r0, #1
+ 1507 00b8 0010A0E3 		mov	r1, #0
+ 1508 00bc A0229FE5 		ldr	r2, .L99+24
+ 1509 00c0 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1510 00c4 0C000BE5 		str	r0, [fp, #-12]
+ 683:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1511              		.loc 1 683 0
+ 1512 00c8 0C301BE5 		ldr	r3, [fp, #-12]
+ 1513 00cc 000053E3 		cmp	r3, #0
+ 1514 00d0 0500000A 		beq	.L86
+ 684:../cyfxbulksrcsink.c ****     {
+ 685:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set device descriptor failed, Error code = %d\n", apiRetStatus);
+ 1515              		.loc 1 685 0
+ 1516 00d4 0400A0E3 		mov	r0, #4
+ 1517 00d8 80129FE5 		ldr	r1, .L99+20
+ 1518 00dc 0C201BE5 		ldr	r2, [fp, #-12]
+ 1519 00e0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 686:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1520              		.loc 1 686 0
+ 1521 00e4 0C001BE5 		ldr	r0, [fp, #-12]
+ 1522 00e8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1523              	.L86:
+ 687:../cyfxbulksrcsink.c ****     }
+ 688:../cyfxbulksrcsink.c **** 
+ 689:../cyfxbulksrcsink.c ****     /* BOS descriptor */
+ 690:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_BOS_DESCR, NULL, (uint8_t *)CyFxUSBBOSDscr);
+ 1524              		.loc 1 690 0
+ 1525 00ec 0700A0E3 		mov	r0, #7
+ 1526 00f0 0010A0E3 		mov	r1, #0
+ 1527 00f4 6C229FE5 		ldr	r2, .L99+28
+ 1528 00f8 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1529 00fc 0C000BE5 		str	r0, [fp, #-12]
+ 691:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1530              		.loc 1 691 0
+ 1531 0100 0C301BE5 		ldr	r3, [fp, #-12]
+ 1532 0104 000053E3 		cmp	r3, #0
+ 1533 0108 0500000A 		beq	.L87
+ 692:../cyfxbulksrcsink.c ****     {
+ 693:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set configuration descriptor failed, Error code = %d\n", apiRetSta
+ 1534              		.loc 1 693 0
+ 1535 010c 0400A0E3 		mov	r0, #4
+ 1536 0110 54129FE5 		ldr	r1, .L99+32
+ 1537 0114 0C201BE5 		ldr	r2, [fp, #-12]
+ 1538 0118 FEFFFFEB 		bl	CyU3PDebugPrint
+ 694:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1539              		.loc 1 694 0
+ 1540 011c 0C001BE5 		ldr	r0, [fp, #-12]
+ 1541 0120 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1542              	.L87:
+ 695:../cyfxbulksrcsink.c ****     }
+ 696:../cyfxbulksrcsink.c **** 
+ 697:../cyfxbulksrcsink.c ****     /* Device qualifier descriptor */
+ 698:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_DEVQUAL_DESCR, NULL, (uint8_t *)CyFxUSBDeviceQual
+ 1543              		.loc 1 698 0
+ 1544 0124 0200A0E3 		mov	r0, #2
+ 1545 0128 0010A0E3 		mov	r1, #0
+ 1546 012c 3C229FE5 		ldr	r2, .L99+36
+ 1547 0130 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1548 0134 0C000BE5 		str	r0, [fp, #-12]
+ 699:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1549              		.loc 1 699 0
+ 1550 0138 0C301BE5 		ldr	r3, [fp, #-12]
+ 1551 013c 000053E3 		cmp	r3, #0
+ 1552 0140 0500000A 		beq	.L88
+ 700:../cyfxbulksrcsink.c ****     {
+ 701:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set device qualifier descriptor failed, Error code = %d\n", apiRet
+ 1553              		.loc 1 701 0
+ 1554 0144 0400A0E3 		mov	r0, #4
+ 1555 0148 24129FE5 		ldr	r1, .L99+40
+ 1556 014c 0C201BE5 		ldr	r2, [fp, #-12]
+ 1557 0150 FEFFFFEB 		bl	CyU3PDebugPrint
+ 702:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1558              		.loc 1 702 0
+ 1559 0154 0C001BE5 		ldr	r0, [fp, #-12]
+ 1560 0158 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1561              	.L88:
+ 703:../cyfxbulksrcsink.c ****     }
+ 704:../cyfxbulksrcsink.c **** 
+ 705:../cyfxbulksrcsink.c ****     /* Super speed configuration descriptor */
+ 706:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_SS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBSSConfig
+ 1562              		.loc 1 706 0
+ 1563 015c 0600A0E3 		mov	r0, #6
+ 1564 0160 0010A0E3 		mov	r1, #0
+ 1565 0164 0C229FE5 		ldr	r2, .L99+44
+ 1566 0168 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1567 016c 0C000BE5 		str	r0, [fp, #-12]
+ 707:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1568              		.loc 1 707 0
+ 1569 0170 0C301BE5 		ldr	r3, [fp, #-12]
+ 1570 0174 000053E3 		cmp	r3, #0
+ 1571 0178 0500000A 		beq	.L89
+ 708:../cyfxbulksrcsink.c ****     {
+ 709:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set configuration descriptor failed, Error code = %d\n", apiRetSta
+ 1572              		.loc 1 709 0
+ 1573 017c 0400A0E3 		mov	r0, #4
+ 1574 0180 E4119FE5 		ldr	r1, .L99+32
+ 1575 0184 0C201BE5 		ldr	r2, [fp, #-12]
+ 1576 0188 FEFFFFEB 		bl	CyU3PDebugPrint
+ 710:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1577              		.loc 1 710 0
+ 1578 018c 0C001BE5 		ldr	r0, [fp, #-12]
+ 1579 0190 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1580              	.L89:
+ 711:../cyfxbulksrcsink.c ****     }
+ 712:../cyfxbulksrcsink.c **** 
+ 713:../cyfxbulksrcsink.c ****     /* High speed configuration descriptor */
+ 714:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_HS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBHSConfig
+ 1581              		.loc 1 714 0
+ 1582 0194 0400A0E3 		mov	r0, #4
+ 1583 0198 0010A0E3 		mov	r1, #0
+ 1584 019c D8219FE5 		ldr	r2, .L99+48
+ 1585 01a0 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1586 01a4 0C000BE5 		str	r0, [fp, #-12]
+ 715:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1587              		.loc 1 715 0
+ 1588 01a8 0C301BE5 		ldr	r3, [fp, #-12]
+ 1589 01ac 000053E3 		cmp	r3, #0
+ 1590 01b0 0500000A 		beq	.L90
+ 716:../cyfxbulksrcsink.c ****     {
+ 717:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB Set Other Speed Descriptor failed, Error Code = %d\n", apiRetStatu
+ 1591              		.loc 1 717 0
+ 1592 01b4 0400A0E3 		mov	r0, #4
+ 1593 01b8 C0119FE5 		ldr	r1, .L99+52
+ 1594 01bc 0C201BE5 		ldr	r2, [fp, #-12]
+ 1595 01c0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 718:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1596              		.loc 1 718 0
+ 1597 01c4 0C001BE5 		ldr	r0, [fp, #-12]
+ 1598 01c8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1599              	.L90:
+ 719:../cyfxbulksrcsink.c ****     }
+ 720:../cyfxbulksrcsink.c **** 
+ 721:../cyfxbulksrcsink.c ****     /* Full speed configuration descriptor */
+ 722:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_FS_CONFIG_DESCR, NULL, (uint8_t *)CyFxUSBFSConfig
+ 1600              		.loc 1 722 0
+ 1601 01cc 0300A0E3 		mov	r0, #3
+ 1602 01d0 0010A0E3 		mov	r1, #0
+ 1603 01d4 A8219FE5 		ldr	r2, .L99+56
+ 1604 01d8 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1605 01dc 0C000BE5 		str	r0, [fp, #-12]
+ 723:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1606              		.loc 1 723 0
+ 1607 01e0 0C301BE5 		ldr	r3, [fp, #-12]
+ 1608 01e4 000053E3 		cmp	r3, #0
+ 1609 01e8 0500000A 		beq	.L91
+ 724:../cyfxbulksrcsink.c ****     {
+ 725:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB Set Configuration Descriptor failed, Error Code = %d\n", apiRetSta
+ 1610              		.loc 1 725 0
+ 1611 01ec 0400A0E3 		mov	r0, #4
+ 1612 01f0 90119FE5 		ldr	r1, .L99+60
+ 1613 01f4 0C201BE5 		ldr	r2, [fp, #-12]
+ 1614 01f8 FEFFFFEB 		bl	CyU3PDebugPrint
+ 726:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1615              		.loc 1 726 0
+ 1616 01fc 0C001BE5 		ldr	r0, [fp, #-12]
+ 1617 0200 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1618              	.L91:
+ 727:../cyfxbulksrcsink.c ****     }
+ 728:../cyfxbulksrcsink.c **** 
+ 729:../cyfxbulksrcsink.c ****     /* String descriptor 0 */
+ 730:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 0, (uint8_t *)CyFxUSBStringLangIDDs
+ 1619              		.loc 1 730 0
+ 1620 0204 0500A0E3 		mov	r0, #5
+ 1621 0208 0010A0E3 		mov	r1, #0
+ 1622 020c 78219FE5 		ldr	r2, .L99+64
+ 1623 0210 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1624 0214 0C000BE5 		str	r0, [fp, #-12]
+ 731:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1625              		.loc 1 731 0
+ 1626 0218 0C301BE5 		ldr	r3, [fp, #-12]
+ 1627 021c 000053E3 		cmp	r3, #0
+ 1628 0220 0500000A 		beq	.L92
+ 732:../cyfxbulksrcsink.c ****     {
+ 733:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1629              		.loc 1 733 0
+ 1630 0224 0400A0E3 		mov	r0, #4
+ 1631 0228 60119FE5 		ldr	r1, .L99+68
+ 1632 022c 0C201BE5 		ldr	r2, [fp, #-12]
+ 1633 0230 FEFFFFEB 		bl	CyU3PDebugPrint
+ 734:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1634              		.loc 1 734 0
+ 1635 0234 0C001BE5 		ldr	r0, [fp, #-12]
+ 1636 0238 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1637              	.L92:
+ 735:../cyfxbulksrcsink.c ****     }
+ 736:../cyfxbulksrcsink.c **** 
+ 737:../cyfxbulksrcsink.c ****     /* String descriptor 1 */
+ 738:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 1, (uint8_t *)CyFxUSBManufactureDsc
+ 1638              		.loc 1 738 0
+ 1639 023c 0500A0E3 		mov	r0, #5
+ 1640 0240 0110A0E3 		mov	r1, #1
+ 1641 0244 48219FE5 		ldr	r2, .L99+72
+ 1642 0248 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1643 024c 0C000BE5 		str	r0, [fp, #-12]
+ 739:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1644              		.loc 1 739 0
+ 1645 0250 0C301BE5 		ldr	r3, [fp, #-12]
+ 1646 0254 000053E3 		cmp	r3, #0
+ 1647 0258 0500000A 		beq	.L93
+ 740:../cyfxbulksrcsink.c ****     {
+ 741:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1648              		.loc 1 741 0
+ 1649 025c 0400A0E3 		mov	r0, #4
+ 1650 0260 28119FE5 		ldr	r1, .L99+68
+ 1651 0264 0C201BE5 		ldr	r2, [fp, #-12]
+ 1652 0268 FEFFFFEB 		bl	CyU3PDebugPrint
+ 742:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1653              		.loc 1 742 0
+ 1654 026c 0C001BE5 		ldr	r0, [fp, #-12]
+ 1655 0270 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1656              	.L93:
+ 743:../cyfxbulksrcsink.c ****     }
+ 744:../cyfxbulksrcsink.c **** 
+ 745:../cyfxbulksrcsink.c ****     /* String descriptor 2 */
+ 746:../cyfxbulksrcsink.c ****     apiRetStatus = CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 2, (uint8_t *)CyFxUSBProductDscr);
+ 1657              		.loc 1 746 0
+ 1658 0274 0500A0E3 		mov	r0, #5
+ 1659 0278 0210A0E3 		mov	r1, #2
+ 1660 027c 14219FE5 		ldr	r2, .L99+76
+ 1661 0280 FEFFFFEB 		bl	CyU3PUsbSetDesc
+ 1662 0284 0C000BE5 		str	r0, [fp, #-12]
+ 747:../cyfxbulksrcsink.c ****     if (apiRetStatus != CY_U3P_SUCCESS)
+ 1663              		.loc 1 747 0
+ 1664 0288 0C301BE5 		ldr	r3, [fp, #-12]
+ 1665 028c 000053E3 		cmp	r3, #0
+ 1666 0290 0500000A 		beq	.L94
+ 748:../cyfxbulksrcsink.c ****     {
+ 749:../cyfxbulksrcsink.c ****         CyU3PDebugPrint (4, "USB set string descriptor failed, Error code = %d\n", apiRetStatus);
+ 1667              		.loc 1 749 0
+ 1668 0294 0400A0E3 		mov	r0, #4
+ 1669 0298 F0109FE5 		ldr	r1, .L99+68
+ 1670 029c 0C201BE5 		ldr	r2, [fp, #-12]
+ 1671 02a0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 750:../cyfxbulksrcsink.c ****         CyFxAppErrorHandler(apiRetStatus);
+ 1672              		.loc 1 750 0
+ 1673 02a4 0C001BE5 		ldr	r0, [fp, #-12]
+ 1674 02a8 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1675              	.L94:
+ 751:../cyfxbulksrcsink.c ****     }
+ 752:../cyfxbulksrcsink.c **** 
+ 753:../cyfxbulksrcsink.c ****     /* Register a buffer into which the USB driver can log relevant events. */
+ 754:../cyfxbulksrcsink.c ****     gl_UsbLogBuffer = (uint8_t *)CyU3PDmaBufferAlloc (CYFX_USBLOG_SIZE);
+ 1676              		.loc 1 754 0
+ 1677 02ac 010AA0E3 		mov	r0, #4096
+ 1678 02b0 FEFFFFEB 		bl	CyU3PDmaBufferAlloc
+ 1679 02b4 0020A0E1 		mov	r2, r0
+ 1680 02b8 DC309FE5 		ldr	r3, .L99+80
+ 1681 02bc 002083E5 		str	r2, [r3]
+ 755:../cyfxbulksrcsink.c ****     if (gl_UsbLogBuffer)
+ 1682              		.loc 1 755 0
+ 1683 02c0 D4309FE5 		ldr	r3, .L99+80
+ 1684 02c4 003093E5 		ldr	r3, [r3]
+ 1685 02c8 000053E3 		cmp	r3, #0
+ 1686 02cc 0400000A 		beq	.L95
+ 756:../cyfxbulksrcsink.c ****         CyU3PUsbInitEventLog (gl_UsbLogBuffer, CYFX_USBLOG_SIZE);
+ 1687              		.loc 1 756 0
+ 1688 02d0 C4309FE5 		ldr	r3, .L99+80
+ 1689 02d4 003093E5 		ldr	r3, [r3]
+ 1690 02d8 0300A0E1 		mov	r0, r3
+ 1691 02dc 011AA0E3 		mov	r1, #4096
+ 1692 02e0 FEFFFFEB 		bl	CyU3PUsbInitEventLog
+ 1693              	.L95:
+ 757:../cyfxbulksrcsink.c **** 
+ 758:../cyfxbulksrcsink.c ****     CyU3PDebugPrint (4, "About to connect to USB host\r\n");
+ 1694              		.loc 1 758 0
+ 1695 02e4 0400A0E3 		mov	r0, #4
+ 1696 02e8 B0109FE5 		ldr	r1, .L99+84
+ 1697 02ec FEFFFFEB 		bl	CyU3PDebugPrint
+ 759:../cyfxbulksrcsink.c **** 
+ 760:../cyfxbulksrcsink.c ****     /* Connect the USB Pins with super speed operation enabled. */
+ 761:../cyfxbulksrcsink.c ****     if (!no_renum) {
+ 1698              		.loc 1 761 0
+ 1699 02f0 08301BE5 		ldr	r3, [fp, #-8]
+ 1700 02f4 000053E3 		cmp	r3, #0
+ 1701 02f8 0D00001A 		bne	.L96
+ 762:../cyfxbulksrcsink.c ****         apiRetStatus = CyU3PConnectState(CyTrue, CyTrue);
+ 1702              		.loc 1 762 0
+ 1703 02fc 0100A0E3 		mov	r0, #1
+ 1704 0300 0110A0E3 		mov	r1, #1
+ 1705 0304 FEFFFFEB 		bl	CyU3PConnectState
+ 1706 0308 0C000BE5 		str	r0, [fp, #-12]
+ 763:../cyfxbulksrcsink.c ****         if (apiRetStatus != CY_U3P_SUCCESS)
+ 1707              		.loc 1 763 0
+ 1708 030c 0C301BE5 		ldr	r3, [fp, #-12]
+ 1709 0310 000053E3 		cmp	r3, #0
+ 1710 0314 0700000A 		beq	.L98
+ 764:../cyfxbulksrcsink.c ****         {
+ 765:../cyfxbulksrcsink.c ****             CyU3PDebugPrint (4, "USB Connect failed, Error code = %d\n", apiRetStatus);
+ 1711              		.loc 1 765 0
+ 1712 0318 0400A0E3 		mov	r0, #4
+ 1713 031c 80109FE5 		ldr	r1, .L99+88
+ 1714 0320 0C201BE5 		ldr	r2, [fp, #-12]
+ 1715 0324 FEFFFFEB 		bl	CyU3PDebugPrint
+ 766:../cyfxbulksrcsink.c ****             CyFxAppErrorHandler(apiRetStatus);
+ 1716              		.loc 1 766 0
+ 1717 0328 0C001BE5 		ldr	r0, [fp, #-12]
+ 1718 032c FEFFFFEB 		bl	CyFxAppErrorHandler
+ 1719 0330 000000EA 		b	.L98
+ 1720              	.L96:
+ 767:../cyfxbulksrcsink.c ****         }
+ 768:../cyfxbulksrcsink.c ****     }
+ 769:../cyfxbulksrcsink.c ****     else
+ 770:../cyfxbulksrcsink.c ****     {
+ 771:../cyfxbulksrcsink.c ****         /* USB connection is already active. Configure the endpoints and DMA channels. */
+ 772:../cyfxbulksrcsink.c ****         CyFxBulkSrcSinkApplnStart ();
+ 1721              		.loc 1 772 0
+ 1722 0334 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStart
+ 1723              	.L98:
+ 773:../cyfxbulksrcsink.c ****     }
+ 774:../cyfxbulksrcsink.c **** 
+ 775:../cyfxbulksrcsink.c ****     CyU3PDebugPrint (8, "CyFxBulkSrcSinkApplnInit complete\r\n");
+ 1724              		.loc 1 775 0
+ 1725 0338 0800A0E3 		mov	r0, #8
+ 1726 033c 64109FE5 		ldr	r1, .L99+92
+ 1727 0340 FEFFFFEB 		bl	CyU3PDebugPrint
+ 776:../cyfxbulksrcsink.c **** }
+ 1728              		.loc 1 776 0
+ 1729 0344 04D04BE2 		sub	sp, fp, #4
+ 1730              		@ sp needed
+ 1731 0348 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 1732              	.L100:
+ 1733              		.align	2
+ 1734              	.L99:
+ 1735 034c B4010000 		.word	.LC10
+ 1736 0350 00000000 		.word	CyFxBulkSrcSinkApplnUSBSetupCB
+ 1737 0354 00000000 		.word	CyFxBulkSrcSinkApplnUSBEventCB
+ 1738 0358 00000000 		.word	CyFxBulkSrcSinkApplnLPMRqtCB
+ 1739 035c 00000000 		.word	CyFxUSB30DeviceDscr
+ 1740 0360 E4010000 		.word	.LC11
+ 1741 0364 00000000 		.word	CyFxUSB20DeviceDscr
+ 1742 0368 00000000 		.word	CyFxUSBBOSDscr
+ 1743 036c 18020000 		.word	.LC12
+ 1744 0370 00000000 		.word	CyFxUSBDeviceQualDscr
+ 1745 0374 54020000 		.word	.LC13
+ 1746 0378 00000000 		.word	CyFxUSBSSConfigDscr
+ 1747 037c 00000000 		.word	CyFxUSBHSConfigDscr
+ 1748 0380 94020000 		.word	.LC14
+ 1749 0384 00000000 		.word	CyFxUSBFSConfigDscr
+ 1750 0388 CC020000 		.word	.LC15
+ 1751 038c 00000000 		.word	CyFxUSBStringLangIDDscr
+ 1752 0390 08030000 		.word	.LC16
+ 1753 0394 00000000 		.word	CyFxUSBManufactureDscr
+ 1754 0398 00000000 		.word	CyFxUSBProductDscr
+ 1755 039c 00000000 		.word	gl_UsbLogBuffer
+ 1756 03a0 3C030000 		.word	.LC17
+ 1757 03a4 5C030000 		.word	.LC18
+ 1758 03a8 84030000 		.word	.LC19
+ 1759              		.cfi_endproc
+ 1760              	.LFE9:
+ 1762              		.section	.rodata
+ 1763              		.align	2
+ 1764              	.LC20:
+ 1765 03a8 0A0A6465 		.ascii	"\012\012debug initialized\015\012\000"
+ 1765      62756720 
+ 1765      696E6974 
+ 1765      69616C69 
+ 1765      7A65640D 
+ 1766 03be 0000     		.align	2
+ 1767              	.LC21:
+ 1768 03c0 52656D6F 		.ascii	"Remote wake attempt failed with code: %d\015\012\000"
+ 1768      74652077 
+ 1768      616B6520 
+ 1768      61747465 
+ 1768      6D707420 
+ 1769 03eb 00       		.align	2
+ 1770              	.LC22:
+ 1771 03ec 456E7465 		.ascii	"Enter standby returned %d\015\012\000"
+ 1771      72207374 
+ 1771      616E6462 
+ 1771      79207265 
+ 1771      7475726E 
+ 1772              		.align	2
+ 1773              	.LC23:
+ 1774 0408 55534220 		.ascii	"USB LOG: %x\015\012\000"
+ 1774      4C4F473A 
+ 1774      2025780D 
+ 1774      0A00
+ 1775              		.section	.text.BulkSrcSinkAppThread_Entry,"ax",%progbits
+ 1776              		.align	2
+ 1777              		.global	BulkSrcSinkAppThread_Entry
+ 1779              	BulkSrcSinkAppThread_Entry:
+ 1780              	.LFB10:
+ 777:../cyfxbulksrcsink.c **** 
+ 778:../cyfxbulksrcsink.c **** /* Entry function for the BulkSrcSinkAppThread. */
+ 779:../cyfxbulksrcsink.c **** void
+ 780:../cyfxbulksrcsink.c **** BulkSrcSinkAppThread_Entry (
+ 781:../cyfxbulksrcsink.c ****         uint32_t input)
+ 782:../cyfxbulksrcsink.c **** {
+ 1781              		.loc 1 782 0
+ 1782              		.cfi_startproc
+ 1783              		@ args = 0, pretend = 0, frame = 56
+ 1784              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1785 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 1786              	.LCFI20:
+ 1787              		.cfi_def_cfa_offset 8
+ 1788              		.cfi_offset 11, -8
+ 1789              		.cfi_offset 14, -4
+ 1790 0004 04B08DE2 		add	fp, sp, #4
+ 1791              	.LCFI21:
+ 1792              		.cfi_def_cfa 11, 4
+ 1793 0008 40D04DE2 		sub	sp, sp, #64
+ 1794 000c 38000BE5 		str	r0, [fp, #-56]
+ 783:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t stat;
+ 784:../cyfxbulksrcsink.c ****     uint32_t eventMask = CYFX_USB_CTRL_TASK | CYFX_USB_HOSTWAKE_TASK;   /* Mask representing events
+ 1795              		.loc 1 784 0
+ 1796 0010 0330A0E3 		mov	r3, #3
+ 1797 0014 10300BE5 		str	r3, [fp, #-16]
+ 785:../cyfxbulksrcsink.c ****     uint32_t eventStat;                                                 /* Variable to hold current
+ 786:../cyfxbulksrcsink.c **** 
+ 787:../cyfxbulksrcsink.c ****     uint16_t prevUsbLogIndex = 0, tmp1, tmp2;
+ 1798              		.loc 1 787 0
+ 1799 0018 0030A0E3 		mov	r3, #0
+ 1800 001c BA304BE1 		strh	r3, [fp, #-10]	@ movhi
+ 788:../cyfxbulksrcsink.c ****     CyU3PUsbLinkPowerMode curState;
+ 789:../cyfxbulksrcsink.c **** 
+ 790:../cyfxbulksrcsink.c ****     /* Initialize the debug module */
+ 791:../cyfxbulksrcsink.c ****     CyFxBulkSrcSinkApplnDebugInit();
+ 1801              		.loc 1 791 0
+ 1802 0020 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnDebugInit
+ 792:../cyfxbulksrcsink.c ****     CyU3PDebugPrint (1, "\n\ndebug initialized\r\n");
+ 1803              		.loc 1 792 0
+ 1804 0024 0100A0E3 		mov	r0, #1
+ 1805 0028 7C179FE5 		ldr	r1, .L146
+ 1806 002c FEFFFFEB 		bl	CyU3PDebugPrint
+ 793:../cyfxbulksrcsink.c **** 
+ 794:../cyfxbulksrcsink.c ****     /* Initialize the application */
+ 795:../cyfxbulksrcsink.c ****     CyFxBulkSrcSinkApplnInit();
+ 1807              		.loc 1 795 0
+ 1808 0030 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnInit
+ 1809              	.L145:
+ 796:../cyfxbulksrcsink.c **** 
+ 797:../cyfxbulksrcsink.c ****     for (;;)
+ 798:../cyfxbulksrcsink.c ****     {
+ 799:../cyfxbulksrcsink.c ****         /* The following call will block until at least one of the events enabled in eventMask is r
+ 800:../cyfxbulksrcsink.c ****            The eventStat variable will hold the events that were active at the time of returning fr
+ 801:../cyfxbulksrcsink.c ****            The CLEAR flag means that all events will be atomically cleared before this function ret
+ 802:../cyfxbulksrcsink.c ****           
+ 803:../cyfxbulksrcsink.c ****            We cause this event wait to time out every 10 milli-seconds, so that we can periodically
+ 804:../cyfxbulksrcsink.c ****            device out of low power modes.
+ 805:../cyfxbulksrcsink.c ****          */
+ 806:../cyfxbulksrcsink.c ****         stat = CyU3PEventGet (&glBulkLpEvent, eventMask, CYU3P_EVENT_OR_CLEAR, &eventStat, 10);
+ 1810              		.loc 1 806 0
+ 1811 0034 24304BE2 		sub	r3, fp, #36
+ 1812 0038 0A20A0E3 		mov	r2, #10
+ 1813 003c 00208DE5 		str	r2, [sp]
+ 1814 0040 68079FE5 		ldr	r0, .L146+4
+ 1815 0044 10101BE5 		ldr	r1, [fp, #-16]
+ 1816 0048 0120A0E3 		mov	r2, #1
+ 1817 004c FEFFFFEB 		bl	_txe_event_flags_get
+ 1818 0050 08000BE5 		str	r0, [fp, #-8]
+ 807:../cyfxbulksrcsink.c ****         if (stat == CY_U3P_SUCCESS)
+ 1819              		.loc 1 807 0
+ 1820 0054 08301BE5 		ldr	r3, [fp, #-8]
+ 1821 0058 000053E3 		cmp	r3, #0
+ 1822 005c 5301001A 		bne	.L102
+ 808:../cyfxbulksrcsink.c ****         {
+ 809:../cyfxbulksrcsink.c ****             /* If the HOSTWAKE task is set, send a DEV_NOTIFICATION (FUNCTION_WAKE) or remote wakeu
+ 810:../cyfxbulksrcsink.c ****                based on the USB connection speed. */
+ 811:../cyfxbulksrcsink.c ****             if (eventStat & CYFX_USB_HOSTWAKE_TASK)
+ 1823              		.loc 1 811 0
+ 1824 0060 24301BE5 		ldr	r3, [fp, #-36]
+ 1825 0064 023003E2 		and	r3, r3, #2
+ 1826 0068 000053E3 		cmp	r3, #0
+ 1827 006c 1400000A 		beq	.L103
+ 812:../cyfxbulksrcsink.c ****             {
+ 813:../cyfxbulksrcsink.c ****                 CyU3PThreadSleep (1000);
+ 1828              		.loc 1 813 0
+ 1829 0070 FA0FA0E3 		mov	r0, #1000
+ 1830 0074 FEFFFFEB 		bl	_tx_thread_sleep
+ 814:../cyfxbulksrcsink.c ****                 if (CyU3PUsbGetSpeed () == CY_U3P_SUPER_SPEED)
+ 1831              		.loc 1 814 0
+ 1832 0078 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 1833 007c 0030A0E1 		mov	r3, r0
+ 1834 0080 030053E3 		cmp	r3, #3
+ 1835 0084 0500001A 		bne	.L104
+ 815:../cyfxbulksrcsink.c ****                     stat = CyU3PUsbSendDevNotification (1, 0, 0);
+ 1836              		.loc 1 815 0
+ 1837 0088 0100A0E3 		mov	r0, #1
+ 1838 008c 0010A0E3 		mov	r1, #0
+ 1839 0090 0020A0E3 		mov	r2, #0
+ 1840 0094 FEFFFFEB 		bl	CyU3PUsbSendDevNotification
+ 1841 0098 08000BE5 		str	r0, [fp, #-8]
+ 1842 009c 010000EA 		b	.L105
+ 1843              	.L104:
+ 816:../cyfxbulksrcsink.c ****                 else
+ 817:../cyfxbulksrcsink.c ****                     stat = CyU3PUsbDoRemoteWakeup ();
+ 1844              		.loc 1 817 0
+ 1845 00a0 FEFFFFEB 		bl	CyU3PUsbDoRemoteWakeup
+ 1846 00a4 08000BE5 		str	r0, [fp, #-8]
+ 1847              	.L105:
+ 818:../cyfxbulksrcsink.c **** 
+ 819:../cyfxbulksrcsink.c ****                 if (stat != CY_U3P_SUCCESS)
+ 1848              		.loc 1 819 0
+ 1849 00a8 08301BE5 		ldr	r3, [fp, #-8]
+ 1850 00ac 000053E3 		cmp	r3, #0
+ 1851 00b0 0300000A 		beq	.L103
+ 820:../cyfxbulksrcsink.c ****                     CyU3PDebugPrint (2, "Remote wake attempt failed with code: %d\r\n", stat);
+ 1852              		.loc 1 820 0
+ 1853 00b4 0200A0E3 		mov	r0, #2
+ 1854 00b8 F4169FE5 		ldr	r1, .L146+8
+ 1855 00bc 08201BE5 		ldr	r2, [fp, #-8]
+ 1856 00c0 FEFFFFEB 		bl	CyU3PDebugPrint
+ 1857              	.L103:
+ 821:../cyfxbulksrcsink.c ****             }
+ 822:../cyfxbulksrcsink.c **** 
+ 823:../cyfxbulksrcsink.c ****             /* If there is a pending control request, handle it here. */
+ 824:../cyfxbulksrcsink.c ****             if (eventStat & CYFX_USB_CTRL_TASK)
+ 1858              		.loc 1 824 0
+ 1859 00c4 24301BE5 		ldr	r3, [fp, #-36]
+ 1860 00c8 013003E2 		and	r3, r3, #1
+ 1861 00cc 000053E3 		cmp	r3, #0
+ 1862 00d0 3601000A 		beq	.L102
+ 1863              	.LBB3:
+ 825:../cyfxbulksrcsink.c ****             {
+ 826:../cyfxbulksrcsink.c ****                 uint8_t  bRequest, bReqType;
+ 827:../cyfxbulksrcsink.c ****                 uint16_t wLength, temp;
+ 828:../cyfxbulksrcsink.c ****                 uint16_t wValue, wIndex;
+ 829:../cyfxbulksrcsink.c **** 
+ 830:../cyfxbulksrcsink.c ****                 /* Decode the fields from the setup request. */
+ 831:../cyfxbulksrcsink.c ****                 bReqType = (gl_setupdat0 & CY_U3P_USB_REQUEST_TYPE_MASK);
+ 1864              		.loc 1 831 0
+ 1865 00d4 DC369FE5 		ldr	r3, .L146+12
+ 1866 00d8 003093E5 		ldr	r3, [r3]
+ 1867 00dc 11304BE5 		strb	r3, [fp, #-17]
+ 832:../cyfxbulksrcsink.c ****                 bRequest = ((gl_setupdat0 & CY_U3P_USB_REQUEST_MASK) >> CY_U3P_USB_REQUEST_POS);
+ 1868              		.loc 1 832 0
+ 1869 00e0 D0369FE5 		ldr	r3, .L146+12
+ 1870 00e4 003093E5 		ldr	r3, [r3]
+ 1871 00e8 FF3C03E2 		and	r3, r3, #65280
+ 1872 00ec 2334A0E1 		mov	r3, r3, lsr #8
+ 1873 00f0 12304BE5 		strb	r3, [fp, #-18]
+ 833:../cyfxbulksrcsink.c ****                 wLength  = ((gl_setupdat1 & CY_U3P_USB_LENGTH_MASK)  >> CY_U3P_USB_LENGTH_POS);
+ 1874              		.loc 1 833 0
+ 1875 00f4 C0369FE5 		ldr	r3, .L146+16
+ 1876 00f8 003093E5 		ldr	r3, [r3]
+ 1877 00fc 2338A0E1 		mov	r3, r3, lsr #16
+ 1878 0100 0338A0E1 		mov	r3, r3, asl #16
+ 1879 0104 2338A0E1 		mov	r3, r3, lsr #16
+ 1880 0108 B8324BE1 		strh	r3, [fp, #-40]	@ movhi
+ 834:../cyfxbulksrcsink.c ****                 wValue   = ((gl_setupdat0 & CY_U3P_USB_VALUE_MASK) >> CY_U3P_USB_VALUE_POS);
+ 1881              		.loc 1 834 0
+ 1882 010c A4369FE5 		ldr	r3, .L146+12
+ 1883 0110 003093E5 		ldr	r3, [r3]
+ 1884 0114 2338A0E1 		mov	r3, r3, lsr #16
+ 1885 0118 B4314BE1 		strh	r3, [fp, #-20]	@ movhi
+ 835:../cyfxbulksrcsink.c ****                 wIndex   = ((gl_setupdat1 & CY_U3P_USB_INDEX_MASK) >> CY_U3P_USB_INDEX_POS);
+ 1886              		.loc 1 835 0
+ 1887 011c 98369FE5 		ldr	r3, .L146+16
+ 1888 0120 003093E5 		ldr	r3, [r3]
+ 1889 0124 B6314BE1 		strh	r3, [fp, #-22]	@ movhi
+ 836:../cyfxbulksrcsink.c **** 
+ 837:../cyfxbulksrcsink.c ****                 if ((bReqType & CY_U3P_USB_TYPE_MASK) == CY_U3P_USB_VENDOR_RQT)
+ 1890              		.loc 1 837 0
+ 1891 0128 11305BE5 		ldrb	r3, [fp, #-17]	@ zero_extendqisi2
+ 1892 012c 603003E2 		and	r3, r3, #96
+ 1893 0130 400053E3 		cmp	r3, #64
+ 1894 0134 1901001A 		bne	.L106
+ 838:../cyfxbulksrcsink.c ****                 {
+ 839:../cyfxbulksrcsink.c ****                     switch (bRequest)
+ 1895              		.loc 1 839 0
+ 1896 0138 12305BE5 		ldrb	r3, [fp, #-18]	@ zero_extendqisi2
+ 1897 013c 773043E2 		sub	r3, r3, #119
+ 1898 0140 6A0053E3 		cmp	r3, #106
+ 1899 0144 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 1900 0148 0E0100EA 		b	.L107
+ 1901              	.L109:
+ 1902 014c F8020000 		.word	.L108
+ 1903 0150 10030000 		.word	.L110
+ 1904 0154 30030000 		.word	.L111
+ 1905 0158 88050000 		.word	.L107
+ 1906 015c 88050000 		.word	.L107
+ 1907 0160 88050000 		.word	.L107
+ 1908 0164 88050000 		.word	.L107
+ 1909 0168 88050000 		.word	.L107
+ 1910 016c 88050000 		.word	.L107
+ 1911 0170 40030000 		.word	.L112
+ 1912 0174 58030000 		.word	.L113
+ 1913 0178 A8030000 		.word	.L114
+ 1914 017c FC030000 		.word	.L115
+ 1915 0180 34040000 		.word	.L116
+ 1916 0184 88050000 		.word	.L107
+ 1917 0188 88050000 		.word	.L107
+ 1918 018c 88050000 		.word	.L107
+ 1919 0190 88050000 		.word	.L107
+ 1920 0194 88050000 		.word	.L107
+ 1921 0198 88050000 		.word	.L107
+ 1922 019c 88050000 		.word	.L107
+ 1923 01a0 88050000 		.word	.L107
+ 1924 01a4 88050000 		.word	.L107
+ 1925 01a8 88050000 		.word	.L107
+ 1926 01ac 88050000 		.word	.L107
+ 1927 01b0 A4040000 		.word	.L117
+ 1928 01b4 88050000 		.word	.L107
+ 1929 01b8 88050000 		.word	.L107
+ 1930 01bc 88050000 		.word	.L107
+ 1931 01c0 88050000 		.word	.L107
+ 1932 01c4 88050000 		.word	.L107
+ 1933 01c8 88050000 		.word	.L107
+ 1934 01cc 88050000 		.word	.L107
+ 1935 01d0 88050000 		.word	.L107
+ 1936 01d4 88050000 		.word	.L107
+ 1937 01d8 88050000 		.word	.L107
+ 1938 01dc 88050000 		.word	.L107
+ 1939 01e0 88050000 		.word	.L107
+ 1940 01e4 88050000 		.word	.L107
+ 1941 01e8 88050000 		.word	.L107
+ 1942 01ec 88050000 		.word	.L107
+ 1943 01f0 88050000 		.word	.L107
+ 1944 01f4 88050000 		.word	.L107
+ 1945 01f8 88050000 		.word	.L107
+ 1946 01fc 88050000 		.word	.L107
+ 1947 0200 88050000 		.word	.L107
+ 1948 0204 88050000 		.word	.L107
+ 1949 0208 88050000 		.word	.L107
+ 1950 020c 88050000 		.word	.L107
+ 1951 0210 88050000 		.word	.L107
+ 1952 0214 88050000 		.word	.L107
+ 1953 0218 88050000 		.word	.L107
+ 1954 021c 88050000 		.word	.L107
+ 1955 0220 88050000 		.word	.L107
+ 1956 0224 88050000 		.word	.L107
+ 1957 0228 88050000 		.word	.L107
+ 1958 022c 88050000 		.word	.L107
+ 1959 0230 88050000 		.word	.L107
+ 1960 0234 D8040000 		.word	.L118
+ 1961 0238 0C050000 		.word	.L119
+ 1962 023c 88050000 		.word	.L107
+ 1963 0240 88050000 		.word	.L107
+ 1964 0244 88050000 		.word	.L107
+ 1965 0248 88050000 		.word	.L107
+ 1966 024c 88050000 		.word	.L107
+ 1967 0250 88050000 		.word	.L107
+ 1968 0254 88050000 		.word	.L107
+ 1969 0258 88050000 		.word	.L107
+ 1970 025c 88050000 		.word	.L107
+ 1971 0260 88050000 		.word	.L107
+ 1972 0264 88050000 		.word	.L107
+ 1973 0268 88050000 		.word	.L107
+ 1974 026c 88050000 		.word	.L107
+ 1975 0270 88050000 		.word	.L107
+ 1976 0274 88050000 		.word	.L107
+ 1977 0278 88050000 		.word	.L107
+ 1978 027c 88050000 		.word	.L107
+ 1979 0280 88050000 		.word	.L107
+ 1980 0284 88050000 		.word	.L107
+ 1981 0288 88050000 		.word	.L107
+ 1982 028c 88050000 		.word	.L107
+ 1983 0290 88050000 		.word	.L107
+ 1984 0294 88050000 		.word	.L107
+ 1985 0298 88050000 		.word	.L107
+ 1986 029c 88050000 		.word	.L107
+ 1987 02a0 88050000 		.word	.L107
+ 1988 02a4 88050000 		.word	.L107
+ 1989 02a8 88050000 		.word	.L107
+ 1990 02ac 88050000 		.word	.L107
+ 1991 02b0 88050000 		.word	.L107
+ 1992 02b4 88050000 		.word	.L107
+ 1993 02b8 88050000 		.word	.L107
+ 1994 02bc 88050000 		.word	.L107
+ 1995 02c0 88050000 		.word	.L107
+ 1996 02c4 88050000 		.word	.L107
+ 1997 02c8 88050000 		.word	.L107
+ 1998 02cc 88050000 		.word	.L107
+ 1999 02d0 88050000 		.word	.L107
+ 2000 02d4 88050000 		.word	.L107
+ 2001 02d8 88050000 		.word	.L107
+ 2002 02dc 88050000 		.word	.L107
+ 2003 02e0 88050000 		.word	.L107
+ 2004 02e4 88050000 		.word	.L107
+ 2005 02e8 88050000 		.word	.L107
+ 2006 02ec 88050000 		.word	.L107
+ 2007 02f0 40050000 		.word	.L120
+ 2008 02f4 74050000 		.word	.L121
+ 2009              	.L108:
+ 840:../cyfxbulksrcsink.c ****                     {
+ 841:../cyfxbulksrcsink.c ****                     case 0x77:      /* Trigger remote wakeup. */
+ 842:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2010              		.loc 1 842 0
+ 2011 02f8 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 843:../cyfxbulksrcsink.c ****                         CyU3PEventSet (&glBulkLpEvent, CYFX_USB_HOSTWAKE_TASK, CYU3P_EVENT_OR);
+ 2012              		.loc 1 843 0
+ 2013 02fc AC049FE5 		ldr	r0, .L146+4
+ 2014 0300 0210A0E3 		mov	r1, #2
+ 2015 0304 0020A0E3 		mov	r2, #0
+ 2016 0308 FEFFFFEB 		bl	_txe_event_flags_set
+ 844:../cyfxbulksrcsink.c ****                         break;
+ 2017              		.loc 1 844 0
+ 2018 030c A20000EA 		b	.L122
+ 2019              	.L110:
+ 845:../cyfxbulksrcsink.c **** 
+ 846:../cyfxbulksrcsink.c ****                     case 0x78:      /* Get count of EP0 status events received. */
+ 847:../cyfxbulksrcsink.c ****                         CyU3PMemCopy ((uint8_t *)glEp0Buffer, ((uint8_t *)&glEp0StatCount), 4);
+ 2020              		.loc 1 847 0
+ 2021 0310 A8049FE5 		ldr	r0, .L146+20
+ 2022 0314 A8149FE5 		ldr	r1, .L146+24
+ 2023 0318 0420A0E3 		mov	r2, #4
+ 2024 031c FEFFFFEB 		bl	CyU3PMemCopy
+ 848:../cyfxbulksrcsink.c ****                         CyU3PUsbSendEP0Data (4, glEp0Buffer);
+ 2025              		.loc 1 848 0
+ 2026 0320 0400A0E3 		mov	r0, #4
+ 2027 0324 94149FE5 		ldr	r1, .L146+20
+ 2028 0328 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 849:../cyfxbulksrcsink.c ****                         break;
+ 2029              		.loc 1 849 0
+ 2030 032c 9A0000EA 		b	.L122
+ 2031              	.L111:
+ 850:../cyfxbulksrcsink.c **** 
+ 851:../cyfxbulksrcsink.c ****                     case 0x79:      /* Request with no data phase. Insert a delay and then ACK the 
+ 852:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (5);
+ 2032              		.loc 1 852 0
+ 2033 0330 0500A0E3 		mov	r0, #5
+ 2034 0334 FEFFFFEB 		bl	_tx_thread_sleep
+ 853:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2035              		.loc 1 853 0
+ 2036 0338 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 854:../cyfxbulksrcsink.c ****                         break;
+ 2037              		.loc 1 854 0
+ 2038 033c 960000EA 		b	.L122
+ 2039              	.L112:
+ 855:../cyfxbulksrcsink.c **** 
+ 856:../cyfxbulksrcsink.c ****                     case 0x80:      /* Request with OUT data phase. Just get the data and ignore it
+ 857:../cyfxbulksrcsink.c ****                         CyU3PUsbGetEP0Data (sizeof (glEp0Buffer), (uint8_t *)glEp0Buffer, &wLength)
+ 2040              		.loc 1 857 0
+ 2041 0340 28304BE2 		sub	r3, fp, #40
+ 2042 0344 2000A0E3 		mov	r0, #32
+ 2043 0348 70149FE5 		ldr	r1, .L146+20
+ 2044 034c 0320A0E1 		mov	r2, r3
+ 2045 0350 FEFFFFEB 		bl	CyU3PUsbGetEP0Data
+ 858:../cyfxbulksrcsink.c ****                         break;
+ 2046              		.loc 1 858 0
+ 2047 0354 900000EA 		b	.L122
+ 2048              	.L113:
+ 859:../cyfxbulksrcsink.c **** 
+ 860:../cyfxbulksrcsink.c ****                     case 0x81:
+ 861:../cyfxbulksrcsink.c ****                         /* Get the current event log index and send it to the host. */
+ 862:../cyfxbulksrcsink.c ****                         if (wLength == 2)
+ 2049              		.loc 1 862 0
+ 2050 0358 B8325BE1 		ldrh	r3, [fp, #-40]
+ 2051 035c 020053E3 		cmp	r3, #2
+ 2052 0360 0B00001A 		bne	.L123
+ 863:../cyfxbulksrcsink.c ****                         {
+ 864:../cyfxbulksrcsink.c ****                             temp = CyU3PUsbGetEventLogIndex ();
+ 2053              		.loc 1 864 0
+ 2054 0364 FEFFFFEB 		bl	CyU3PUsbGetEventLogIndex
+ 2055 0368 0030A0E1 		mov	r3, r0
+ 2056 036c BA324BE1 		strh	r3, [fp, #-42]	@ movhi
+ 865:../cyfxbulksrcsink.c ****                             CyU3PMemCopy ((uint8_t *)glEp0Buffer, (uint8_t *)&temp, 2);
+ 2057              		.loc 1 865 0
+ 2058 0370 2A304BE2 		sub	r3, fp, #42
+ 2059 0374 44049FE5 		ldr	r0, .L146+20
+ 2060 0378 0310A0E1 		mov	r1, r3
+ 2061 037c 0220A0E3 		mov	r2, #2
+ 2062 0380 FEFFFFEB 		bl	CyU3PMemCopy
+ 866:../cyfxbulksrcsink.c ****                             CyU3PUsbSendEP0Data (2, glEp0Buffer);
+ 2063              		.loc 1 866 0
+ 2064 0384 0200A0E3 		mov	r0, #2
+ 2065 0388 30149FE5 		ldr	r1, .L146+20
+ 2066 038c FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 867:../cyfxbulksrcsink.c ****                         }
+ 868:../cyfxbulksrcsink.c ****                         else
+ 869:../cyfxbulksrcsink.c ****                             CyU3PUsbStall (0, CyTrue, CyFalse);
+ 870:../cyfxbulksrcsink.c ****                         break;
+ 2067              		.loc 1 870 0
+ 2068 0390 810000EA 		b	.L122
+ 2069              	.L123:
+ 869:../cyfxbulksrcsink.c ****                         break;
+ 2070              		.loc 1 869 0
+ 2071 0394 0000A0E3 		mov	r0, #0
+ 2072 0398 0110A0E3 		mov	r1, #1
+ 2073 039c 0020A0E3 		mov	r2, #0
+ 2074 03a0 FEFFFFEB 		bl	CyU3PUsbStall
+ 2075              		.loc 1 870 0
+ 2076 03a4 7C0000EA 		b	.L122
+ 2077              	.L114:
+ 871:../cyfxbulksrcsink.c **** 
+ 872:../cyfxbulksrcsink.c ****                     case 0x82:
+ 873:../cyfxbulksrcsink.c ****                         /* Send the USB event log buffer content to the host. */
+ 874:../cyfxbulksrcsink.c ****                         if (wLength != 0)
+ 2078              		.loc 1 874 0
+ 2079 03a8 B8325BE1 		ldrh	r3, [fp, #-40]
+ 2080 03ac 000053E3 		cmp	r3, #0
+ 2081 03b0 0F00000A 		beq	.L125
+ 875:../cyfxbulksrcsink.c ****                         {
+ 876:../cyfxbulksrcsink.c ****                             if (wLength < CYFX_USBLOG_SIZE)
+ 2082              		.loc 1 876 0
+ 2083 03b4 B8325BE1 		ldrh	r3, [fp, #-40]
+ 2084 03b8 010A53E3 		cmp	r3, #4096
+ 2085 03bc 0600002A 		bcs	.L126
+ 877:../cyfxbulksrcsink.c ****                                 CyU3PUsbSendEP0Data (wLength, gl_UsbLogBuffer);
+ 2086              		.loc 1 877 0
+ 2087 03c0 B8225BE1 		ldrh	r2, [fp, #-40]
+ 2088 03c4 FC339FE5 		ldr	r3, .L146+28
+ 2089 03c8 003093E5 		ldr	r3, [r3]
+ 2090 03cc 0200A0E1 		mov	r0, r2
+ 2091 03d0 0310A0E1 		mov	r1, r3
+ 2092 03d4 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 878:../cyfxbulksrcsink.c ****                             else
+ 879:../cyfxbulksrcsink.c ****                                 CyU3PUsbSendEP0Data (CYFX_USBLOG_SIZE, gl_UsbLogBuffer);
+ 880:../cyfxbulksrcsink.c ****                         }
+ 881:../cyfxbulksrcsink.c ****                         else
+ 882:../cyfxbulksrcsink.c ****                             CyU3PUsbAckSetup ();
+ 883:../cyfxbulksrcsink.c ****                         break;
+ 2093              		.loc 1 883 0
+ 2094 03d8 6F0000EA 		b	.L122
+ 2095              	.L126:
+ 879:../cyfxbulksrcsink.c ****                         }
+ 2096              		.loc 1 879 0
+ 2097 03dc E4339FE5 		ldr	r3, .L146+28
+ 2098 03e0 003093E5 		ldr	r3, [r3]
+ 2099 03e4 010AA0E3 		mov	r0, #4096
+ 2100 03e8 0310A0E1 		mov	r1, r3
+ 2101 03ec FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 2102              		.loc 1 883 0
+ 2103 03f0 690000EA 		b	.L122
+ 2104              	.L125:
+ 882:../cyfxbulksrcsink.c ****                         break;
+ 2105              		.loc 1 882 0
+ 2106 03f4 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 2107              		.loc 1 883 0
+ 2108 03f8 670000EA 		b	.L122
+ 2109              	.L115:
+ 2110              	.LBB4:
+ 884:../cyfxbulksrcsink.c **** 
+ 885:../cyfxbulksrcsink.c ****                     case 0x83:
+ 886:../cyfxbulksrcsink.c ****                         {
+ 887:../cyfxbulksrcsink.c ****                             uint32_t addr = ((uint32_t)wValue << 16) | (uint32_t)wIndex;
+ 2111              		.loc 1 887 0
+ 2112 03fc B4315BE1 		ldrh	r3, [fp, #-20]
+ 2113 0400 0328A0E1 		mov	r2, r3, asl #16
+ 2114 0404 B6315BE1 		ldrh	r3, [fp, #-22]
+ 2115 0408 033082E1 		orr	r3, r2, r3
+ 2116 040c 1C300BE5 		str	r3, [fp, #-28]
+ 888:../cyfxbulksrcsink.c ****                             CyU3PReadDeviceRegisters ((uvint32_t *)addr, 1, (uint32_t *)glEp0Buffer
+ 2117              		.loc 1 888 0
+ 2118 0410 1C301BE5 		ldr	r3, [fp, #-28]
+ 2119 0414 0300A0E1 		mov	r0, r3
+ 2120 0418 0110A0E3 		mov	r1, #1
+ 2121 041c 9C239FE5 		ldr	r2, .L146+20
+ 2122 0420 FEFFFFEB 		bl	CyU3PReadDeviceRegisters
+ 889:../cyfxbulksrcsink.c ****                             CyU3PUsbSendEP0Data (4, glEp0Buffer);
+ 2123              		.loc 1 889 0
+ 2124 0424 0400A0E3 		mov	r0, #4
+ 2125 0428 90139FE5 		ldr	r1, .L146+20
+ 2126 042c FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 2127              	.LBE4:
+ 890:../cyfxbulksrcsink.c ****                         }
+ 891:../cyfxbulksrcsink.c ****                         break;
+ 2128              		.loc 1 891 0
+ 2129 0430 590000EA 		b	.L122
+ 2130              	.L116:
+ 2131              	.LBB5:
+ 892:../cyfxbulksrcsink.c **** 
+ 893:../cyfxbulksrcsink.c ****                     case 0x84:
+ 894:../cyfxbulksrcsink.c ****                         {
+ 895:../cyfxbulksrcsink.c ****                             uint8_t major, minor, patch;
+ 896:../cyfxbulksrcsink.c **** 
+ 897:../cyfxbulksrcsink.c ****                             if (CyU3PUsbGetBooterVersion (&major, &minor, &patch) == CY_U3P_SUCCESS
+ 2132              		.loc 1 897 0
+ 2133 0434 2B104BE2 		sub	r1, fp, #43
+ 2134 0438 2C204BE2 		sub	r2, fp, #44
+ 2135 043c 2D304BE2 		sub	r3, fp, #45
+ 2136 0440 0100A0E1 		mov	r0, r1
+ 2137 0444 0210A0E1 		mov	r1, r2
+ 2138 0448 0320A0E1 		mov	r2, r3
+ 2139 044c FEFFFFEB 		bl	CyU3PUsbGetBooterVersion
+ 2140 0450 0030A0E1 		mov	r3, r0
+ 2141 0454 000053E3 		cmp	r3, #0
+ 2142 0458 0C00001A 		bne	.L129
+ 898:../cyfxbulksrcsink.c ****                             {
+ 899:../cyfxbulksrcsink.c ****                                 glEp0Buffer[0] = major;
+ 2143              		.loc 1 899 0
+ 2144 045c 2B205BE5 		ldrb	r2, [fp, #-43]	@ zero_extendqisi2
+ 2145 0460 58339FE5 		ldr	r3, .L146+20
+ 2146 0464 0020C3E5 		strb	r2, [r3]
+ 900:../cyfxbulksrcsink.c ****                                 glEp0Buffer[1] = minor;
+ 2147              		.loc 1 900 0
+ 2148 0468 2C205BE5 		ldrb	r2, [fp, #-44]	@ zero_extendqisi2
+ 2149 046c 4C339FE5 		ldr	r3, .L146+20
+ 2150 0470 0120C3E5 		strb	r2, [r3, #1]
+ 901:../cyfxbulksrcsink.c ****                                 glEp0Buffer[2] = patch;
+ 2151              		.loc 1 901 0
+ 2152 0474 2D205BE5 		ldrb	r2, [fp, #-45]	@ zero_extendqisi2
+ 2153 0478 40339FE5 		ldr	r3, .L146+20
+ 2154 047c 0220C3E5 		strb	r2, [r3, #2]
+ 902:../cyfxbulksrcsink.c ****                                 CyU3PUsbSendEP0Data (3, glEp0Buffer);
+ 2155              		.loc 1 902 0
+ 2156 0480 0300A0E3 		mov	r0, #3
+ 2157 0484 34139FE5 		ldr	r1, .L146+20
+ 2158 0488 FEFFFFEB 		bl	CyU3PUsbSendEP0Data
+ 2159              	.LBE5:
+ 903:../cyfxbulksrcsink.c ****                             }
+ 904:../cyfxbulksrcsink.c ****                             else
+ 905:../cyfxbulksrcsink.c ****                                 CyU3PUsbStall (0, CyTrue, CyFalse);
+ 906:../cyfxbulksrcsink.c ****                         }
+ 907:../cyfxbulksrcsink.c ****                         break;
+ 2160              		.loc 1 907 0
+ 2161 048c 420000EA 		b	.L122
+ 2162              	.L129:
+ 2163              	.LBB6:
+ 905:../cyfxbulksrcsink.c ****                         }
+ 2164              		.loc 1 905 0
+ 2165 0490 0000A0E3 		mov	r0, #0
+ 2166 0494 0110A0E3 		mov	r1, #1
+ 2167 0498 0020A0E3 		mov	r2, #0
+ 2168 049c FEFFFFEB 		bl	CyU3PUsbStall
+ 2169              	.LBE6:
+ 2170              		.loc 1 907 0
+ 2171 04a0 3D0000EA 		b	.L122
+ 2172              	.L117:
+ 908:../cyfxbulksrcsink.c **** 
+ 909:../cyfxbulksrcsink.c ****                     case 0x90:
+ 910:../cyfxbulksrcsink.c ****                         /* Request to switch control back to the boot firmware. */
+ 911:../cyfxbulksrcsink.c **** 
+ 912:../cyfxbulksrcsink.c ****                         /* Complete the control request. */
+ 913:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2173              		.loc 1 913 0
+ 2174 04a4 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 914:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (10);
+ 2175              		.loc 1 914 0
+ 2176 04a8 0A00A0E3 		mov	r0, #10
+ 2177 04ac FEFFFFEB 		bl	_tx_thread_sleep
+ 915:../cyfxbulksrcsink.c **** 
+ 916:../cyfxbulksrcsink.c ****                         /* Get rid of the DMA channels and EP configuration. */
+ 917:../cyfxbulksrcsink.c ****                         CyFxBulkSrcSinkApplnStop ();
+ 2178              		.loc 1 917 0
+ 2179 04b0 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStop
+ 918:../cyfxbulksrcsink.c **** 
+ 919:../cyfxbulksrcsink.c ****                         /* De-initialize the Debug and UART modules. */
+ 920:../cyfxbulksrcsink.c ****                         CyU3PDebugDeInit ();
+ 2180              		.loc 1 920 0
+ 2181 04b4 FEFFFFEB 		bl	CyU3PDebugDeInit
+ 921:../cyfxbulksrcsink.c ****                         CyU3PUartDeInit ();
+ 2182              		.loc 1 921 0
+ 2183 04b8 FEFFFFEB 		bl	CyU3PUartDeInit
+ 922:../cyfxbulksrcsink.c **** 
+ 923:../cyfxbulksrcsink.c ****                         /* Now jump back to the boot firmware image. */
+ 924:../cyfxbulksrcsink.c ****                         CyU3PUsbSetBooterSwitch (CyTrue);
+ 2184              		.loc 1 924 0
+ 2185 04bc 0100A0E3 		mov	r0, #1
+ 2186 04c0 FEFFFFEB 		bl	CyU3PUsbSetBooterSwitch
+ 925:../cyfxbulksrcsink.c ****                         CyU3PUsbJumpBackToBooter (0x40078000);
+ 2187              		.loc 1 925 0
+ 2188 04c4 00039FE5 		ldr	r0, .L146+32
+ 2189 04c8 FEFFFFEB 		bl	CyU3PUsbJumpBackToBooter
+ 2190              	.L131:
+ 926:../cyfxbulksrcsink.c ****                         while (1)
+ 927:../cyfxbulksrcsink.c ****                             CyU3PThreadSleep (100);
+ 2191              		.loc 1 927 0 discriminator 1
+ 2192 04cc 6400A0E3 		mov	r0, #100
+ 2193 04d0 FEFFFFEB 		bl	_tx_thread_sleep
+ 2194 04d4 FCFFFFEA 		b	.L131
+ 2195              	.L118:
+ 928:../cyfxbulksrcsink.c ****                         break;
+ 929:../cyfxbulksrcsink.c **** 
+ 930:../cyfxbulksrcsink.c ****                     case 0xB1:
+ 931:../cyfxbulksrcsink.c ****                         /* Switch to a USB 2.0 Connection. */
+ 932:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2196              		.loc 1 932 0
+ 2197 04d8 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 933:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (1000);
+ 2198              		.loc 1 933 0
+ 2199 04dc FA0FA0E3 		mov	r0, #1000
+ 2200 04e0 FEFFFFEB 		bl	_tx_thread_sleep
+ 934:../cyfxbulksrcsink.c ****                         CyFxBulkSrcSinkApplnStop ();
+ 2201              		.loc 1 934 0
+ 2202 04e4 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStop
+ 935:../cyfxbulksrcsink.c ****                         CyU3PConnectState (CyFalse, CyTrue);
+ 2203              		.loc 1 935 0
+ 2204 04e8 0000A0E3 		mov	r0, #0
+ 2205 04ec 0110A0E3 		mov	r1, #1
+ 2206 04f0 FEFFFFEB 		bl	CyU3PConnectState
+ 936:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (100);
+ 2207              		.loc 1 936 0
+ 2208 04f4 6400A0E3 		mov	r0, #100
+ 2209 04f8 FEFFFFEB 		bl	_tx_thread_sleep
+ 937:../cyfxbulksrcsink.c ****                         CyU3PConnectState (CyTrue, CyFalse);
+ 2210              		.loc 1 937 0
+ 2211 04fc 0100A0E3 		mov	r0, #1
+ 2212 0500 0010A0E3 		mov	r1, #0
+ 2213 0504 FEFFFFEB 		bl	CyU3PConnectState
+ 938:../cyfxbulksrcsink.c ****                         break;
+ 2214              		.loc 1 938 0
+ 2215 0508 230000EA 		b	.L122
+ 2216              	.L119:
+ 939:../cyfxbulksrcsink.c **** 
+ 940:../cyfxbulksrcsink.c ****                     case 0xB2:
+ 941:../cyfxbulksrcsink.c ****                         /* Switch to a USB 3.0 connection. */
+ 942:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2217              		.loc 1 942 0
+ 2218 050c FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 943:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (100);
+ 2219              		.loc 1 943 0
+ 2220 0510 6400A0E3 		mov	r0, #100
+ 2221 0514 FEFFFFEB 		bl	_tx_thread_sleep
+ 944:../cyfxbulksrcsink.c ****                         CyFxBulkSrcSinkApplnStop ();
+ 2222              		.loc 1 944 0
+ 2223 0518 FEFFFFEB 		bl	CyFxBulkSrcSinkApplnStop
+ 945:../cyfxbulksrcsink.c ****                         CyU3PConnectState (CyFalse, CyTrue);
+ 2224              		.loc 1 945 0
+ 2225 051c 0000A0E3 		mov	r0, #0
+ 2226 0520 0110A0E3 		mov	r1, #1
+ 2227 0524 FEFFFFEB 		bl	CyU3PConnectState
+ 946:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (10);
+ 2228              		.loc 1 946 0
+ 2229 0528 0A00A0E3 		mov	r0, #10
+ 2230 052c FEFFFFEB 		bl	_tx_thread_sleep
+ 947:../cyfxbulksrcsink.c ****                         CyU3PConnectState (CyTrue, CyTrue);
+ 2231              		.loc 1 947 0
+ 2232 0530 0100A0E3 		mov	r0, #1
+ 2233 0534 0110A0E3 		mov	r1, #1
+ 2234 0538 FEFFFFEB 		bl	CyU3PConnectState
+ 948:../cyfxbulksrcsink.c ****                         break;
+ 2235              		.loc 1 948 0
+ 2236 053c 160000EA 		b	.L122
+ 2237              	.L120:
+ 949:../cyfxbulksrcsink.c **** 
+ 950:../cyfxbulksrcsink.c ****                     case 0xE0:
+ 951:../cyfxbulksrcsink.c ****                         /* Request to reset the FX3 device. */
+ 952:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2238              		.loc 1 952 0
+ 2239 0540 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 953:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (2000);
+ 2240              		.loc 1 953 0
+ 2241 0544 7D0EA0E3 		mov	r0, #2000
+ 2242 0548 FEFFFFEB 		bl	_tx_thread_sleep
+ 954:../cyfxbulksrcsink.c ****                         CyU3PConnectState (CyFalse, CyTrue);
+ 2243              		.loc 1 954 0
+ 2244 054c 0000A0E3 		mov	r0, #0
+ 2245 0550 0110A0E3 		mov	r1, #1
+ 2246 0554 FEFFFFEB 		bl	CyU3PConnectState
+ 955:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (1000);
+ 2247              		.loc 1 955 0
+ 2248 0558 FA0FA0E3 		mov	r0, #1000
+ 2249 055c FEFFFFEB 		bl	_tx_thread_sleep
+ 956:../cyfxbulksrcsink.c ****                         CyU3PDeviceReset (CyFalse);
+ 2250              		.loc 1 956 0
+ 2251 0560 0000A0E3 		mov	r0, #0
+ 2252 0564 FEFFFFEB 		bl	CyU3PDeviceReset
+ 957:../cyfxbulksrcsink.c ****                         CyU3PThreadSleep (1000);
+ 2253              		.loc 1 957 0
+ 2254 0568 FA0FA0E3 		mov	r0, #1000
+ 2255 056c FEFFFFEB 		bl	_tx_thread_sleep
+ 958:../cyfxbulksrcsink.c ****                         break;
+ 2256              		.loc 1 958 0
+ 2257 0570 090000EA 		b	.L122
+ 2258              	.L121:
+ 959:../cyfxbulksrcsink.c **** 
+ 960:../cyfxbulksrcsink.c ****                     case 0xE1:
+ 961:../cyfxbulksrcsink.c ****                         /* Request to place FX3 in standby when VBus is next disconnected. */
+ 962:../cyfxbulksrcsink.c ****                         StandbyModeEnable = CyTrue;
+ 2259              		.loc 1 962 0
+ 2260 0574 54329FE5 		ldr	r3, .L146+36
+ 2261 0578 0120A0E3 		mov	r2, #1
+ 2262 057c 002083E5 		str	r2, [r3]
+ 963:../cyfxbulksrcsink.c ****                         CyU3PUsbAckSetup ();
+ 2263              		.loc 1 963 0
+ 2264 0580 FEFFFFEB 		bl	CyU3PUsbAckSetup
+ 964:../cyfxbulksrcsink.c ****                         break;
+ 2265              		.loc 1 964 0
+ 2266 0584 040000EA 		b	.L122
+ 2267              	.L107:
+ 965:../cyfxbulksrcsink.c **** 
+ 966:../cyfxbulksrcsink.c ****                     default:        /* Unknown request. Stall EP0. */
+ 967:../cyfxbulksrcsink.c ****                         CyU3PUsbStall (0, CyTrue, CyFalse);
+ 2268              		.loc 1 967 0
+ 2269 0588 0000A0E3 		mov	r0, #0
+ 2270 058c 0110A0E3 		mov	r1, #1
+ 2271 0590 0020A0E3 		mov	r2, #0
+ 2272 0594 FEFFFFEB 		bl	CyU3PUsbStall
+ 968:../cyfxbulksrcsink.c ****                         break;
+ 2273              		.loc 1 968 0
+ 2274 0598 0000A0E1 		mov	r0, r0	@ nop
+ 2275              	.L122:
+ 2276 059c 030000EA 		b	.L102
+ 2277              	.L106:
+ 969:../cyfxbulksrcsink.c ****                     }
+ 970:../cyfxbulksrcsink.c ****                 }
+ 971:../cyfxbulksrcsink.c ****                 else
+ 972:../cyfxbulksrcsink.c ****                 {
+ 973:../cyfxbulksrcsink.c ****                     /* Only vendor requests are to be handled here. */
+ 974:../cyfxbulksrcsink.c ****                     CyU3PUsbStall (0, CyTrue, CyFalse);
+ 2278              		.loc 1 974 0
+ 2279 05a0 0000A0E3 		mov	r0, #0
+ 2280 05a4 0110A0E3 		mov	r1, #1
+ 2281 05a8 0020A0E3 		mov	r2, #0
+ 2282 05ac FEFFFFEB 		bl	CyU3PUsbStall
+ 2283              	.L102:
+ 2284              	.LBE3:
+ 975:../cyfxbulksrcsink.c ****                 }
+ 976:../cyfxbulksrcsink.c ****             }
+ 977:../cyfxbulksrcsink.c ****         }
+ 978:../cyfxbulksrcsink.c **** 
+ 979:../cyfxbulksrcsink.c ****         /* Try to get the USB 3.0 link back to U0. */
+ 980:../cyfxbulksrcsink.c ****         if (glForceLinkU2)
+ 2285              		.loc 1 980 0
+ 2286 05b0 1C329FE5 		ldr	r3, .L146+40
+ 2287 05b4 003093E5 		ldr	r3, [r3]
+ 2288 05b8 000053E3 		cmp	r3, #0
+ 2289 05bc 1700000A 		beq	.L133
+ 981:../cyfxbulksrcsink.c ****         {
+ 982:../cyfxbulksrcsink.c ****             stat = CyU3PUsbGetLinkPowerState (&curState);
+ 2290              		.loc 1 982 0
+ 2291 05c0 25304BE2 		sub	r3, fp, #37
+ 2292 05c4 0300A0E1 		mov	r0, r3
+ 2293 05c8 FEFFFFEB 		bl	CyU3PUsbGetLinkPowerState
+ 2294 05cc 08000BE5 		str	r0, [fp, #-8]
+ 983:../cyfxbulksrcsink.c ****             while ((glForceLinkU2) && (stat == CY_U3P_SUCCESS) && (curState == CyU3PUsbLPM_U0))
+ 2295              		.loc 1 983 0
+ 2296 05d0 070000EA 		b	.L134
+ 2297              	.L136:
+ 984:../cyfxbulksrcsink.c ****             {
+ 985:../cyfxbulksrcsink.c ****                 /* Repeatedly try to go into U2 state.*/
+ 986:../cyfxbulksrcsink.c ****                 CyU3PUsbSetLinkPowerState (CyU3PUsbLPM_U2);
+ 2298              		.loc 1 986 0
+ 2299 05d4 0200A0E3 		mov	r0, #2
+ 2300 05d8 FEFFFFEB 		bl	CyU3PUsbSetLinkPowerState
+ 987:../cyfxbulksrcsink.c ****                 CyU3PThreadSleep (5);
+ 2301              		.loc 1 987 0
+ 2302 05dc 0500A0E3 		mov	r0, #5
+ 2303 05e0 FEFFFFEB 		bl	_tx_thread_sleep
+ 988:../cyfxbulksrcsink.c ****                 stat = CyU3PUsbGetLinkPowerState (&curState);
+ 2304              		.loc 1 988 0
+ 2305 05e4 25304BE2 		sub	r3, fp, #37
+ 2306 05e8 0300A0E1 		mov	r0, r3
+ 2307 05ec FEFFFFEB 		bl	CyU3PUsbGetLinkPowerState
+ 2308 05f0 08000BE5 		str	r0, [fp, #-8]
+ 2309              	.L134:
+ 983:../cyfxbulksrcsink.c ****             {
+ 2310              		.loc 1 983 0 discriminator 1
+ 2311 05f4 D8319FE5 		ldr	r3, .L146+40
+ 2312 05f8 003093E5 		ldr	r3, [r3]
+ 2313 05fc 000053E3 		cmp	r3, #0
+ 2314 0600 2800000A 		beq	.L135
+ 983:../cyfxbulksrcsink.c ****             {
+ 2315              		.loc 1 983 0 is_stmt 0 discriminator 2
+ 2316 0604 08301BE5 		ldr	r3, [fp, #-8]
+ 2317 0608 000053E3 		cmp	r3, #0
+ 2318 060c 2500001A 		bne	.L135
+ 983:../cyfxbulksrcsink.c ****             {
+ 2319              		.loc 1 983 0 discriminator 1
+ 2320 0610 25305BE5 		ldrb	r3, [fp, #-37]	@ zero_extendqisi2
+ 2321 0614 000053E3 		cmp	r3, #0
+ 2322 0618 EDFFFF0A 		beq	.L136
+ 2323 061c 210000EA 		b	.L135
+ 2324              	.L133:
+ 989:../cyfxbulksrcsink.c ****             }
+ 990:../cyfxbulksrcsink.c ****         }
+ 991:../cyfxbulksrcsink.c ****         else
+ 992:../cyfxbulksrcsink.c ****         {
+ 993:../cyfxbulksrcsink.c **** 
+ 994:../cyfxbulksrcsink.c ****             /* Once data transfer has started, we keep trying to get the USB link to stay in U0. If
+ 995:../cyfxbulksrcsink.c ****                before data transfers have started, there is a likelihood of failing the TD 9.24 U1/
+ 996:../cyfxbulksrcsink.c ****             if ((CyU3PUsbGetSpeed () == CY_U3P_SUPER_SPEED) && (glDataTransStarted))
+ 2325              		.loc 1 996 0 is_stmt 1
+ 2326 0620 FEFFFFEB 		bl	CyU3PUsbGetSpeed
+ 2327 0624 0030A0E1 		mov	r3, r0
+ 2328 0628 030053E3 		cmp	r3, #3
+ 2329 062c 1D00001A 		bne	.L135
+ 2330              		.loc 1 996 0 is_stmt 0 discriminator 1
+ 2331 0630 A0319FE5 		ldr	r3, .L146+44
+ 2332 0634 003093E5 		ldr	r3, [r3]
+ 2333 0638 000053E3 		cmp	r3, #0
+ 2334 063c 1900000A 		beq	.L135
+ 997:../cyfxbulksrcsink.c ****             {
+ 998:../cyfxbulksrcsink.c ****                 /* If the link is in U1/U2 states, try to get back to U0. */
+ 999:../cyfxbulksrcsink.c ****                 stat = CyU3PUsbGetLinkPowerState (&curState);
+ 2335              		.loc 1 999 0 is_stmt 1
+ 2336 0640 25304BE2 		sub	r3, fp, #37
+ 2337 0644 0300A0E1 		mov	r0, r3
+ 2338 0648 FEFFFFEB 		bl	CyU3PUsbGetLinkPowerState
+ 2339 064c 08000BE5 		str	r0, [fp, #-8]
+1000:../cyfxbulksrcsink.c ****                 while ((stat == CY_U3P_SUCCESS) && (curState >= CyU3PUsbLPM_U1) && (curState <= CyU
+ 2340              		.loc 1 1000 0
+ 2341 0650 070000EA 		b	.L137
+ 2342              	.L138:
+1001:../cyfxbulksrcsink.c ****                         (glDataTransStarted))
+1002:../cyfxbulksrcsink.c ****                 {
+1003:../cyfxbulksrcsink.c ****                     CyU3PUsbSetLinkPowerState (CyU3PUsbLPM_U0);
+ 2343              		.loc 1 1003 0
+ 2344 0654 0000A0E3 		mov	r0, #0
+ 2345 0658 FEFFFFEB 		bl	CyU3PUsbSetLinkPowerState
+1004:../cyfxbulksrcsink.c ****                     CyU3PThreadSleep (1);
+ 2346              		.loc 1 1004 0
+ 2347 065c 0100A0E3 		mov	r0, #1
+ 2348 0660 FEFFFFEB 		bl	_tx_thread_sleep
+1005:../cyfxbulksrcsink.c ****                     stat = CyU3PUsbGetLinkPowerState (&curState);
+ 2349              		.loc 1 1005 0
+ 2350 0664 25304BE2 		sub	r3, fp, #37
+ 2351 0668 0300A0E1 		mov	r0, r3
+ 2352 066c FEFFFFEB 		bl	CyU3PUsbGetLinkPowerState
+ 2353 0670 08000BE5 		str	r0, [fp, #-8]
+ 2354              	.L137:
+1000:../cyfxbulksrcsink.c ****                         (glDataTransStarted))
+ 2355              		.loc 1 1000 0 discriminator 1
+ 2356 0674 08301BE5 		ldr	r3, [fp, #-8]
+ 2357 0678 000053E3 		cmp	r3, #0
+ 2358 067c 0900001A 		bne	.L135
+1000:../cyfxbulksrcsink.c ****                         (glDataTransStarted))
+ 2359              		.loc 1 1000 0 is_stmt 0 discriminator 2
+ 2360 0680 25305BE5 		ldrb	r3, [fp, #-37]	@ zero_extendqisi2
+ 2361 0684 000053E3 		cmp	r3, #0
+ 2362 0688 0600000A 		beq	.L135
+1000:../cyfxbulksrcsink.c ****                         (glDataTransStarted))
+ 2363              		.loc 1 1000 0 discriminator 1
+ 2364 068c 25305BE5 		ldrb	r3, [fp, #-37]	@ zero_extendqisi2
+ 2365 0690 020053E3 		cmp	r3, #2
+ 2366 0694 0300008A 		bhi	.L135
+ 2367 0698 38319FE5 		ldr	r3, .L146+44
+ 2368 069c 003093E5 		ldr	r3, [r3]
+ 2369 06a0 000053E3 		cmp	r3, #0
+ 2370 06a4 EAFFFF1A 		bne	.L138
+ 2371              	.L135:
+1006:../cyfxbulksrcsink.c ****                 }
+1007:../cyfxbulksrcsink.c ****             }
+1008:../cyfxbulksrcsink.c ****         }
+1009:../cyfxbulksrcsink.c **** 
+1010:../cyfxbulksrcsink.c ****         if (TriggerStandbyMode)
+ 2372              		.loc 1 1010 0 is_stmt 1
+ 2373 06a8 2C319FE5 		ldr	r3, .L146+48
+ 2374 06ac 003093E5 		ldr	r3, [r3]
+ 2375 06b0 000053E3 		cmp	r3, #0
+ 2376 06b4 1A00000A 		beq	.L139
+1011:../cyfxbulksrcsink.c ****         {
+1012:../cyfxbulksrcsink.c ****             TriggerStandbyMode = CyFalse;
+ 2377              		.loc 1 1012 0
+ 2378 06b8 1C319FE5 		ldr	r3, .L146+48
+ 2379 06bc 0020A0E3 		mov	r2, #0
+ 2380 06c0 002083E5 		str	r2, [r3]
+1013:../cyfxbulksrcsink.c **** 
+1014:../cyfxbulksrcsink.c ****             CyU3PConnectState (CyFalse, CyTrue);
+ 2381              		.loc 1 1014 0
+ 2382 06c4 0000A0E3 		mov	r0, #0
+ 2383 06c8 0110A0E3 		mov	r1, #1
+ 2384 06cc FEFFFFEB 		bl	CyU3PConnectState
+1015:../cyfxbulksrcsink.c ****             CyU3PUsbStop ();
+ 2385              		.loc 1 1015 0
+ 2386 06d0 FEFFFFEB 		bl	CyU3PUsbStop
+1016:../cyfxbulksrcsink.c ****             CyU3PDebugDeInit ();
+ 2387              		.loc 1 1016 0
+ 2388 06d4 FEFFFFEB 		bl	CyU3PDebugDeInit
+1017:../cyfxbulksrcsink.c ****             CyU3PUartDeInit ();
+ 2389              		.loc 1 1017 0
+ 2390 06d8 FEFFFFEB 		bl	CyU3PUartDeInit
+1018:../cyfxbulksrcsink.c **** 
+1019:../cyfxbulksrcsink.c ****             /* VBus has been turned off. Go into standby mode and wait for VBus to be turned on aga
+1020:../cyfxbulksrcsink.c ****                The I-TCM content and GPIO register state will be backed up in the memory area start
+1021:../cyfxbulksrcsink.c ****                at address 0x40060000. */
+1022:../cyfxbulksrcsink.c ****             stat = CyU3PSysEnterStandbyMode (CY_U3P_SYS_USB_VBUS_WAKEUP_SRC, CY_U3P_SYS_USB_VBUS_WA
+ 2391              		.loc 1 1022 0
+ 2392 06dc 0400A0E3 		mov	r0, #4
+ 2393 06e0 0410A0E3 		mov	r1, #4
+ 2394 06e4 F4209FE5 		ldr	r2, .L146+52
+ 2395 06e8 FEFFFFEB 		bl	CyU3PSysEnterStandbyMode
+ 2396 06ec 08000BE5 		str	r0, [fp, #-8]
+1023:../cyfxbulksrcsink.c ****                     (uint8_t *)0x40060000);
+1024:../cyfxbulksrcsink.c ****             if (stat != CY_U3P_SUCCESS)
+ 2397              		.loc 1 1024 0
+ 2398 06f0 08301BE5 		ldr	r3, [fp, #-8]
+ 2399 06f4 000053E3 		cmp	r3, #0
+ 2400 06f8 0600000A 		beq	.L140
+1025:../cyfxbulksrcsink.c ****             {
+1026:../cyfxbulksrcsink.c ****                 CyFxBulkSrcSinkApplnDebugInit ();
+ 2401              		.loc 1 1026 0
+ 2402 06fc FEFFFFEB 		bl	CyFxBulkSrcSinkApplnDebugInit
+1027:../cyfxbulksrcsink.c ****                 CyU3PDebugPrint (4, "Enter standby returned %d\r\n", stat);
+ 2403              		.loc 1 1027 0
+ 2404 0700 0400A0E3 		mov	r0, #4
+ 2405 0704 D8109FE5 		ldr	r1, .L146+56
+ 2406 0708 08201BE5 		ldr	r2, [fp, #-8]
+ 2407 070c FEFFFFEB 		bl	CyU3PDebugPrint
+1028:../cyfxbulksrcsink.c ****                 CyFxAppErrorHandler (stat);
+ 2408              		.loc 1 1028 0
+ 2409 0710 08001BE5 		ldr	r0, [fp, #-8]
+ 2410 0714 FEFFFFEB 		bl	CyFxAppErrorHandler
+ 2411              	.L140:
+1029:../cyfxbulksrcsink.c ****             }
+1030:../cyfxbulksrcsink.c **** 
+1031:../cyfxbulksrcsink.c ****             /* If the entry into standby succeeds, the CyU3PSysEnterStandbyMode function never retu
+1032:../cyfxbulksrcsink.c ****                firmware application starts running again from the main entry point. Therefore, this
+1033:../cyfxbulksrcsink.c ****                will never be executed. */
+1034:../cyfxbulksrcsink.c ****             CyFxAppErrorHandler (1);
+ 2412              		.loc 1 1034 0
+ 2413 0718 0100A0E3 		mov	r0, #1
+ 2414 071c FEFFFFEB 		bl	CyFxAppErrorHandler
+1035:../cyfxbulksrcsink.c ****         }
+1036:../cyfxbulksrcsink.c ****         else
+1037:../cyfxbulksrcsink.c ****         {
+1038:../cyfxbulksrcsink.c ****             /* Compare the current USB driver log index against the previous value. */
+1039:../cyfxbulksrcsink.c ****             tmp1 = CyU3PUsbGetEventLogIndex ();
+1040:../cyfxbulksrcsink.c ****             if (tmp1 != prevUsbLogIndex)
+1041:../cyfxbulksrcsink.c ****             {
+1042:../cyfxbulksrcsink.c ****                 tmp2 = prevUsbLogIndex;
+1043:../cyfxbulksrcsink.c ****                 while (tmp2 != tmp1)
+1044:../cyfxbulksrcsink.c ****                 {
+1045:../cyfxbulksrcsink.c ****                     CyU3PDebugPrint (4, "USB LOG: %x\r\n", gl_UsbLogBuffer[tmp2]);
+1046:../cyfxbulksrcsink.c ****                     tmp2++;
+1047:../cyfxbulksrcsink.c ****                     if (tmp2 == CYFX_USBLOG_SIZE)
+1048:../cyfxbulksrcsink.c ****                         tmp2 = 0;
+1049:../cyfxbulksrcsink.c ****                 }
+1050:../cyfxbulksrcsink.c ****             }
+1051:../cyfxbulksrcsink.c **** 
+1052:../cyfxbulksrcsink.c ****             /* Store the current log index. */
+1053:../cyfxbulksrcsink.c ****             prevUsbLogIndex = tmp1;
+1054:../cyfxbulksrcsink.c ****         }
+1055:../cyfxbulksrcsink.c ****     }
+ 2415              		.loc 1 1055 0
+ 2416 0720 43FEFFEA 		b	.L145
+ 2417              	.L139:
+1039:../cyfxbulksrcsink.c ****             if (tmp1 != prevUsbLogIndex)
+ 2418              		.loc 1 1039 0
+ 2419 0724 FEFFFFEB 		bl	CyU3PUsbGetEventLogIndex
+ 2420 0728 0030A0E1 		mov	r3, r0
+ 2421 072c BE314BE1 		strh	r3, [fp, #-30]	@ movhi
+1040:../cyfxbulksrcsink.c ****             {
+ 2422              		.loc 1 1040 0
+ 2423 0730 BE215BE1 		ldrh	r2, [fp, #-30]
+ 2424 0734 BA305BE1 		ldrh	r3, [fp, #-10]
+ 2425 0738 030052E1 		cmp	r2, r3
+ 2426 073c 1700000A 		beq	.L142
+1042:../cyfxbulksrcsink.c ****                 while (tmp2 != tmp1)
+ 2427              		.loc 1 1042 0
+ 2428 0740 BA305BE1 		ldrh	r3, [fp, #-10]	@ movhi
+ 2429 0744 BC304BE1 		strh	r3, [fp, #-12]	@ movhi
+1043:../cyfxbulksrcsink.c ****                 {
+ 2430              		.loc 1 1043 0
+ 2431 0748 100000EA 		b	.L143
+ 2432              	.L144:
+1045:../cyfxbulksrcsink.c ****                     tmp2++;
+ 2433              		.loc 1 1045 0
+ 2434 074c 74309FE5 		ldr	r3, .L146+28
+ 2435 0750 002093E5 		ldr	r2, [r3]
+ 2436 0754 BC305BE1 		ldrh	r3, [fp, #-12]
+ 2437 0758 033082E0 		add	r3, r2, r3
+ 2438 075c 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2439 0760 0400A0E3 		mov	r0, #4
+ 2440 0764 7C109FE5 		ldr	r1, .L146+60
+ 2441 0768 0320A0E1 		mov	r2, r3
+ 2442 076c FEFFFFEB 		bl	CyU3PDebugPrint
+1046:../cyfxbulksrcsink.c ****                     if (tmp2 == CYFX_USBLOG_SIZE)
+ 2443              		.loc 1 1046 0
+ 2444 0770 BC305BE1 		ldrh	r3, [fp, #-12]
+ 2445 0774 013083E2 		add	r3, r3, #1
+ 2446 0778 BC304BE1 		strh	r3, [fp, #-12]	@ movhi
+1047:../cyfxbulksrcsink.c ****                         tmp2 = 0;
+ 2447              		.loc 1 1047 0
+ 2448 077c BC305BE1 		ldrh	r3, [fp, #-12]
+ 2449 0780 010A53E3 		cmp	r3, #4096
+ 2450 0784 0100001A 		bne	.L143
+1048:../cyfxbulksrcsink.c ****                 }
+ 2451              		.loc 1 1048 0
+ 2452 0788 0030A0E3 		mov	r3, #0
+ 2453 078c BC304BE1 		strh	r3, [fp, #-12]	@ movhi
+ 2454              	.L143:
+1043:../cyfxbulksrcsink.c ****                 {
+ 2455              		.loc 1 1043 0 discriminator 1
+ 2456 0790 BC205BE1 		ldrh	r2, [fp, #-12]
+ 2457 0794 BE315BE1 		ldrh	r3, [fp, #-30]
+ 2458 0798 030052E1 		cmp	r2, r3
+ 2459 079c EAFFFF1A 		bne	.L144
+ 2460              	.L142:
+1053:../cyfxbulksrcsink.c ****         }
+ 2461              		.loc 1 1053 0
+ 2462 07a0 BE315BE1 		ldrh	r3, [fp, #-30]	@ movhi
+ 2463 07a4 BA304BE1 		strh	r3, [fp, #-10]	@ movhi
+ 2464              		.loc 1 1055 0
+ 2465 07a8 21FEFFEA 		b	.L145
+ 2466              	.L147:
+ 2467              		.align	2
+ 2468              	.L146:
+ 2469 07ac A8030000 		.word	.LC20
+ 2470 07b0 00000000 		.word	glBulkLpEvent
+ 2471 07b4 C0030000 		.word	.LC21
+ 2472 07b8 00000000 		.word	gl_setupdat0
+ 2473 07bc 00000000 		.word	gl_setupdat1
+ 2474 07c0 00000000 		.word	glEp0Buffer
+ 2475 07c4 00000000 		.word	glEp0StatCount
+ 2476 07c8 00000000 		.word	gl_UsbLogBuffer
+ 2477 07cc 00800740 		.word	1074233344
+ 2478 07d0 00000000 		.word	StandbyModeEnable
+ 2479 07d4 00000000 		.word	glForceLinkU2
+ 2480 07d8 00000000 		.word	glDataTransStarted
+ 2481 07dc 00000000 		.word	TriggerStandbyMode
+ 2482 07e0 00000640 		.word	1074135040
+ 2483 07e4 EC030000 		.word	.LC22
+ 2484 07e8 08040000 		.word	.LC23
+ 2485              		.cfi_endproc
+ 2486              	.LFE10:
+ 2488              		.section	.rodata
+ 2489 0416 0000     		.align	2
+ 2490              	.LC24:
+ 2491 0418 32313A42 		.ascii	"21:Bulk_src_sink\000"
+ 2491      756C6B5F 
+ 2491      7372635F 
+ 2491      73696E6B 
+ 2491      00
+ 2492 0429 000000   		.section	.text.CyFxApplicationDefine,"ax",%progbits
+ 2493              		.align	2
+ 2494              		.global	CyFxApplicationDefine
+ 2496              	CyFxApplicationDefine:
+ 2497              	.LFB11:
+1056:../cyfxbulksrcsink.c **** }
+1057:../cyfxbulksrcsink.c **** 
+1058:../cyfxbulksrcsink.c **** /* Application define function which creates the threads. */
+1059:../cyfxbulksrcsink.c **** void
+1060:../cyfxbulksrcsink.c **** CyFxApplicationDefine (
+1061:../cyfxbulksrcsink.c ****         void)
+1062:../cyfxbulksrcsink.c **** {
+ 2498              		.loc 1 1062 0
+ 2499              		.cfi_startproc
+ 2500              		@ args = 0, pretend = 0, frame = 8
+ 2501              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2502 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 2503              	.LCFI22:
+ 2504              		.cfi_def_cfa_offset 8
+ 2505              		.cfi_offset 11, -8
+ 2506              		.cfi_offset 14, -4
+ 2507 0004 04B08DE2 		add	fp, sp, #4
+ 2508              	.LCFI23:
+ 2509              		.cfi_def_cfa 11, 4
+ 2510 0008 28D04DE2 		sub	sp, sp, #40
+1063:../cyfxbulksrcsink.c ****     void *ptr = NULL;
+ 2511              		.loc 1 1063 0
+ 2512 000c 0030A0E3 		mov	r3, #0
+ 2513 0010 08300BE5 		str	r3, [fp, #-8]
+1064:../cyfxbulksrcsink.c ****     uint32_t ret = CY_U3P_SUCCESS;
+ 2514              		.loc 1 1064 0
+ 2515 0014 0030A0E3 		mov	r3, #0
+ 2516 0018 0C300BE5 		str	r3, [fp, #-12]
+1065:../cyfxbulksrcsink.c **** 
+1066:../cyfxbulksrcsink.c ****     /* Create an event flag group that will be used for signalling the application thread. */
+1067:../cyfxbulksrcsink.c ****     ret = CyU3PEventCreate (&glBulkLpEvent);
+ 2517              		.loc 1 1067 0
+ 2518 001c 90009FE5 		ldr	r0, .L153
+ 2519 0020 0010A0E3 		mov	r1, #0
+ 2520 0024 2820A0E3 		mov	r2, #40
+ 2521 0028 FEFFFFEB 		bl	_txe_event_flags_create
+ 2522 002c 0C000BE5 		str	r0, [fp, #-12]
+1068:../cyfxbulksrcsink.c ****     if (ret != 0)
+ 2523              		.loc 1 1068 0
+ 2524 0030 0C301BE5 		ldr	r3, [fp, #-12]
+ 2525 0034 000053E3 		cmp	r3, #0
+ 2526 0038 0000000A 		beq	.L149
+ 2527              	.L150:
+1069:../cyfxbulksrcsink.c ****     {
+1070:../cyfxbulksrcsink.c ****         /* Loop indefinitely */
+1071:../cyfxbulksrcsink.c ****         while (1);
+ 2528              		.loc 1 1071 0 discriminator 1
+ 2529 003c FEFFFFEA 		b	.L150
+ 2530              	.L149:
+1072:../cyfxbulksrcsink.c ****     }
+1073:../cyfxbulksrcsink.c **** 
+1074:../cyfxbulksrcsink.c ****     /* Allocate the memory for the threads */
+1075:../cyfxbulksrcsink.c ****     ptr = CyU3PMemAlloc (CY_FX_BULKSRCSINK_THREAD_STACK);
+ 2531              		.loc 1 1075 0
+ 2532 0040 010AA0E3 		mov	r0, #4096
+ 2533 0044 FEFFFFEB 		bl	CyU3PMemAlloc
+ 2534 0048 08000BE5 		str	r0, [fp, #-8]
+1076:../cyfxbulksrcsink.c **** 
+1077:../cyfxbulksrcsink.c ****     /* Create the thread for the application */
+1078:../cyfxbulksrcsink.c ****     ret = CyU3PThreadCreate (&bulkSrcSinkAppThread,                /* App thread structure */
+ 2535              		.loc 1 1078 0
+ 2536 004c 08301BE5 		ldr	r3, [fp, #-8]
+ 2537 0050 00308DE5 		str	r3, [sp]
+ 2538 0054 013AA0E3 		mov	r3, #4096
+ 2539 0058 04308DE5 		str	r3, [sp, #4]
+ 2540 005c 0830A0E3 		mov	r3, #8
+ 2541 0060 08308DE5 		str	r3, [sp, #8]
+ 2542 0064 0830A0E3 		mov	r3, #8
+ 2543 0068 0C308DE5 		str	r3, [sp, #12]
+ 2544 006c 0030A0E3 		mov	r3, #0
+ 2545 0070 10308DE5 		str	r3, [sp, #16]
+ 2546 0074 0130A0E3 		mov	r3, #1
+ 2547 0078 14308DE5 		str	r3, [sp, #20]
+ 2548 007c A830A0E3 		mov	r3, #168
+ 2549 0080 18308DE5 		str	r3, [sp, #24]
+ 2550 0084 2C009FE5 		ldr	r0, .L153+4
+ 2551 0088 2C109FE5 		ldr	r1, .L153+8
+ 2552 008c 2C209FE5 		ldr	r2, .L153+12
+ 2553 0090 0030A0E3 		mov	r3, #0
+ 2554 0094 FEFFFFEB 		bl	_txe_thread_create
+ 2555 0098 0C000BE5 		str	r0, [fp, #-12]
+1079:../cyfxbulksrcsink.c ****                           "21:Bulk_src_sink",                      /* Thread ID and thread name */
+1080:../cyfxbulksrcsink.c ****                           BulkSrcSinkAppThread_Entry,              /* App thread entry function */
+1081:../cyfxbulksrcsink.c ****                           0,                                       /* No input parameter to thread 
+1082:../cyfxbulksrcsink.c ****                           ptr,                                     /* Pointer to the allocated thre
+1083:../cyfxbulksrcsink.c ****                           CY_FX_BULKSRCSINK_THREAD_STACK,          /* App thread stack size */
+1084:../cyfxbulksrcsink.c ****                           CY_FX_BULKSRCSINK_THREAD_PRIORITY,       /* App thread priority */
+1085:../cyfxbulksrcsink.c ****                           CY_FX_BULKSRCSINK_THREAD_PRIORITY,       /* App thread priority */
+1086:../cyfxbulksrcsink.c ****                           CYU3P_NO_TIME_SLICE,                     /* No time slice for the applica
+1087:../cyfxbulksrcsink.c ****                           CYU3P_AUTO_START                         /* Start the thread immediately 
+1088:../cyfxbulksrcsink.c ****                           );
+1089:../cyfxbulksrcsink.c **** 
+1090:../cyfxbulksrcsink.c ****     /* Check the return code */
+1091:../cyfxbulksrcsink.c ****     if (ret != 0)
+ 2556              		.loc 1 1091 0
+ 2557 009c 0C301BE5 		ldr	r3, [fp, #-12]
+ 2558 00a0 000053E3 		cmp	r3, #0
+ 2559 00a4 0000000A 		beq	.L148
+ 2560              	.L152:
+1092:../cyfxbulksrcsink.c ****     {
+1093:../cyfxbulksrcsink.c ****         /* Thread Creation failed with the error code retThrdCreate */
+1094:../cyfxbulksrcsink.c **** 
+1095:../cyfxbulksrcsink.c ****         /* Add custom recovery or debug actions here */
+1096:../cyfxbulksrcsink.c **** 
+1097:../cyfxbulksrcsink.c ****         /* Application cannot continue */
+1098:../cyfxbulksrcsink.c ****         /* Loop indefinitely */
+1099:../cyfxbulksrcsink.c ****         while(1);
+ 2561              		.loc 1 1099 0 discriminator 1
+ 2562 00a8 FEFFFFEA 		b	.L152
+ 2563              	.L148:
+1100:../cyfxbulksrcsink.c ****     }
+1101:../cyfxbulksrcsink.c **** }
+ 2564              		.loc 1 1101 0
+ 2565 00ac 04D04BE2 		sub	sp, fp, #4
+ 2566              		@ sp needed
+ 2567 00b0 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 2568              	.L154:
+ 2569              		.align	2
+ 2570              	.L153:
+ 2571 00b4 00000000 		.word	glBulkLpEvent
+ 2572 00b8 00000000 		.word	bulkSrcSinkAppThread
+ 2573 00bc 18040000 		.word	.LC24
+ 2574 00c0 00000000 		.word	BulkSrcSinkAppThread_Entry
+ 2575              		.cfi_endproc
+ 2576              	.LFE11:
+ 2578              		.section	.text.main,"ax",%progbits
+ 2579              		.align	2
+ 2580              		.global	main
+ 2582              	main:
+ 2583              	.LFB12:
+1102:../cyfxbulksrcsink.c **** 
+1103:../cyfxbulksrcsink.c **** /*
+1104:../cyfxbulksrcsink.c ****  * Main function
+1105:../cyfxbulksrcsink.c ****  */
+1106:../cyfxbulksrcsink.c **** int
+1107:../cyfxbulksrcsink.c **** main (void)
+1108:../cyfxbulksrcsink.c **** {
+ 2584              		.loc 1 1108 0
+ 2585              		.cfi_startproc
+ 2586              		@ args = 0, pretend = 0, frame = 64
+ 2587              		@ frame_needed = 1, uses_anonymous_args = 0
+ 2588 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 2589              	.LCFI24:
+ 2590              		.cfi_def_cfa_offset 8
+ 2591              		.cfi_offset 11, -8
+ 2592              		.cfi_offset 14, -4
+ 2593 0004 04B08DE2 		add	fp, sp, #4
+ 2594              	.LCFI25:
+ 2595              		.cfi_def_cfa 11, 4
+ 2596 0008 40D04DE2 		sub	sp, sp, #64
+1109:../cyfxbulksrcsink.c ****     CyU3PIoMatrixConfig_t io_cfg;
+1110:../cyfxbulksrcsink.c ****     CyU3PReturnStatus_t status = CY_U3P_SUCCESS;
+ 2597              		.loc 1 1110 0
+ 2598 000c 0030A0E3 		mov	r3, #0
+ 2599 0010 08300BE5 		str	r3, [fp, #-8]
+1111:../cyfxbulksrcsink.c **** 
+1112:../cyfxbulksrcsink.c ****     /* Initialize the device */
+1113:../cyfxbulksrcsink.c ****     CyU3PSysClockConfig_t clockConfig;
+1114:../cyfxbulksrcsink.c ****     clockConfig.setSysClk400  = CyTrue;
+ 2600              		.loc 1 1114 0
+ 2601 0014 0130A0E3 		mov	r3, #1
+ 2602 0018 40300BE5 		str	r3, [fp, #-64]
+1115:../cyfxbulksrcsink.c ****     clockConfig.cpuClkDiv     = 2;
+ 2603              		.loc 1 1115 0
+ 2604 001c 0230A0E3 		mov	r3, #2
+ 2605 0020 3C304BE5 		strb	r3, [fp, #-60]
+1116:../cyfxbulksrcsink.c ****     clockConfig.dmaClkDiv     = 2;
+ 2606              		.loc 1 1116 0
+ 2607 0024 0230A0E3 		mov	r3, #2
+ 2608 0028 3B304BE5 		strb	r3, [fp, #-59]
+1117:../cyfxbulksrcsink.c ****     clockConfig.mmioClkDiv    = 2;
+ 2609              		.loc 1 1117 0
+ 2610 002c 0230A0E3 		mov	r3, #2
+ 2611 0030 3A304BE5 		strb	r3, [fp, #-58]
+1118:../cyfxbulksrcsink.c ****     clockConfig.useStandbyClk = CyFalse;
+ 2612              		.loc 1 1118 0
+ 2613 0034 0030A0E3 		mov	r3, #0
+ 2614 0038 38300BE5 		str	r3, [fp, #-56]
+1119:../cyfxbulksrcsink.c ****     clockConfig.clkSrc         = CY_U3P_SYS_CLK;
+ 2615              		.loc 1 1119 0
+ 2616 003c 0330A0E3 		mov	r3, #3
+ 2617 0040 34304BE5 		strb	r3, [fp, #-52]
+1120:../cyfxbulksrcsink.c ****     status = CyU3PDeviceInit (&clockConfig);
+ 2618              		.loc 1 1120 0
+ 2619 0044 40304BE2 		sub	r3, fp, #64
+ 2620 0048 0300A0E1 		mov	r0, r3
+ 2621 004c FEFFFFEB 		bl	CyU3PDeviceInit
+ 2622 0050 08000BE5 		str	r0, [fp, #-8]
+1121:../cyfxbulksrcsink.c ****     if (status != CY_U3P_SUCCESS)
+ 2623              		.loc 1 1121 0
+ 2624 0054 08301BE5 		ldr	r3, [fp, #-8]
+ 2625 0058 000053E3 		cmp	r3, #0
+ 2626 005c 0000000A 		beq	.L156
+1122:../cyfxbulksrcsink.c ****     {
+1123:../cyfxbulksrcsink.c ****         goto handle_fatal_error;
+ 2627              		.loc 1 1123 0
+ 2628 0060 2B0000EA 		b	.L157
+ 2629              	.L156:
+1124:../cyfxbulksrcsink.c ****     }
+1125:../cyfxbulksrcsink.c **** 
+1126:../cyfxbulksrcsink.c ****     /* Initialize the caches. Enable both Instruction and Data caches. */
+1127:../cyfxbulksrcsink.c ****     status = CyU3PDeviceCacheControl (CyTrue, CyTrue, CyTrue);
+ 2630              		.loc 1 1127 0
+ 2631 0064 0100A0E3 		mov	r0, #1
+ 2632 0068 0110A0E3 		mov	r1, #1
+ 2633 006c 0120A0E3 		mov	r2, #1
+ 2634 0070 FEFFFFEB 		bl	CyU3PDeviceCacheControl
+ 2635 0074 08000BE5 		str	r0, [fp, #-8]
+1128:../cyfxbulksrcsink.c ****     if (status != CY_U3P_SUCCESS)
+ 2636              		.loc 1 1128 0
+ 2637 0078 08301BE5 		ldr	r3, [fp, #-8]
+ 2638 007c 000053E3 		cmp	r3, #0
+ 2639 0080 0000000A 		beq	.L158
+1129:../cyfxbulksrcsink.c ****     {
+1130:../cyfxbulksrcsink.c ****         goto handle_fatal_error;
+ 2640              		.loc 1 1130 0
+ 2641 0084 220000EA 		b	.L157
+ 2642              	.L158:
+1131:../cyfxbulksrcsink.c ****     }
+1132:../cyfxbulksrcsink.c **** 
+1133:../cyfxbulksrcsink.c ****     /* Configure the IO matrix for the device. On the FX3 DVK board, the COM port 
+1134:../cyfxbulksrcsink.c ****      * is connected to the IO(53:56). This means that either DQ32 mode should be
+1135:../cyfxbulksrcsink.c ****      * selected or lppMode should be set to UART_ONLY. Here we are choosing
+1136:../cyfxbulksrcsink.c ****      * UART_ONLY configuration. */
+1137:../cyfxbulksrcsink.c ****     io_cfg.isDQ32Bit = CyFalse;
+ 2643              		.loc 1 1137 0
+ 2644 0088 0030A0E3 		mov	r3, #0
+ 2645 008c 30300BE5 		str	r3, [fp, #-48]
+1138:../cyfxbulksrcsink.c ****     io_cfg.s0Mode = CY_U3P_SPORT_INACTIVE;
+ 2646              		.loc 1 1138 0
+ 2647 0090 0030A0E3 		mov	r3, #0
+ 2648 0094 1C304BE5 		strb	r3, [fp, #-28]
+1139:../cyfxbulksrcsink.c ****     io_cfg.s1Mode = CY_U3P_SPORT_INACTIVE;
+ 2649              		.loc 1 1139 0
+ 2650 0098 0030A0E3 		mov	r3, #0
+ 2651 009c 1B304BE5 		strb	r3, [fp, #-27]
+1140:../cyfxbulksrcsink.c ****     io_cfg.useUart   = CyTrue;
+ 2652              		.loc 1 1140 0
+ 2653 00a0 0130A0E3 		mov	r3, #1
+ 2654 00a4 2C300BE5 		str	r3, [fp, #-44]
+1141:../cyfxbulksrcsink.c ****     io_cfg.useI2C    = CyFalse;
+ 2655              		.loc 1 1141 0
+ 2656 00a8 0030A0E3 		mov	r3, #0
+ 2657 00ac 28300BE5 		str	r3, [fp, #-40]
+1142:../cyfxbulksrcsink.c ****     io_cfg.useI2S    = CyFalse;
+ 2658              		.loc 1 1142 0
+ 2659 00b0 0030A0E3 		mov	r3, #0
+ 2660 00b4 24300BE5 		str	r3, [fp, #-36]
+1143:../cyfxbulksrcsink.c ****     io_cfg.useSpi    = CyFalse;
+ 2661              		.loc 1 1143 0
+ 2662 00b8 0030A0E3 		mov	r3, #0
+ 2663 00bc 20300BE5 		str	r3, [fp, #-32]
+1144:../cyfxbulksrcsink.c ****     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_UART_ONLY;
+ 2664              		.loc 1 1144 0
+ 2665 00c0 0130A0E3 		mov	r3, #1
+ 2666 00c4 1A304BE5 		strb	r3, [fp, #-26]
+1145:../cyfxbulksrcsink.c **** 
+1146:../cyfxbulksrcsink.c ****     /* No GPIOs are enabled. */
+1147:../cyfxbulksrcsink.c ****     io_cfg.gpioSimpleEn[0]  = 0;
+ 2667              		.loc 1 1147 0
+ 2668 00c8 0030A0E3 		mov	r3, #0
+ 2669 00cc 18300BE5 		str	r3, [fp, #-24]
+1148:../cyfxbulksrcsink.c ****     io_cfg.gpioSimpleEn[1]  = FX3_GPIO_TO_HIFLAG(FX3_GPIO_TEST_OUT);
+ 2670              		.loc 1 1148 0
+ 2671 00d0 0137A0E3 		mov	r3, #262144
+ 2672 00d4 14300BE5 		str	r3, [fp, #-20]
+1149:../cyfxbulksrcsink.c ****     io_cfg.gpioComplexEn[0] = 0;
+ 2673              		.loc 1 1149 0
+ 2674 00d8 0030A0E3 		mov	r3, #0
+ 2675 00dc 10300BE5 		str	r3, [fp, #-16]
+1150:../cyfxbulksrcsink.c ****     io_cfg.gpioComplexEn[1] = 0;
+ 2676              		.loc 1 1150 0
+ 2677 00e0 0030A0E3 		mov	r3, #0
+ 2678 00e4 0C300BE5 		str	r3, [fp, #-12]
+1151:../cyfxbulksrcsink.c ****     status = CyU3PDeviceConfigureIOMatrix (&io_cfg);
+ 2679              		.loc 1 1151 0
+ 2680 00e8 30304BE2 		sub	r3, fp, #48
+ 2681 00ec 0300A0E1 		mov	r0, r3
+ 2682 00f0 FEFFFFEB 		bl	CyU3PDeviceConfigureIOMatrix
+ 2683 00f4 08000BE5 		str	r0, [fp, #-8]
+1152:../cyfxbulksrcsink.c ****     if (status != CY_U3P_SUCCESS)
+ 2684              		.loc 1 1152 0
+ 2685 00f8 08301BE5 		ldr	r3, [fp, #-8]
+ 2686 00fc 000053E3 		cmp	r3, #0
+ 2687 0100 0000000A 		beq	.L159
+1153:../cyfxbulksrcsink.c ****     {
+1154:../cyfxbulksrcsink.c ****         goto handle_fatal_error;
+ 2688              		.loc 1 1154 0
+ 2689 0104 020000EA 		b	.L157
+ 2690              	.L159:
+1155:../cyfxbulksrcsink.c ****     }
+1156:../cyfxbulksrcsink.c **** 
+1157:../cyfxbulksrcsink.c ****     /* This is a non returnable call for initializing the RTOS kernel */
+1158:../cyfxbulksrcsink.c ****     CyU3PKernelEntry ();
+ 2691              		.loc 1 1158 0
+ 2692 0108 FEFFFFEB 		bl	_tx_initialize_kernel_enter
+1159:../cyfxbulksrcsink.c **** 
+1160:../cyfxbulksrcsink.c ****     /* Dummy return to make the compiler happy */
+1161:../cyfxbulksrcsink.c ****     return 0;
+ 2693              		.loc 1 1161 0
+ 2694 010c 0030A0E3 		mov	r3, #0
+ 2695 0110 000000EA 		b	.L161
+ 2696              	.L157:
+1162:../cyfxbulksrcsink.c **** 
+1163:../cyfxbulksrcsink.c **** handle_fatal_error:
+1164:../cyfxbulksrcsink.c **** 
+1165:../cyfxbulksrcsink.c ****     /* Cannot recover from this error. */
+1166:../cyfxbulksrcsink.c ****     while (1);
+ 2697              		.loc 1 1166 0 discriminator 1
+ 2698 0114 FEFFFFEA 		b	.L157
+ 2699              	.L161:
+1167:../cyfxbulksrcsink.c **** }
+ 2700              		.loc 1 1167 0
+ 2701 0118 0300A0E1 		mov	r0, r3
+ 2702 011c 04D04BE2 		sub	sp, fp, #4
+ 2703              		@ sp needed
+ 2704 0120 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 2705              		.cfi_endproc
+ 2706              	.LFE12:
+ 2708              		.section	.bss.num_connect.7272,"aw",%nobits
+ 2709              		.align	2
+ 2712              	num_connect.7272:
+ 2713 0000 00000000 		.space	4
+ 2714              		.section	.bss.num_disconnect.7273,"aw",%nobits
+ 2715              		.align	2
+ 2718              	num_disconnect.7273:
+ 2719 0000 00000000 		.space	4
+ 2720              		.text
+ 2721              	.Letext0:
+ 2722              		.file 2 "c:\\program files (x86)\\cypress\\ez-usb fx3 sdk\\1.3\\arm gcc\\arm-none-eabi\\include\\s
+ 2723              		.file 3 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3typ
+ 2724              		.file 4 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyfx3_a
+ 2725              		.file 5 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/tx_port
+ 2726              		.file 6 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/tx_api.
+ 2727              		.file 7 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3dma
+ 2728              		.file 8 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3sys
+ 2729              		.file 9 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3err
+ 2730              		.file 10 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3us
+ 2731              		.file 11 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3us
+ 2732              		.file 12 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3lp
+ 2733              		.file 13 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3ua
+ 2734              		.file 14 "C:\\Program Files (x86)\\Cypress\\EZ-USB FX3 SDK\\1.3\\/firmware/u3p_firmware/inc/cyu3gp
+ 2735              		.file 15 "../cyfxbulksrcsink.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cyfxbulksrcsink.c
+                            *COM*:000000a8 bulkSrcSinkAppThread
+                            *COM*:000000ac glChHandleBulkSink
+                            *COM*:000000ac glChHandleBulkSrc
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:24     .bss.glIsApplnActive:00000000 glIsApplnActive
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:21     .bss.glIsApplnActive:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:31     .bss.glDMARxCount:00000000 glDMARxCount
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:28     .bss.glDMARxCount:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:38     .bss.glDMATxCount:00000000 glDMATxCount
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:35     .bss.glDMATxCount:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:45     .bss.glDataTransStarted:00000000 glDataTransStarted
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:42     .bss.glDataTransStarted:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:52     .bss.StandbyModeEnable:00000000 StandbyModeEnable
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:49     .bss.StandbyModeEnable:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:59     .bss.TriggerStandbyMode:00000000 TriggerStandbyMode
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:56     .bss.TriggerStandbyMode:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:66     .bss.glForceLinkU2:00000000 glForceLinkU2
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:63     .bss.glForceLinkU2:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:73     .bss.glEp0StatCount:00000000 glEp0StatCount
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:70     .bss.glEp0StatCount:00000000 $d
+                            *COM*:00000020 glEp0Buffer
+                            *COM*:00000028 glBulkLpEvent
+                            *COM*:00000004 gl_setupdat0
+                            *COM*:00000004 gl_setupdat1
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:84     .bss.gl_UsbLogBuffer:00000000 gl_UsbLogBuffer
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:81     .bss.gl_UsbLogBuffer:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:87     .text.CyFxAppErrorHandler:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:90     .text.CyFxAppErrorHandler:00000000 CyFxAppErrorHandler
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:117    .rodata:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:126    .text.CyFxBulkSrcSinkApplnDebugInit:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:129    .text.CyFxBulkSrcSinkApplnDebugInit:00000000 CyFxBulkSrcSinkApplnDebugInit
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:292    .text.CyFxBulkSrcSinkApplnDebugInit:0000019c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:311    .text.CyFxBulkSrcSinkDmaCallback:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:314    .text.CyFxBulkSrcSinkDmaCallback:00000000 CyFxBulkSrcSinkDmaCallback
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:418    .text.CyFxBulkSrcSinkDmaCallback:0000010c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:428    .text.CyFxBulkSrcSinkFillInBuffers:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:430    .text.CyFxBulkSrcSinkFillInBuffers:00000000 CyFxBulkSrcSinkFillInBuffers
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:516    .text.CyFxBulkSrcSinkFillInBuffers:000000d0 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:536    .text.CyFxBulkSrcSinkApplnStart:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:539    .text.CyFxBulkSrcSinkApplnStart:00000000 CyFxBulkSrcSinkApplnStart
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:821    .text.CyFxBulkSrcSinkApplnStart:000002ec $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:836    .text.CyFxBulkSrcSinkApplnStop:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:839    .text.CyFxBulkSrcSinkApplnStop:00000000 CyFxBulkSrcSinkApplnStop
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:927    .text.CyFxBulkSrcSinkApplnStop:000000d4 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:935    .text.CyFxBulkSrcSinkApplnUSBSetupCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:938    .text.CyFxBulkSrcSinkApplnUSBSetupCB:00000000 CyFxBulkSrcSinkApplnUSBSetupCB
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1179   .text.CyFxBulkSrcSinkApplnUSBSetupCB:00000284 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1198   .text.CyFxBulkSrcSinkApplnUSBEventCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1201   .text.CyFxBulkSrcSinkApplnUSBEventCB:00000000 CyFxBulkSrcSinkApplnUSBEventCB
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1226   .text.CyFxBulkSrcSinkApplnUSBEventCB:0000002c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1241   .text.CyFxBulkSrcSinkApplnUSBEventCB:00000060 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1344   .text.CyFxBulkSrcSinkApplnUSBEventCB:0000016c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2712   .bss.num_connect.7272:00000000 num_connect.7272
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2718   .bss.num_disconnect.7273:00000000 num_disconnect.7273
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1358   .text.CyFxBulkSrcSinkApplnLPMRqtCB:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1361   .text.CyFxBulkSrcSinkApplnLPMRqtCB:00000000 CyFxBulkSrcSinkApplnLPMRqtCB
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1427   .text.CyFxBulkSrcSinkApplnInit:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1430   .text.CyFxBulkSrcSinkApplnInit:00000000 CyFxBulkSrcSinkApplnInit
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1735   .text.CyFxBulkSrcSinkApplnInit:0000034c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1776   .text.BulkSrcSinkAppThread_Entry:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1779   .text.BulkSrcSinkAppThread_Entry:00000000 BulkSrcSinkAppThread_Entry
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:1902   .text.BulkSrcSinkAppThread_Entry:0000014c $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2011   .text.BulkSrcSinkAppThread_Entry:000002f8 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2469   .text.BulkSrcSinkAppThread_Entry:000007ac $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2493   .text.CyFxApplicationDefine:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2496   .text.CyFxApplicationDefine:00000000 CyFxApplicationDefine
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2571   .text.CyFxApplicationDefine:000000b4 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2579   .text.main:00000000 $a
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2582   .text.main:00000000 main
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2709   .bss.num_connect.7272:00000000 $d
+C:\Users\ADMINI~1\AppData\Local\Temp\ccsmCMVD.s:2715   .bss.num_disconnect.7273:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_tx_thread_sleep
+CyU3PGpioInit
+CyU3PGpioSetSimpleConfig
+CyU3PUartInit
+CyU3PMemSet
+CyU3PUartSetConfig
+CyU3PUartTxSetBlockXfer
+CyU3PDebugInit
+CyU3PDebugPreamble
+CyU3PDmaChannelDiscardBuffer
+CyU3PDebugPrint
+CyU3PDmaChannelGetBuffer
+CyU3PDmaChannelCommitBuffer
+CyU3PUsbGetSpeed
+CyU3PSetEpConfig
+CyU3PUsbFlushEp
+CyU3PDmaChannelCreate
+CyU3PDmaChannelSetXfer
+CyU3PDmaChannelDestroy
+CyU3PUsbAckSetup
+CyU3PUsbStall
+CyU3PUsbSetEpNak
+CyFx3BusyWait
+CyU3PDmaChannelReset
+CyU3PUsbResetEp
+_txe_event_flags_set
+CyU3PUsbStart
+CyU3PUsbRegisterSetupCallback
+CyU3PUsbRegisterEventCallback
+CyU3PUsbRegisterLPMRequestCallback
+CyU3PUsbSetDesc
+CyU3PDmaBufferAlloc
+CyU3PUsbInitEventLog
+CyU3PConnectState
+CyFxUSB30DeviceDscr
+CyFxUSB20DeviceDscr
+CyFxUSBBOSDscr
+CyFxUSBDeviceQualDscr
+CyFxUSBSSConfigDscr
+CyFxUSBHSConfigDscr
+CyFxUSBFSConfigDscr
+CyFxUSBStringLangIDDscr
+CyFxUSBManufactureDscr
+CyFxUSBProductDscr
+_txe_event_flags_get
+CyU3PUsbSendDevNotification
+CyU3PUsbDoRemoteWakeup
+CyU3PMemCopy
+CyU3PUsbSendEP0Data
+CyU3PUsbGetEP0Data
+CyU3PUsbGetEventLogIndex
+CyU3PReadDeviceRegisters
+CyU3PUsbGetBooterVersion
+CyU3PDebugDeInit
+CyU3PUartDeInit
+CyU3PUsbSetBooterSwitch
+CyU3PUsbJumpBackToBooter
+CyU3PDeviceReset
+CyU3PUsbGetLinkPowerState
+CyU3PUsbSetLinkPowerState
+CyU3PUsbStop
+CyU3PSysEnterStandbyMode
+_txe_event_flags_create
+CyU3PMemAlloc
+_txe_thread_create
+CyU3PDeviceInit
+CyU3PDeviceCacheControl
+CyU3PDeviceConfigureIOMatrix
+_tx_initialize_kernel_enter
