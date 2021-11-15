@@ -1,0 +1,39 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_cdc_single
+INFO: [VRFC 10-311] analyzing module xpm_cdc_gray
+INFO: [VRFC 10-311] analyzing module xpm_cdc_handshake
+INFO: [VRFC 10-311] analyzing module xpm_cdc_pulse
+INFO: [VRFC 10-311] analyzing module xpm_cdc_array_single
+INFO: [VRFC 10-311] analyzing module xpm_cdc_sync_rst
+INFO: [VRFC 10-311] analyzing module xpm_cdc_async_rst
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_base.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_base
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_dpdistram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_dpdistram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_dprom.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_dprom
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_sdpram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_sdpram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_spram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_spram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_sprom.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_sprom
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_tdpram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xpm_memory_tdpram
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.srcs/sources_1/ip/fifo_generator_0/fifo_generator_0_sim_netlist.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fifo_generator_0
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_builtin_extdepth_v6
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_builtin_prim_v6
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_builtin_top_v6
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_fifo_generator_top
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_fifo_generator_v13_1_1
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_fifo_generator_v13_1_1_builtin
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_fifo_generator_v13_1_1_synth
+INFO: [VRFC 10-311] analyzing module fifo_generator_0_reset_builtin
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.srcs/sim_1/new/sim_fifo.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sim_fifo
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+WARNING: [VRFC 10-1195] overwriting previous definition of module glbl [D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav/glbl.v:6]
+INFO: [VRFC 10-163] Analyzing VHDL file "D:/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_VCOMP.vhd" into library xpm

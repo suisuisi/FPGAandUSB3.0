@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2016.2 (64-bit)
+# SW Build 1577090 on Thu Jun  2 16:32:40 MDT 2016
+# IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
+# Start of session at: Wed Feb 08 10:15:15 2017
+# Process ID: 4396
+# Current directory: D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav
+# Command line: wbtcv.exe -mode batch -source D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav/xsim.dir/sim_fifo_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav/webtalk.log
+# Journal file: D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav\webtalk.jou
+#-----------------------------------------------------------
+source D:/myfpga/DK_SF_AT7/project/at7_ex11/at7.sim/sim_1/behav/xsim.dir/sim_fifo_behav/webtalk/xsim_webtalk.tcl -notrace

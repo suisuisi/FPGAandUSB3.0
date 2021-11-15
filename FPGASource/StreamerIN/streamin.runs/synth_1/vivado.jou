@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Nov 15 23:55:23 2021
+# Process ID: 7552
+# Current directory: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/StreamerIN/streamin/streamin.runs/synth_1
+# Command line: vivado.exe -log streamin.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source streamin.tcl
+# Log file: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/StreamerIN/streamin/streamin.runs/synth_1/streamin.vds
+# Journal file: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/StreamerIN/streamin/streamin.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source streamin.tcl -notrace

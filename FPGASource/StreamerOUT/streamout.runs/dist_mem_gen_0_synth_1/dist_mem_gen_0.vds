@@ -1,0 +1,440 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Nov 15 23:39:23 2021
+# Process ID: 8612
+# Current directory: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1
+# Command line: vivado.exe -log dist_mem_gen_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source dist_mem_gen_0.tcl
+# Log file: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dist_mem_gen_0.vds
+# Journal file: C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source dist_mem_gen_0.tcl -notrace
+Command: synth_design -top dist_mem_gen_0 -part xc7k325tffg900-2 -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 11704 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 484.430 ; gain = 106.063
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'dist_mem_gen_0' [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/synth/dist_mem_gen_0.vhd:69]
+	Parameter C_FAMILY bound to: kintex7 - type: string 
+	Parameter C_ADDR_WIDTH bound to: 8 - type: integer 
+	Parameter C_DEFAULT_DATA bound to: 0 - type: string 
+	Parameter C_DEPTH bound to: 256 - type: integer 
+	Parameter C_HAS_CLK bound to: 1 - type: integer 
+	Parameter C_HAS_D bound to: 1 - type: integer 
+	Parameter C_HAS_DPO bound to: 0 - type: integer 
+	Parameter C_HAS_DPRA bound to: 0 - type: integer 
+	Parameter C_HAS_I_CE bound to: 0 - type: integer 
+	Parameter C_HAS_QDPO bound to: 0 - type: integer 
+	Parameter C_HAS_QDPO_CE bound to: 0 - type: integer 
+	Parameter C_HAS_QDPO_CLK bound to: 0 - type: integer 
+	Parameter C_HAS_QDPO_RST bound to: 0 - type: integer 
+	Parameter C_HAS_QDPO_SRST bound to: 0 - type: integer 
+	Parameter C_HAS_QSPO bound to: 0 - type: integer 
+	Parameter C_HAS_QSPO_CE bound to: 0 - type: integer 
+	Parameter C_HAS_QSPO_RST bound to: 0 - type: integer 
+	Parameter C_HAS_QSPO_SRST bound to: 0 - type: integer 
+	Parameter C_HAS_SPO bound to: 1 - type: integer 
+	Parameter C_HAS_WE bound to: 1 - type: integer 
+	Parameter C_MEM_INIT_FILE bound to: no_coe_file_loaded - type: string 
+	Parameter C_ELABORATION_DIR bound to: ./ - type: string 
+	Parameter C_MEM_TYPE bound to: 1 - type: integer 
+	Parameter C_PIPELINE_STAGES bound to: 0 - type: integer 
+	Parameter C_QCE_JOINED bound to: 0 - type: integer 
+	Parameter C_QUALIFY_WE bound to: 0 - type: integer 
+	Parameter C_READ_MIF bound to: 0 - type: integer 
+	Parameter C_REG_A_D_INPUTS bound to: 0 - type: integer 
+	Parameter C_REG_DPRA_INPUT bound to: 0 - type: integer 
+	Parameter C_SYNC_ENABLE bound to: 1 - type: integer 
+	Parameter C_WIDTH bound to: 32 - type: integer 
+	Parameter C_PARSER_TYPE bound to: 1 - type: integer 
+INFO: [Synth 8-3491] module 'dist_mem_gen_v8_0_12' declared at 'c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/hdl/dist_mem_gen_v8_0_vhsyn_rfs.vhd:3237' bound to instance 'U0' of component 'dist_mem_gen_v8_0_12' [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/synth/dist_mem_gen_0.vhd:135]
+INFO: [Synth 8-256] done synthesizing module 'dist_mem_gen_0' (4#1) [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/synth/dist_mem_gen_0.vhd:69]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[31]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[30]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[29]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[28]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[27]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[26]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[25]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[24]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[23]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[22]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[21]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[20]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[19]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[18]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[17]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[16]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[15]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[14]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[13]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[12]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[11]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[10]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[9]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[8]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[7]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[6]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[5]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[4]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[3]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[2]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[1]
+WARNING: [Synth 8-3331] design spram has unconnected port qspo[0]
+WARNING: [Synth 8-3331] design spram has unconnected port i_ce
+WARNING: [Synth 8-3331] design spram has unconnected port qspo_ce
+WARNING: [Synth 8-3331] design spram has unconnected port qspo_rst
+WARNING: [Synth 8-3331] design spram has unconnected port qspo_srst
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[31]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[30]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[29]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[28]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[27]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[26]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[25]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[24]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[23]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[22]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[21]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[20]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[19]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[18]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[17]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[16]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[15]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[14]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[13]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[12]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[11]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[10]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[9]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[8]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[7]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[6]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[5]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[4]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[3]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[2]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[1]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port dpo[0]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[31]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[30]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[29]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[28]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[27]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[26]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[25]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[24]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[23]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[22]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[21]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[20]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[19]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[18]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[17]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[16]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[15]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[14]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[13]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[12]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[11]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[10]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[9]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[8]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[7]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[6]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[5]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[4]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[3]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[2]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[1]
+WARNING: [Synth 8-3331] design dist_mem_gen_v8_0_12_synth has unconnected port qdpo[0]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 541.359 ; gain = 162.992
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 541.359 ; gain = 162.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 541.359 ; gain = 162.992
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7k325tffg900-2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/dist_mem_gen_0_ooc.xdc] for cell 'U0'
+Finished Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.srcs/sources_1/ip/dist_mem_gen_0/dist_mem_gen_0_ooc.xdc] for cell 'U0'
+Parsing XDC File [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 891.770 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 891.781 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.051 . Memory (MB): peak = 892.902 ; gain = 1.133
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 892.902 ; gain = 514.535
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7k325tffg900-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 892.902 ; gain = 514.535
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property DONT_TOUCH = true for U0. (constraint file  C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dont_touch.xdc, line 9).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 892.902 ; gain = 514.535
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 892.902 ; gain = 514.535
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module spram 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 840 (col length:140)
+BRAMs: 890 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:15 . Memory (MB): peak = 892.902 ; gain = 514.535
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Preliminary Mapping  Report (see note below)
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+|Module Name | RTL Object                                                | Inference      | Size (Depth x Width) | Primitives       | 
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+|U0          | synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg | User Attribute | 256 x 32             | RAM256X1S x 32   | 
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 899.117 ; gain = 520.750
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 899.266 ; gain = 520.898
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping  Report
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+|Module Name | RTL Object                                                | Inference      | Size (Depth x Width) | Primitives       | 
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+|U0          | synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg | User Attribute | 256 x 32             | RAM256X1S x 32   | 
++------------+-----------------------------------------------------------+----------------+----------------------+------------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------+------+
+|      |Cell      |Count |
++------+----------+------+
+|1     |RAM256X1S |    32|
+|2     |FDRE      |    32|
++------+----------+------+
+
+Report Instance Areas: 
++------+----------------------------------+---------------------------+------+
+|      |Instance                          |Module                     |Cells |
++------+----------------------------------+---------------------------+------+
+|1     |top                               |                           |    64|
+|2     |  U0                              |dist_mem_gen_v8_0_12       |    64|
+|3     |    \synth_options.dist_mem_inst  |dist_mem_gen_v8_0_12_synth |    64|
+|4     |      \gen_sp_ram.spram_inst      |spram                      |    64|
++------+----------------------------------+---------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 112 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:17 . Memory (MB): peak = 909.301 ; gain = 179.391
+Synthesis Optimization Complete : Time (s): cpu = 00:00:21 ; elapsed = 00:00:23 . Memory (MB): peak = 909.301 ; gain = 530.934
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 32 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 925.090 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 32 instances were transformed.
+  RAM256X1S => RAM256X1S (MUXF7, MUXF7, MUXF8, RAMS64E, RAMS64E, RAMS64E, RAMS64E): 32 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+15 Infos, 100 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:25 ; elapsed = 00:00:29 . Memory (MB): peak = 925.152 ; gain = 558.258
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 925.152 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dist_mem_gen_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP dist_mem_gen_0, cache-ID = b32536cf1b0abb98
+INFO: [Coretcl 2-1174] Renamed 3 cell refs.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 929.531 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/StreamerOUT/streamout/streamout.runs/dist_mem_gen_0_synth_1/dist_mem_gen_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file dist_mem_gen_0_utilization_synth.rpt -pb dist_mem_gen_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 15 23:40:00 2021...

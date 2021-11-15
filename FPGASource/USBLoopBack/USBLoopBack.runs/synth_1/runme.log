@@ -1,0 +1,406 @@
+
+*** Running vivado
+    with args -log loopback.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source loopback.tcl
+
+
+****** Vivado v2018.3 (64-bit)
+  **** SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+  **** IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+
+source loopback.tcl -notrace
+Command: synth_design -top loopback -part xc7k325tffg900-2
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 2096 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 507.461 ; gain = 105.027
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'loopback' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/loopback.v:4]
+INFO: [Synth 8-6157] synthesizing module 'sys_ctrl' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/sys_ctrl.v:12]
+INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (1#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'sys_ctrl' (2#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/sys_ctrl.v:12]
+INFO: [Synth 8-6157] synthesizing module 'led_controller' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/led_controller.v:12]
+INFO: [Synth 8-6155] done synthesizing module 'led_controller' (3#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/led_controller.v:12]
+INFO: [Synth 8-6157] synthesizing module 'usb_controller' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/usb_controller.v:11]
+	Parameter FXS_REST bound to: 4'b0000 
+	Parameter FXS_IDLE bound to: 4'b0001 
+	Parameter FXS_READ bound to: 4'b0010 
+	Parameter FXS_RDLY bound to: 4'b0011 
+	Parameter FXS_RSOP bound to: 4'b0100 
+	Parameter FXS_WRIT bound to: 4'b0101 
+	Parameter FXS_WSOP bound to: 4'b0110 
+	Parameter FX3_ON bound to: 1'b0 
+	Parameter FX3_OFF bound to: 1'b1 
+INFO: [Synth 8-6157] synthesizing module 'fifo_generator_0' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/fifo_generator_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_generator_0' (4#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/fifo_generator_0_stub.v:6]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/usb_controller.v:252]
+INFO: [Synth 8-6157] synthesizing module 'ila_0' [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/ila_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'ila_0' (5#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/.Xil/Vivado-15612-DESKTOP-1TCF4DO/realtime/ila_0_stub.v:6]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'uut_ila'. This will prevent further optimization [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/usb_controller.v:252]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'uut_fifo_generator_0'. This will prevent further optimization [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/usb_controller.v:233]
+INFO: [Synth 8-6155] done synthesizing module 'usb_controller' (6#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/usb_controller.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'loopback' (7#1) [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/new/loopback.v:4]
+WARNING: [Synth 8-3917] design loopback has port fx3_reset driven by constant 0
+WARNING: [Synth 8-3331] design usb_controller has unconnected port fx3_flagc
+WARNING: [Synth 8-3331] design usb_controller has unconnected port fx3_flagd
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 562.648 ; gain = 160.215
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 562.648 ; gain = 160.215
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 562.648 ; gain = 160.215
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7k325tffg900-2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u3_usb_controller/uut_ila'
+Finished Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u3_usb_controller/uut_ila'
+Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u1_sys_ctrl/uut_clk_wiz_0'
+Finished Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u1_sys_ctrl/uut_clk_wiz_0'
+Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/fifo_generator_0/fifo_generator_0/fifo_generator_0_in_context.xdc] for cell 'u3_usb_controller/uut_fifo_generator_0'
+Finished Parsing XDC File [c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/fifo_generator_0/fifo_generator_0/fifo_generator_0_in_context.xdc] for cell 'u3_usb_controller/uut_fifo_generator_0'
+Parsing XDC File [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc]
+WARNING: [Vivado 12-584] No ports matched 'FX3_RESET'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:54]
+WARNING: [Vivado 12-584] No ports matched 'FX3_RESET'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:55]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SCL'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:56]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SCL'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:57]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SDA'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:58]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SDA'. [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc:59]
+Finished Parsing XDC File [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc]
+WARNING: [Project 1-498] One or more constraints failed evaluation while reading constraint file [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc] and the design contains unresolved black boxes. These constraints will be read post-synthesis (as long as their source constraint file is marked as used_in_implementation) and should be applied correctly then. You should review the constraints listed in the file [.Xil/loopback_propImpl.xdc] and check the run log file to verify that these constraints were correctly applied.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/constrs_1/new/LOOPBACK.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/loopback_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/loopback_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 958.645 ; gain = 0.000
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 958.645 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 958.645 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 958.645 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7k325tffg900-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for sys_clk_i. (constraint file  c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 6).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for sys_clk_i. (constraint file  c:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 7).
+Applied set_property DONT_TOUCH = true for u3_usb_controller/uut_ila. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u1_sys_ctrl/uut_clk_wiz_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u3_usb_controller/uut_fifo_generator_0. (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'fxstate_reg' in module 'usb_controller'
+INFO: [Synth 8-5544] ROM "fx3_dir" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "fxstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "fxstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "fxstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "fxstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "fxstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                FXS_REST |                          0000001 |                             0000
+                FXS_IDLE |                          0000010 |                             0001
+                FXS_READ |                          0000100 |                             0010
+                FXS_RDLY |                          0001000 |                             0011
+                FXS_RSOP |                          0010000 |                             0100
+                FXS_WRIT |                          0100000 |                             0101
+                FXS_WSOP |                          1000000 |                             0110
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'fxstate_reg' using encoding 'one-hot' in module 'usb_controller'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     10 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 1     
+	               10 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 12    
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 3     
+	   2 Input     10 Bit        Muxes := 2     
+	   7 Input      7 Bit        Muxes := 1     
+	   2 Input      7 Bit        Muxes := 6     
+	   3 Input      4 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 4     
+	   3 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 14    
+	   3 Input      1 Bit        Muxes := 6     
+	   5 Input      1 Bit        Muxes := 5     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module sys_ctrl 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 4     
+Module usb_controller 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     10 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 1     
+	               10 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 8     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 3     
+	   2 Input     10 Bit        Muxes := 2     
+	   7 Input      7 Bit        Muxes := 1     
+	   2 Input      7 Bit        Muxes := 6     
+	   3 Input      4 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 4     
+	   3 Input      2 Bit        Muxes := 1     
+	   5 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 14    
+	   3 Input      1 Bit        Muxes := 6     
+	   5 Input      1 Bit        Muxes := 5     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 840 (col length:140)
+BRAMs: 890 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+WARNING: [Synth 8-3917] design loopback has port fx3_reset driven by constant 0
+WARNING: [Synth 8-3331] design usb_controller has unconnected port fx3_flagc
+WARNING: [Synth 8-3331] design usb_controller has unconnected port fx3_flagd
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u1_sys_ctrl/rst_r1_reg )
+INFO: [Synth 8-3886] merging instance 'u1_sys_ctrl/rst_r2_reg' (FD) to 'u1_sys_ctrl/rst_r1_reg'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\u1_sys_ctrl/rst_r1_reg )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_sys_ctrl/uut_clk_wiz_0/clk_out1' to pin 'u1_sys_ctrl/uut_clk_wiz_0/bbstub_clk_out1/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_sys_ctrl/uut_clk_wiz_0/clk_out2' to pin 'u1_sys_ctrl/uut_clk_wiz_0/bbstub_clk_out2/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_sys_ctrl/uut_clk_wiz_0/clk_out3' to pin 'u1_sys_ctrl/uut_clk_wiz_0/bbstub_clk_out3/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_sys_ctrl/uut_clk_wiz_0/clk_out4' to pin 'u1_sys_ctrl/uut_clk_wiz_0/bbstub_clk_out4/O'
+INFO: [Synth 8-5819] Moved 4 constraints on hierarchical pins to their respective driving/loading pins
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:20 . Memory (MB): peak = 958.645 ; gain = 556.211
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+-----------------+----------+
+|      |BlackBox name    |Instances |
++------+-----------------+----------+
+|1     |fifo_generator_0 |         1|
+|2     |ila_0            |         1|
+|3     |clk_wiz_0        |         1|
++------+-----------------+----------+
+
+Report Cell Usage: 
++------+-----------------+------+
+|      |Cell             |Count |
++------+-----------------+------+
+|1     |clk_wiz_0        |     1|
+|2     |fifo_generator_0 |     1|
+|3     |ila_0            |     1|
+|4     |CARRY4           |     6|
+|5     |LUT1             |     4|
+|6     |LUT2             |     4|
+|7     |LUT3             |     3|
+|8     |LUT4             |     9|
+|9     |LUT5             |    17|
+|10    |LUT6             |    45|
+|11    |FDCE             |    79|
+|12    |FDPE             |     9|
+|13    |FDRE             |     1|
+|14    |IBUF             |     2|
+|15    |IOBUF            |    32|
+|16    |OBUF             |    10|
++------+-----------------+------+
+
+Report Instance Areas: 
++------+--------------------+---------------+------+
+|      |Instance            |Module         |Cells |
++------+--------------------+---------------+------+
+|1     |top                 |               |   262|
+|2     |  u3_usb_controller |usb_controller |   210|
+|3     |  u1_sys_ctrl       |sys_ctrl       |     9|
+|4     |  u2_led_controller |led_controller |    31|
++------+--------------------+---------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 961.148 ; gain = 162.719
+Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 961.148 ; gain = 558.715
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 38 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 974.043 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 32 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 32 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+44 Infos, 14 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:23 ; elapsed = 00:00:26 . Memory (MB): peak = 974.043 ; gain = 573.367
+INFO: [Common 17-600] The following parameters have non-default value.
+tcl.collectionResultDisplayLimit
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 974.043 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Administrator/Desktop/FPGAUSB/CYUSB3014/FPGASource/USBLoopBack/USBLoopBack/USBLoopBack.runs/synth_1/loopback.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file loopback_utilization_synth.rpt -pb loopback_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 15 22:02:28 2021...
