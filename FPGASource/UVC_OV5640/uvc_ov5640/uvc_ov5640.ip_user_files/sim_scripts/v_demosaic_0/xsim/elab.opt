@@ -1,0 +1,1 @@
+--relax --debug typical --mt auto -L xil_defaultlib -L v_demosaic_v1_0_4 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot v_demosaic_0 xil_defaultlib.v_demosaic_0 xil_defaultlib.glbl -log elaborate.log

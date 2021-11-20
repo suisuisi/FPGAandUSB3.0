@@ -1,0 +1,552 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Thu Nov 18 21:08:27 2021
+# Process ID: 18792
+# Current directory: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1
+# Command line: vivado.exe -log vio_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source vio_0.tcl
+# Log file: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1/vio_0.vds
+# Journal file: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source vio_0.tcl -notrace
+Command: synth_design -top vio_0 -part xc7k325tffg900-2 -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 16440 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 492.703 ; gain = 109.453
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'vio_0' [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:59]
+WARNING: [Synth 8-3848] Net sl_iport0 in module/entity vio_0 does not have driver. [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:72]
+INFO: [Synth 8-6155] done synthesizing module 'vio_0' (7#1) [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:59]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_rst
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Read
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[15]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[14]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[13]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[12]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[11]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[10]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[9]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[8]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[7]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[6]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[5]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[4]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[3]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[2]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Bus_Data_in[1]
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_out_one has unconnected port Internal_cnt_rst
+WARNING: [Synth 8-3331] design vio_v3_0_19_probe_in_one has unconnected port Internal_cnt_rst
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in1[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in2[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in3[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in4[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in5[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in6[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in7[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in8[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in9[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in10[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in11[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in12[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in13[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in14[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in15[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in16[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in17[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in18[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in19[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in20[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in21[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in22[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in23[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in24[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in25[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in26[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in27[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in28[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in29[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in30[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in31[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in32[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in33[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in34[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in35[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in36[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in37[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in38[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in39[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in40[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in41[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in42[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in43[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in44[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in45[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in46[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in47[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in48[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in49[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in50[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in51[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in52[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in53[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in54[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in55[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in56[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in57[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in58[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in59[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in60[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in61[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in62[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in63[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in64[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in65[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in66[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in67[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in68[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in69[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in70[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in71[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in72[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in73[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in74[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in75[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in76[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in77[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in78[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in79[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in80[0]
+WARNING: [Synth 8-3331] design vio_v3_0_19_vio has unconnected port probe_in81[0]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 551.742 ; gain = 168.492
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[36] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[35] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[34] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[33] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[32] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[31] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[30] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[29] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[28] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[27] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[26] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[25] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[24] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[23] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[22] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[21] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[20] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[19] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[18] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[17] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[16] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[15] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[14] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[13] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[12] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[11] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[10] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[9] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[8] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[7] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[6] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[5] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[4] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[3] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[2] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[1] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[0] to constant 0 [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/synth/vio_0.v:862]
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 551.742 ; gain = 168.492
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 551.742 ; gain = 168.492
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7k325tffg900-2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0_ooc.xdc]
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0_ooc.xdc]
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0.xdc]
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 929.078 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 929.094 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.020 . Memory (MB): peak = 930.590 ; gain = 1.512
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7k325tffg900-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5546] ROM "wr_probe_out" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "rd_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "rd_en_int0" won't be mapped to RAM because it is too sparse
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	              128 Bit    Registers := 1     
+	               16 Bit    Registers := 7     
+	                7 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                3 Bit    Registers := 3     
+	                1 Bit    Registers := 21    
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 12    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module vio_v3_0_19_probe_in_one 
+Detailed RTL Component Info : 
++---Registers : 
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 7     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 1     
+Module vio_v3_0_19_probe_out_one 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 1     
+Module vio_v3_0_19_probe_out_all 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 2     
+Module xsdbs_v1_0_2_xsdbs 
+Detailed RTL Component Info : 
++---Registers : 
+	              128 Bit    Registers := 1     
+	               16 Bit    Registers := 2     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 1     
+Module vio_v3_0_19_decoder 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 2     
+	                7 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                3 Bit    Registers := 2     
+	                1 Bit    Registers := 9     
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 7     
+Module vio_v3_0_19_vio 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 1     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 840 (col length:140)
+BRAMs: 890 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-5546] ROM "PROBE_OUT_ALL_INST/wr_probe_out" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "DECODER_INST/wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "DECODER_INST/wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "DECODER_INST/wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "DECODER_INST/wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "DECODER_INST/wr_en_int0" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[1]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[2]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[2]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[3]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[3]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[4]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[4]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[5]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[5]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[6]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[6]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[7]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[7]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[8]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[8]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[9]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[9]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[10]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[10]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[11]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[11]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[12]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[12]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[13]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[13]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[14]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[14]' (FDRE) to 'inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[15]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (inst/\PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/data_int_reg[15] )
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[1]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[2]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[3]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[4]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[5]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[6]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[7]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[8]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[9]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[10]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[11]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[12]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[13]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3886] merging instance 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[14]' (FD) to 'inst/PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (inst/\PROBE_OUT_ALL_INST/Probe_out_reg_int_reg[15] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 930.590 ; gain = 547.340
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[36] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[35] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[34] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[33] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[32] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[31] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[30] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[29] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[28] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[27] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[26] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[25] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[24] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[23] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[22] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[21] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[20] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[19] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[18] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[17] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[16] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[15] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[14] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[13] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[12] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[11] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[10] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[9] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[8] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[7] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[6] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[5] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[4] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[3] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[2] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[1] to constant 0
+WARNING: [Synth 8-3295] tying undriven pin inst:sl_iport0[0] to constant 0
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-----+------+
+|      |Cell |Count |
++------+-----+------+
+|1     |LUT1 |     1|
+|2     |LUT2 |     2|
+|3     |LUT3 |    22|
+|4     |LUT4 |    17|
+|5     |LUT5 |    14|
+|6     |LUT6 |    62|
+|7     |FDRE |   242|
++------+-----+------+
+
+Report Instance Areas: 
++------+---------------------------------------+--------------------------+------+
+|      |Instance                               |Module                    |Cells |
++------+---------------------------------------+--------------------------+------+
+|1     |top                                    |                          |   360|
+|2     |  inst                                 |vio_v3_0_19_vio           |   360|
+|3     |    U_XSDB_SLAVE                       |xsdbs_v1_0_2_xsdbs        |   248|
+|4     |    DECODER_INST                       |vio_v3_0_19_decoder       |    74|
+|5     |    PROBE_IN_INST                      |vio_v3_0_19_probe_in_one  |    14|
+|6     |    PROBE_OUT_ALL_INST                 |vio_v3_0_19_probe_out_all |     8|
+|7     |      \G_PROBE_OUT[0].PROBE_OUT0_INST  |vio_v3_0_19_probe_out_one |     3|
++------+---------------------------------------+--------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 292 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:17 . Memory (MB): peak = 937.141 ; gain = 175.043
+Synthesis Optimization Complete : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 937.141 ; gain = 553.891
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 956.035 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+56 Infos, 175 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 956.035 ; gain = 581.449
+INFO: [Common 17-600] The following parameters have non-default value.
+tcl.collectionResultDisplayLimit
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 956.035 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1/vio_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP vio_0, cache-ID = 9fa847cd628f8667
+INFO: [Coretcl 2-1174] Renamed 6 cell refs.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 956.035 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1/vio_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file vio_0_utilization_synth.rpt -pb vio_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 18 21:09:03 2021...

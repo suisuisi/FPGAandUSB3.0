@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7k325tffg900-2" LaunchTime="1637326500">
+  <File Type="BITSTR-BMM" Name="UVC_OV5640_bd.bmm"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="UVC_OV5640_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="UVC_OV5640_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR" Name="UVC_OV5640_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="UVC_OV5640.tcl"/>
+  <File Type="OPT-TIMING" Name="UVC_OV5640_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="UVC_OV5640_opt.dcp"/>
+  <File Type="ROUTE-PWR-SUM" Name="UVC_OV5640_power_summary_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="UVC_OV5640_reports.tcl"/>
+  <File Type="OPT-DRC" Name="UVC_OV5640_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="UVC_OV5640.hwdef"/>
+  <File Type="PWROPT-DCP" Name="UVC_OV5640_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="UVC_OV5640_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="UVC_OV5640_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="UVC_OV5640_placed.dcp"/>
+  <File Type="PLACE-IO" Name="UVC_OV5640_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="UVC_OV5640_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="UVC_OV5640_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="UVC_OV5640_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="UVC_OV5640_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="UVC_OV5640_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="UVC_OV5640_incremental_reuse_pre_placed.rpt"/>
+  <File Type="BG-BGN" Name="UVC_OV5640.bgn"/>
+  <File Type="PLACE-TIMING" Name="UVC_OV5640_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="UVC_OV5640_postplace_pwropt.dcp"/>
+  <File Type="BG-BIN" Name="UVC_OV5640.bin"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="UVC_OV5640_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="UVC_OV5640_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="UVC_OV5640_drc_physopted.rpt"/>
+  <File Type="BITSTR-MSK" Name="UVC_OV5640.msk"/>
+  <File Type="PHYSOPT-TIMING" Name="UVC_OV5640_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="UVC_OV5640_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="UVC_OV5640_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="UVC_OV5640_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="UVC_OV5640_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="UVC_OV5640_drc_routed.pb"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="UVC_OV5640.ltx"/>
+  <File Type="ROUTE-DRC-RPX" Name="UVC_OV5640_drc_routed.rpx"/>
+  <File Type="BITSTR-MMI" Name="UVC_OV5640.mmi"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="UVC_OV5640_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="UVC_OV5640_methodology_drc_routed.rpx"/>
+  <File Type="BITSTR-SYSDEF" Name="UVC_OV5640.sysdef"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="UVC_OV5640_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="UVC_OV5640_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="UVC_OV5640_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="UVC_OV5640_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="UVC_OV5640_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="UVC_OV5640_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="UVC_OV5640_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="UVC_OV5640_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="UVC_OV5640_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="UVC_OV5640_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="UVC_OV5640_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="UVC_OV5640_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="UVC_OV5640_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="UVC_OV5640_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="UVC_OV5640_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="UVC_OV5640_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="UVC_OV5640_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="UVC_OV5640_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="UVC_OV5640_bus_skew_postroute_physopted.pb"/>
+  <File Type="BG-BIT" Name="UVC_OV5640.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="UVC_OV5640_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-RBT" Name="UVC_OV5640.rbt"/>
+  <File Type="BITSTR-NKY" Name="UVC_OV5640.nky"/>
+  <File Type="BG-DRC" Name="UVC_OV5640.drc"/>
+  <File Type="RDI-RDI" Name="UVC_OV5640.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/I2C_Controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_Controller.v"/>
+        <Attr Name="ImportTime" Val="1498057762"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/I2C_OV5640_Init_RAW.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_OV5640_Init_RAW.v"/>
+        <Attr Name="ImportTime" Val="1505637078"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/I2C_OV5640_RAW_Config.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_OV5640_RAW_Config.v"/>
+        <Attr Name="ImportTime" Val="1505637513"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/bayer2rgb.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/bayer2rgb.v"/>
+        <Attr Name="ImportTime" Val="1567058332"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/ddr3_cache.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/ddr3_cache.v"/>
+        <Attr Name="ImportTime" Val="1565939102"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/image_capture.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/image_capture.v"/>
+        <Attr Name="ImportTime" Val="1567054541"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/image_controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/image_controller.v"/>
+        <Attr Name="ImportTime" Val="1567056102"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/lcd_driver.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/lcd_driver.v"/>
+        <Attr Name="ImportTime" Val="1566287057"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/led_controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/led_controller.v"/>
+        <Attr Name="ImportTime" Val="1561592308"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/pulse_detection.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/pulse_detection.v"/>
+        <Attr Name="ImportTime" Val="1561592300"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/register_diff_clk.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/register_diff_clk.v"/>
+        <Attr Name="ImportTime" Val="1561592308"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/rgb2yuv.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../Xilinx/project/at7_img_ex11_uvc/at7.srcs/sources_1/new/rgb2yuv.v"/>
+        <Attr Name="ImportTime" Val="1579080122"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/uvc_ov5640.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/mig_7series_0/mig_a.prj">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/ip/mig_7series_0/mig_a.prj"/>
+        <Attr Name="ImportTime" Val="1566869923"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="ScopedToCell" Val="mig_7series_0"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../at7_img_ex11_uvc/archive_project_summary.txt"/>
+    <File Path="$PSRCDIR/sources_1/ip/mig_7series_0_1/mig_a.prj">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="ScopedToCell" Val="mig_7series_0"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="UVC_OV5640"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/uvc.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/uvc.xdc"/>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_2"/>
+  <BlockFileSet Type="BlockSrcs" Name="mig_7series_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="vio_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="v_demosaic_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_3"/>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="mult_gen_0"/>
+</GenRun>

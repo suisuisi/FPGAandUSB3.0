@@ -1,0 +1,2 @@
+mult_gen_0.vhd,vhdl,xil_defaultlib,../../../../uvc_ov5640.srcs/sources_1/ip/mult_gen_0/sim/mult_gen_0.vhd,
+glbl.v,Verilog,xil_defaultlib,glbl.v

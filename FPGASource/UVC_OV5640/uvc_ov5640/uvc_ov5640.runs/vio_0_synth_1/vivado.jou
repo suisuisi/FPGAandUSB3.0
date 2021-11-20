@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Thu Nov 18 21:08:27 2021
+# Process ID: 18792
+# Current directory: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1
+# Command line: vivado.exe -log vio_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source vio_0.tcl
+# Log file: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1/vio_0.vds
+# Journal file: E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/vio_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source vio_0.tcl -notrace

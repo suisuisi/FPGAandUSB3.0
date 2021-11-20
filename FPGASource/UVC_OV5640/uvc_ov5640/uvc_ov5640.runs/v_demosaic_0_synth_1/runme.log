@@ -1,0 +1,14 @@
+
+*** Running vivado
+    with args -log v_demosaic_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source v_demosaic_0.tcl
+
+
+****** Vivado v2018.3 (64-bit)
+  **** SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+  **** IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+
+source v_demosaic_0.tcl -notrace
+Converted RTL already exists. Skipping compile_c
+INFO: [IP_Flow 19-4838] Using cached IP synthesis design for IP v_demosaic_0, cache-ID = b68d17c2a3d9956a.
+INFO: [Common 17-206] Exiting Vivado at Wed Nov 17 22:53:34 2021...

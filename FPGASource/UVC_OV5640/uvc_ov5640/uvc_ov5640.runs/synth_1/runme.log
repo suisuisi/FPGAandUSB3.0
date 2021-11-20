@@ -1,0 +1,1017 @@
+
+*** Running vivado
+    with args -log UVC_OV5640.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source UVC_OV5640.tcl
+
+
+****** Vivado v2018.3 (64-bit)
+  **** SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+  **** IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+
+source UVC_OV5640.tcl -notrace
+Command: synth_design -top UVC_OV5640 -part xc7k325tffg900-2
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7k325t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 23236 
+WARNING: [Synth 8-992] rdfifo_sel is already implicitly declared earlier [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:256]
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 530.402 ; gain = 117.734
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'UVC_OV5640' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:11]
+INFO: [Synth 8-6157] synthesizing module 'vio_0' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/vio_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_0' (1#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/vio_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'clk_wiz_1' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/clk_wiz_1_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_1' (2#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/clk_wiz_1_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'mig_7series_0' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/mig_7series_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'mig_7series_0' (3#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/mig_7series_0_stub.v:5]
+WARNING: [Synth 8-689] width (128) of port connection 'app_rd_data' does not match port width (256) of module 'mig_7series_0' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:168]
+WARNING: [Synth 8-350] instance 'u2_mig_7series_1' of module 'mig_7series_0' requires 39 connections, but only 37 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:143]
+INFO: [Synth 8-6157] synthesizing module 'image_controller' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:10]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:14]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:15]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:16]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:17]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:19]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:20]
+INFO: [Synth 8-6157] synthesizing module 'I2C_OV5640_Init_RAW' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_Init_RAW.v:30]
+	Parameter CLK_Freq bound to: 100000000 - type: integer 
+	Parameter I2C_Freq bound to: 100000 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_Init_RAW.v:115]
+INFO: [Synth 8-6157] synthesizing module 'I2C_Controller' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_Controller.v:30]
+INFO: [Synth 8-155] case statement is not full and has no default [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_Controller.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'I2C_Controller' (4#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_Controller.v:30]
+INFO: [Synth 8-6157] synthesizing module 'I2C_OV5640_RAW_Config' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_RAW_Config.v:36]
+	Parameter SET_OV5640 bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'I2C_OV5640_RAW_Config' (5#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_RAW_Config.v:36]
+WARNING: [Synth 8-5788] Register i2c_data_reg in module I2C_OV5640_Init_RAW is has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_Init_RAW.v:125]
+INFO: [Synth 8-6155] done synthesizing module 'I2C_OV5640_Init_RAW' (6#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/I2C_OV5640_Init_RAW.v:30]
+INFO: [Synth 8-6157] synthesizing module 'image_capture' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:9]
+	Parameter RESOLUTION_HMAX bound to: 10'b1010000000 
+	Parameter RESOLUTION_VMAX bound to: 10'b0111100000 
+	Parameter RFIFO_IDLE bound to: 3'b000 
+	Parameter RFIFO_RDDB bound to: 3'b001 
+	Parameter RFIFO_END1 bound to: 3'b010 
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:14]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:15]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:19]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:20]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:21]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:22]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:23]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:147]
+INFO: [Synth 8-6157] synthesizing module 'pulse_detection' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/pulse_detection.v:21]
+INFO: [Synth 8-6155] done synthesizing module 'pulse_detection' (7#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/pulse_detection.v:21]
+INFO: [Synth 8-6157] synthesizing module 'fifo_generator_3' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_3_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_generator_3' (8#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_3_stub.v:6]
+WARNING: [Synth 8-350] instance 'uut_image_cache_fifo' of module 'fifo_generator_3' requires 12 connections, but only 10 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:79]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'uut_pulse_detection1'. This will prevent further optimization [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:34]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'uut_image_cache_fifo'. This will prevent further optimization [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:79]
+INFO: [Synth 8-6155] done synthesizing module 'image_capture' (9#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_capture.v:9]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'uut_I2C_OV5640_Init_RAW'. This will prevent further optimization [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:45]
+INFO: [Synth 8-6155] done synthesizing module 'image_controller' (10#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/image_controller.v:10]
+INFO: [Synth 8-6157] synthesizing module 'bayer2rgb' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/bayer2rgb.v:12]
+	Parameter IMAGE_WIDTH bound to: 640 - type: integer 
+	Parameter IMAGE_HIGHT bound to: 480 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'v_demosaic_0' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/v_demosaic_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'v_demosaic_0' (11#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/v_demosaic_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'bayer2rgb' (12#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/bayer2rgb.v:12]
+INFO: [Synth 8-6157] synthesizing module 'rgb2yuv' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/rgb2yuv.v:12]
+INFO: [Synth 8-6157] synthesizing module 'mult_gen_0' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/mult_gen_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'mult_gen_0' (13#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/mult_gen_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'rgb2yuv' (14#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/rgb2yuv.v:12]
+INFO: [Synth 8-6157] synthesizing module 'ddr3_cache' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:9]
+	Parameter BURST_WR_128BIT bound to: 10'b0000001000 
+	Parameter BURST_RD_128BIT bound to: 10'b0100000000 
+	Parameter DLY_CLK_AFTER_RD bound to: 10'b0000010000 
+	Parameter DDR3_ADDR_LEFT_STAR bound to: 17'b00000000000000000 
+	Parameter DDR3_ADDR_RIGH_STAR bound to: 17'b00001000000000000 
+	Parameter SIDLE bound to: 4'b0000 
+	Parameter SWRDB1 bound to: 4'b0001 
+	Parameter SWRED1 bound to: 4'b0010 
+	Parameter SWRDB2 bound to: 4'b0011 
+	Parameter SWRED2 bound to: 4'b0100 
+	Parameter SRDDB1 bound to: 4'b0101 
+	Parameter SRDED1 bound to: 4'b0110 
+	Parameter SRDWT1 bound to: 4'b0111 
+	Parameter SRDDB2 bound to: 4'b1000 
+	Parameter SRDED2 bound to: 4'b1001 
+	Parameter SRDWT2 bound to: 4'b1010 
+	Parameter SSTOP bound to: 4'b1011 
+INFO: [Synth 8-6157] synthesizing module 'register_diff_clk' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/register_diff_clk.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'register_diff_clk' (15#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/register_diff_clk.v:9]
+INFO: [Synth 8-6157] synthesizing module 'fifo_generator_1' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_generator_1' (16#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_1_stub.v:6]
+WARNING: [Synth 8-350] instance 'fifo_for_ddr3_write_left' of module 'fifo_generator_1' requires 12 connections, but only 10 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:75]
+WARNING: [Synth 8-350] instance 'fifo_for_ddr3_write_righ' of module 'fifo_generator_1' requires 12 connections, but only 10 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:88]
+INFO: [Synth 8-6157] synthesizing module 'fifo_generator_2' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_2_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_generator_2' (17#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/.Xil/Vivado-13372-DESKTOP-1TCF4DO/realtime/fifo_generator_2_stub.v:6]
+WARNING: [Synth 8-350] instance 'fifo_for_ddr3_read_left' of module 'fifo_generator_2' requires 12 connections, but only 10 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:145]
+WARNING: [Synth 8-350] instance 'fifo_for_ddr3_read_righ' of module 'fifo_generator_2' requires 12 connections, but only 10 given [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:158]
+INFO: [Synth 8-6155] done synthesizing module 'ddr3_cache' (18#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/ddr3_cache.v:9]
+INFO: [Synth 8-6157] synthesizing module 'lcd_driver' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:9]
+	Parameter IMAGE_ACTUAL_RESOLUTION_X bound to: 12'b001010000000 
+	Parameter IMAGE_ACTUAL_RESOLUTION_Y bound to: 12'b000111100000 
+	Parameter VGA_HTT bound to: 12'b110000110100 
+	Parameter VGA_HST bound to: 12'b000001010000 
+	Parameter VGA_HBP bound to: 12'b000011011000 
+	Parameter VGA_HVT bound to: 12'b010100000000 
+	Parameter VGA_HFP bound to: 12'b000001001000 
+	Parameter VGA_VTT bound to: 12'b001100011111 
+	Parameter VGA_VST bound to: 12'b000000000101 
+	Parameter VGA_VBP bound to: 12'b000000010110 
+	Parameter VGA_VVT bound to: 12'b001011010000 
+	Parameter VGA_VFP bound to: 12'b000000000011 
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:13]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:15]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:16]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:17]
+INFO: [Synth 8-5534] Detected attribute (* mark_debug = "true" *) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:18]
+INFO: [Synth 8-6155] done synthesizing module 'lcd_driver' (19#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/lcd_driver.v:9]
+INFO: [Synth 8-6157] synthesizing module 'led_controller' [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/led_controller.v:10]
+INFO: [Synth 8-6155] done synthesizing module 'led_controller' (20#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/led_controller.v:10]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u9_vio'. This will prevent further optimization [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:77]
+WARNING: [Synth 8-3848] Net fx3_slcs_n in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:46]
+WARNING: [Synth 8-3848] Net fx3_slwr_n in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:47]
+WARNING: [Synth 8-3848] Net fx3_slrd_n in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:48]
+WARNING: [Synth 8-3848] Net fx3_sloe_n in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:49]
+WARNING: [Synth 8-3848] Net fx3_pktend_n in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:50]
+WARNING: [Synth 8-3848] Net switch_in in module/entity UVC_OV5640 does not have driver. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:73]
+INFO: [Synth 8-6155] done synthesizing module 'UVC_OV5640' (21#1) [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/new/uvc_ov5640.v:11]
+WARNING: [Synth 8-3917] design UVC_OV5640 has port FX3_RESET driven by constant 1
+WARNING: [Synth 8-3331] design ddr3_cache has unconnected port app_rd_data_end
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slcs_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slwr_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slrd_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_sloe_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_pktend_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flaga
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flagc
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flagd
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 579.984 ; gain = 167.316
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 579.984 ; gain = 167.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 579.984 ; gain = 167.316
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7k325tffg900-2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc] for cell 'u2_mig_7series_1'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc] for cell 'u2_mig_7series_1'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/clk_wiz_1/clk_wiz_1/clk_wiz_1_in_context.xdc] for cell 'u1_clk_wiz_0'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/clk_wiz_1/clk_wiz_1/clk_wiz_1_in_context.xdc] for cell 'u1_clk_wiz_0'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_3/fifo_generator_3/fifo_generator_3_in_context.xdc] for cell 'u3_image_controller/uut_image_capture/uut_image_cache_fifo'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_3/fifo_generator_3/fifo_generator_3_in_context.xdc] for cell 'u3_image_controller/uut_image_capture/uut_image_cache_fifo'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/v_demosaic_0/v_demosaic_0/v_demosaic_0_in_context.xdc] for cell 'u4_bayer2rgb/uut_v_demosaic_1'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/v_demosaic_0/v_demosaic_0/v_demosaic_0_in_context.xdc] for cell 'u4_bayer2rgb/uut_v_demosaic_1'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_0'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_0'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_1'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_1'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_2'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_2'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_3'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_3'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_4'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_4'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_5'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_5'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_6'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_6'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_7'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_7'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_8'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mult_gen_0/mult_gen_0/mult_gen_0_in_context.xdc] for cell 'u5_rgb2yuv/mult_gen_8'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_1/fifo_generator_1/fifo_generator_1_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_write_left'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_1/fifo_generator_1/fifo_generator_1_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_write_left'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_1/fifo_generator_1/fifo_generator_1_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_write_righ'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_1/fifo_generator_1/fifo_generator_1_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_write_righ'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_2/fifo_generator_2/fifo_generator_2_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_read_left'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_2/fifo_generator_2/fifo_generator_2_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_read_left'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_2/fifo_generator_2/fifo_generator_2_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_read_righ'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/fifo_generator_2/fifo_generator_2/fifo_generator_2_in_context.xdc] for cell 'u6_ddr3_cache/fifo_for_ddr3_read_righ'
+Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u9_vio'
+Finished Parsing XDC File [e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u9_vio'
+Parsing XDC File [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc]
+WARNING: [Vivado 12-507] No nets matched 'image_sensor_pclk_IBUF'. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:37]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SCL'. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:95]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SCL'. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:96]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SDA'. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:97]
+WARNING: [Vivado 12-584] No ports matched 'FX3_SDA'. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:98]
+WARNING: [Constraints 18-402] set_max_delay: 'image_sensor_reset_n' is not a valid startpoint. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:121]
+Resolution: A valid start point is a main or generated clock pin or port, a clock pin of a sequential cell, or a primary input or inout port. Please validate that all the objects returned by your query belong to this list.
+WARNING: [Constraints 18-402] set_max_delay: 'image_sensor_scl' is not a valid startpoint. [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc:121]
+Resolution: A valid start point is a main or generated clock pin or port, a clock pin of a sequential cell, or a primary input or inout port. Please validate that all the objects returned by your query belong to this list.
+Finished Parsing XDC File [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc]
+WARNING: [Project 1-498] One or more constraints failed evaluation while reading constraint file [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc] and the design contains unresolved black boxes. These constraints will be read post-synthesis (as long as their source constraint file is marked as used_in_implementation) and should be applied correctly then. You should review the constraints listed in the file [.Xil/UVC_OV5640_propImpl.xdc] and check the run log file to verify that these constraints were correctly applied.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/constrs_1/new/uvc.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/UVC_OV5640_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/UVC_OV5640_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 985.832 ; gain = 0.000
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 985.832 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 985.832 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 985.832 ; gain = 0.000
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_0' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_1' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_2' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_3' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_4' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_5' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_6' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_7' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'u5_rgb2yuv/mult_gen_8' at clock pin 'CLK' is different from the actual clock period '20.000', this can lead to different synthesis results.
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7k325tffg900-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 2).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 3).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[10]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 4).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[10]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 5).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[11]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 6).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[11]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 7).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[12]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 8).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[12]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 9).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[13]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 10).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[13]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 11).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[14]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 12).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[14]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 13).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 14).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 15).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 16).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 17).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 18).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 19).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[4]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 20).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[4]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 21).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[5]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 22).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[5]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 23).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[6]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 24).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[6]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 25).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[7]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 26).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[7]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 27).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[8]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 28).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[8]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 29).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_addr[9]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 30).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_addr[9]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 31).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ba[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 32).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ba[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 33).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ba[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 34).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ba[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 35).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ba[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 36).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ba[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 37).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_cas_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 38).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_cas_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 39).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ck_n[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 40).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ck_n[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 41).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ck_p[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 42).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ck_p[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 43).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_cke[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 44).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_cke[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 45).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dm[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 48).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dm[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 49).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dm[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 50).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dm[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 51).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dm[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 52).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dm[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 53).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dm[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 54).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dm[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 55).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 56).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 57).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[10]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 58).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[10]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 59).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[11]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 60).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[11]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 61).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[12]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 62).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[12]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 63).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[13]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 64).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[13]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 65).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[14]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 66).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[14]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 67).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[15]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 68).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[15]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 69).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[16]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 70).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[16]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 71).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[17]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 72).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[17]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 73).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[18]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 74).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[18]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 75).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[19]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 76).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[19]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 77).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 78).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 79).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[20]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 80).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[20]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 81).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[21]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 82).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[21]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 83).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[22]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 84).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[22]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 85).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[23]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 86).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[23]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 87).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[24]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 88).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[24]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 89).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[25]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 90).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[25]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 91).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[26]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 92).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[26]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 93).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[27]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 94).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[27]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 95).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[28]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 96).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[28]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 97).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[29]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 98).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[29]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 99).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 100).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 101).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[30]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 102).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[30]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 103).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[31]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 104).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[31]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 105).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 106).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 107).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[4]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 108).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[4]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 109).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[5]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 110).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[5]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 111).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[6]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 112).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[6]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 113).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[7]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 114).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[7]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 115).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[8]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 116).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[8]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 117).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dq[9]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 118).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dq[9]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 119).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_n[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 120).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_n[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 121).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_n[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 122).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_n[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 123).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_n[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 124).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_n[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 125).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_n[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 126).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_n[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 127).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_p[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 128).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_p[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 129).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_p[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 130).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_p[1]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 131).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_p[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 132).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_p[2]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 133).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_dqs_p[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 134).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_dqs_p[3]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 135).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_odt[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 136).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_odt[0]. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 137).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_ras_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 138).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_ras_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 139).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_reset_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 140).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_reset_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 141).
+Applied set_property IO_BUFFER_TYPE = NONE for ddr3_we_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 142).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for ddr3_we_n. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/mig_7series_0_1/mig_7series_0/mig_7series_0_in_context.xdc, line 143).
+Applied set_property IO_BUFFER_TYPE = NONE for sys_clk_i. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/clk_wiz_1/clk_wiz_1/clk_wiz_1_in_context.xdc, line 9).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for sys_clk_i. (constraint file  e:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.srcs/sources_1/ip/clk_wiz_1/clk_wiz_1/clk_wiz_1_in_context.xdc, line 10).
+Applied set_property DONT_TOUCH = true for u2_mig_7series_1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u1_clk_wiz_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u3_image_controller/uut_image_capture/uut_image_cache_fifo. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u4_bayer2rgb/uut_v_demosaic_1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_3. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_4. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_5. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_6. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_7. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u5_rgb2yuv/mult_gen_8. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u6_ddr3_cache/fifo_for_ddr3_write_left. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u6_ddr3_cache/fifo_for_ddr3_write_righ. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u6_ddr3_cache/fifo_for_ddr3_read_left. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u6_ddr3_cache/fifo_for_ddr3_read_righ. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for u9_vio. (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5546] ROM "sclk" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "i2c_bit" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ackw1" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ackw2" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ackw3" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ackw4" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ackr1" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "i2c_end" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-802] inferred FSM for state register 'setup_state_reg' in module 'I2C_OV5640_Init_RAW'
+INFO: [Synth 8-5544] ROM "lut_index" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "i2c_data" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "setup_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-802] inferred FSM for state register 'rfifo_state_reg' in module 'image_capture'
+INFO: [Synth 8-5544] ROM "rfifo_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "rfifo_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "i_axi_ctrl_awdata" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "dly" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-802] inferred FSM for state register 'cstate_reg' in module 'ddr3_cache'
+INFO: [Synth 8-5544] ROM "user_ddr3_write_addr1" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "user_ddr3_write_addr2" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "user_ddr3_read_addr1" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "user_ddr3_read_addr2" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "rdfifo_sel" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "nstate" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "ycnt" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "lcd_rfclr" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "lcd_gray_bar" won't be mapped to RAM because it is too sparse
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 iSTATE0 |                              001 |                               00
+                  iSTATE |                              010 |                               01
+                 iSTATE1 |                              100 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'setup_state_reg' using encoding 'one-hot' in module 'I2C_OV5640_Init_RAW'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              RFIFO_IDLE |                               00 |                              000
+              RFIFO_RDDB |                               01 |                              001
+              RFIFO_END1 |                               10 |                              010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'rfifo_state_reg' using encoding 'sequential' in module 'image_capture'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                   SIDLE |                             0100 |                             0000
+                  SRDDB1 |                             1000 |                             0101
+                  SRDWT1 |                             1010 |                             0111
+                  SRDED1 |                             1011 |                             0110
+                  SRDDB2 |                             1001 |                             1000
+                  SRDWT2 |                             0101 |                             1010
+                  SRDED2 |                             0110 |                             1001
+                  SWRDB1 |                             0111 |                             0001
+                  SWRED1 |                             0011 |                             0010
+                  SWRDB2 |                             0000 |                             0011
+                  SWRED2 |                             0001 |                             0100
+                   SSTOP |                             0010 |                             1011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'cstate_reg' using encoding 'sequential' in module 'ddr3_cache'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input     20 Bit       Adders := 3     
+	   2 Input     19 Bit       Adders := 4     
+	   2 Input     12 Bit       Adders := 4     
+	   2 Input     10 Bit       Adders := 7     
+	   2 Input      9 Bit       Adders := 2     
+	   2 Input      8 Bit       Adders := 2     
+	   2 Input      7 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 2     
++---Registers : 
+	               40 Bit    Registers := 1     
+	               32 Bit    Registers := 1     
+	               28 Bit    Registers := 1     
+	               20 Bit    Registers := 1     
+	               19 Bit    Registers := 4     
+	               18 Bit    Registers := 3     
+	               16 Bit    Registers := 2     
+	               12 Bit    Registers := 4     
+	               10 Bit    Registers := 6     
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 6     
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                4 Bit    Registers := 2     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 34    
++---Muxes : 
+	   2 Input    128 Bit        Muxes := 1     
+	   2 Input     32 Bit        Muxes := 1     
+	   5 Input     28 Bit        Muxes := 2     
+	   2 Input     18 Bit        Muxes := 4     
+	   2 Input     16 Bit        Muxes := 1     
+	   2 Input     12 Bit        Muxes := 8     
+	   4 Input     12 Bit        Muxes := 1     
+	   2 Input     10 Bit        Muxes := 10    
+	   7 Input     10 Bit        Muxes := 1     
+	   2 Input      9 Bit        Muxes := 3     
+	  73 Input      8 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 7     
+	   3 Input      8 Bit        Muxes := 1     
+	   2 Input      7 Bit        Muxes := 1     
+	   6 Input      6 Bit        Muxes := 2     
+	   2 Input      6 Bit        Muxes := 2     
+	   2 Input      4 Bit        Muxes := 3     
+	  23 Input      4 Bit        Muxes := 1     
+	   7 Input      3 Bit        Muxes := 1     
+	   8 Input      3 Bit        Muxes := 1     
+	   8 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 74    
+	  52 Input      1 Bit        Muxes := 5     
+	  71 Input      1 Bit        Muxes := 9     
+	  70 Input      1 Bit        Muxes := 2     
+	  53 Input      1 Bit        Muxes := 4     
+	   3 Input      1 Bit        Muxes := 8     
+	   5 Input      1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module I2C_Controller 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      7 Bit       Adders := 1     
++---Registers : 
+	                8 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
+	                1 Bit    Registers := 11    
++---Muxes : 
+	  73 Input      8 Bit        Muxes := 1     
+	   2 Input      7 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 46    
+	  52 Input      1 Bit        Muxes := 5     
+	  71 Input      1 Bit        Muxes := 9     
+	  70 Input      1 Bit        Muxes := 2     
+	  53 Input      1 Bit        Muxes := 4     
+Module I2C_OV5640_Init_RAW 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      9 Bit       Adders := 2     
++---Registers : 
+	               40 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	                9 Bit    Registers := 1     
+	                1 Bit    Registers := 6     
++---Muxes : 
+	   2 Input      9 Bit        Muxes := 1     
+	   7 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+	   3 Input      1 Bit        Muxes := 3     
+Module pulse_detection 
+Detailed RTL Component Info : 
++---Registers : 
+	                2 Bit    Registers := 1     
+Module image_capture 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     12 Bit       Adders := 1     
+	   2 Input     10 Bit       Adders := 2     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               12 Bit    Registers := 1     
+	               10 Bit    Registers := 2     
+	                4 Bit    Registers := 1     
+	                1 Bit    Registers := 5     
++---Muxes : 
+	   2 Input     12 Bit        Muxes := 2     
+	   2 Input     10 Bit        Muxes := 2     
+	   2 Input      4 Bit        Muxes := 1     
+	   8 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 3     
+Module bayer2rgb 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     12 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 1     
+	               12 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+	   4 Input     12 Bit        Muxes := 1     
+	   2 Input     12 Bit        Muxes := 2     
+	   2 Input     10 Bit        Muxes := 3     
+	   7 Input     10 Bit        Muxes := 1     
+	   2 Input      9 Bit        Muxes := 2     
+	   6 Input      6 Bit        Muxes := 2     
+	   2 Input      6 Bit        Muxes := 2     
+	   8 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 7     
+Module rgb2yuv 
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input     20 Bit       Adders := 3     
+	   2 Input     19 Bit       Adders := 4     
++---Registers : 
+	               20 Bit    Registers := 1     
+	               19 Bit    Registers := 4     
+	               18 Bit    Registers := 3     
+	               16 Bit    Registers := 1     
+	                8 Bit    Registers := 2     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     18 Bit        Muxes := 4     
+	   2 Input     16 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+Module register_diff_clk 
+Detailed RTL Component Info : 
++---Registers : 
+	                2 Bit    Registers := 1     
+Module ddr3_cache 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     10 Bit       Adders := 5     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               28 Bit    Registers := 1     
+	               10 Bit    Registers := 4     
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input    128 Bit        Muxes := 1     
+	   5 Input     28 Bit        Muxes := 2     
+	   2 Input     10 Bit        Muxes := 5     
+	   2 Input      4 Bit        Muxes := 2     
+	  23 Input      4 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 13    
+	   3 Input      1 Bit        Muxes := 3     
+	   5 Input      1 Bit        Muxes := 2     
+Module lcd_driver 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     12 Bit       Adders := 2     
+	   2 Input      8 Bit       Adders := 2     
++---Registers : 
+	               12 Bit    Registers := 2     
+	                8 Bit    Registers := 3     
+	                1 Bit    Registers := 5     
++---Muxes : 
+	   2 Input     12 Bit        Muxes := 4     
+	   2 Input      8 Bit        Muxes := 7     
+	   3 Input      8 Bit        Muxes := 1     
+	   3 Input      1 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 840 (col length:140)
+BRAMs: 890 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-5546] ROM "lcd_rfclr" won't be mapped to RAM because it is too sparse
+WARNING: [Synth 8-3917] design UVC_OV5640 has port FX3_RESET driven by constant 1
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slcs_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slwr_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_slrd_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_sloe_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_pktend_n
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flaga
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flagc
+WARNING: [Synth 8-3331] design UVC_OV5640 has unconnected port fx3_flagd
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[1]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[2]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[3]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[4]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[5]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[6]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[6]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[8]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[10]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[11]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[12]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[13]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[14]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[15]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[16]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[17]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[18]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[19]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[20]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[21]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[22]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[23]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[24]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[25]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[26]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[27]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[28]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[29]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[30]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awdata_reg[31]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awaddr_reg[2]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awaddr_reg[0]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awaddr_reg[2]'
+INFO: [Synth 8-3886] merging instance 'u4_bayer2rgb/i_axi_ctrl_awaddr_reg[1]' (FDR) to 'u4_bayer2rgb/i_axi_ctrl_awaddr_reg[2]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u4_bayer2rgb/i_axi_ctrl_awaddr_reg[2] )
+INFO: [Synth 8-3886] merging instance 'u6_ddr3_cache/app_cmd_reg[1]' (FDC) to 'u6_ddr3_cache/app_cmd_reg[2]'
+INFO: [Synth 8-3886] merging instance 'u6_ddr3_cache/app_cmd_reg[2]' (FDC) to 'u6_ddr3_cache/app_addr_reg[2]'
+INFO: [Synth 8-3886] merging instance 'u6_ddr3_cache/app_addr_reg[0]' (FDC) to 'u6_ddr3_cache/app_addr_reg[2]'
+INFO: [Synth 8-3886] merging instance 'u6_ddr3_cache/app_addr_reg[1]' (FDC) to 'u6_ddr3_cache/app_addr_reg[2]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u6_ddr3_cache/app_addr_reg[2] )
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[39]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[32]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[38]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[28]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[30]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[33]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[26]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[23]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[35]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[38]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[30]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[29]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[37]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[38]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[24]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[36]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[38]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[29]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[27]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[25]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[31]' (FDE) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_data_reg[34]'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (u3_image_controller/uut_I2C_OV5640_Init_RAW/\i2c_data_reg[27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (u3_image_controller/uut_I2C_OV5640_Init_RAW/\i2c_data_reg[34] )
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[9]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[10]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[10]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[11]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[11]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[12]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[12]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[13]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[13]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[14]'
+INFO: [Synth 8-3886] merging instance 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[14]' (FDC) to 'u3_image_controller/uut_I2C_OV5640_Init_RAW/i2c_clk_div_reg[15]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (u3_image_controller/uut_I2C_OV5640_Init_RAW/\i2c_clk_div_reg[15] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+ROM:
++----------------------+----------------------------------+---------------+----------------+
+|Module Name           | RTL Object                       | Depth x Width | Implemented As | 
++----------------------+----------------------------------+---------------+----------------+
+|I2C_OV5640_RAW_Config | LUT_DATA                         | 512x23        | LUT            | 
+|I2C_OV5640_Init_RAW   | u_I2C_OV5640_RAW_Config/LUT_DATA | 512x23        | LUT            | 
++----------------------+----------------------------------+---------------+----------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u2_mig_7series_1/ui_clk' to pin 'u2_mig_7series_1/bbstub_ui_clk/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out1' to pin 'u1_clk_wiz_0/bbstub_clk_out1/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out2' to pin 'u1_clk_wiz_0/bbstub_clk_out2/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out3' to pin 'u1_clk_wiz_0/bbstub_clk_out3/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out4' to pin 'u1_clk_wiz_0/bbstub_clk_out4/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out5' to pin 'u1_clk_wiz_0/bbstub_clk_out5/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out6' to pin 'u1_clk_wiz_0/bbstub_clk_out6/O'
+INFO: [Synth 8-5578] Moved timing constraint from pin 'u1_clk_wiz_0/clk_out7' to pin 'u1_clk_wiz_0/bbstub_clk_out7/O'
+INFO: [Synth 8-5819] Moved 8 constraints on hierarchical pins to their respective driving/loading pins
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 985.832 ; gain = 573.164
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-4442] BlackBox module u9_vio has unconnected pin probe_in0[0]
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++------------+-----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name | RTL Name                          | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------+-----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|UVC_OV5640  | u5_rgb2yuv/r_rgb_image_rst_reg[4] | 5      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|UVC_OV5640  | u5_rgb2yuv/r_rgb_image_vld_reg[4] | 5      | 1     | YES          | NO                 | YES               | 1      | 0       | 
++------------+-----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+-----------------+----------+
+|      |BlackBox name    |Instances |
++------+-----------------+----------+
+|1     |fifo_generator_3 |         1|
+|2     |vio_0            |         1|
+|3     |clk_wiz_1        |         1|
+|4     |mig_7series_0    |         1|
+|5     |v_demosaic_0     |         1|
+|6     |mult_gen_0       |         9|
+|7     |fifo_generator_1 |         2|
+|8     |fifo_generator_2 |         2|
++------+-----------------+----------+
+
+Report Cell Usage: 
++------+--------------------+------+
+|      |Cell                |Count |
++------+--------------------+------+
+|1     |clk_wiz_1           |     1|
+|2     |fifo_generator_1    |     1|
+|3     |fifo_generator_1__2 |     1|
+|4     |fifo_generator_2    |     1|
+|5     |fifo_generator_2__2 |     1|
+|6     |fifo_generator_3    |     1|
+|7     |mig_7series_0       |     1|
+|8     |mult_gen_0          |     1|
+|9     |mult_gen_0__10      |     1|
+|10    |mult_gen_0__11      |     1|
+|11    |mult_gen_0__12      |     1|
+|12    |mult_gen_0__13      |     1|
+|13    |mult_gen_0__14      |     1|
+|14    |mult_gen_0__15      |     1|
+|15    |mult_gen_0__16      |     1|
+|16    |mult_gen_0__9       |     1|
+|17    |v_demosaic_0        |     1|
+|18    |vio_0               |     1|
+|19    |CARRY4              |    78|
+|20    |LUT1                |    36|
+|21    |LUT2                |   200|
+|22    |LUT3                |   221|
+|23    |LUT4                |   140|
+|24    |LUT5                |   141|
+|25    |LUT6                |   307|
+|26    |MUXF7               |    31|
+|27    |SRL16E              |     2|
+|28    |FDCE                |   314|
+|29    |FDPE                |    17|
+|30    |FDRE                |   203|
+|31    |IBUF                |    12|
+|32    |IOBUF               |     1|
+|33    |OBUF                |    15|
+|34    |OBUFT               |    29|
++------+--------------------+------+
+
+Report Instance Areas: 
++------+------------------------------+----------------------+------+
+|      |Instance                      |Module                |Cells |
++------+------------------------------+----------------------+------+
+|1     |top                           |                      |  2679|
+|2     |  u3_image_controller         |image_controller      |   544|
+|3     |    uut_I2C_OV5640_Init_RAW   |I2C_OV5640_Init_RAW   |   395|
+|4     |      u_I2C_Controller        |I2C_Controller        |   143|
+|5     |      u_I2C_OV5640_RAW_Config |I2C_OV5640_RAW_Config |   157|
+|6     |    uut_image_capture         |image_capture         |   147|
+|7     |      uut_pulse_detection1    |pulse_detection__1    |     4|
+|8     |  u7_lcd_driver               |lcd_driver            |   141|
+|9     |  u4_bayer2rgb                |bayer2rgb             |   147|
+|10    |  u5_rgb2yuv                  |rgb2yuv               |   523|
+|11    |  u6_ddr3_cache               |ddr3_cache            |   889|
+|12    |    uut_pulse_detection_dc2   |pulse_detection       |     4|
+|13    |    register_diff_clk_dc1     |register_diff_clk     |    71|
+|14    |  u8_led_controller           |led_controller        |    36|
++------+------------------------------+----------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 1 critical warnings and 9 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:19 ; elapsed = 00:00:23 . Memory (MB): peak = 993.570 ; gain = 175.055
+Synthesis Optimization Complete : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 993.570 ; gain = 580.902
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 110 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+CRITICAL WARNING: [Chipscope 16-3] Cannot debug net 'u3_image_controller/image_sensor_sda'; it is not accessible from the fabric routing.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 994.973 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 1 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+183 Infos, 51 Warnings, 2 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 994.973 ; gain = 588.496
+INFO: [Common 17-600] The following parameters have non-default value.
+tcl.collectionResultDisplayLimit
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 994.973 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'E:/FILE/at7_img_ex11_uvc/UVC_OV5640/uvc_ov5640/uvc_ov5640.runs/synth_1/UVC_OV5640.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file UVC_OV5640_utilization_synth.rpt -pb UVC_OV5640_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Fri Nov 19 20:55:57 2021...

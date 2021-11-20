@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7k325tffg900-2" LaunchTime="1637326500">
+  <File Type="PA-TCL" Name="UVC_OV5640.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="UVC_OV5640_drc_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="UVC_OV5640_reports.tcl"/>
+  <File Type="RDS-RDS" Name="UVC_OV5640.vds"/>
+  <File Type="RDS-UTIL" Name="UVC_OV5640_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="UVC_OV5640_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="UVC_OV5640.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="UVC_OV5640_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="UVC_OV5640_timing_summary_synth.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/I2C_Controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_Controller.v"/>
+        <Attr Name="ImportTime" Val="1498057762"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/I2C_OV5640_Init_RAW.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_OV5640_Init_RAW.v"/>
+        <Attr Name="ImportTime" Val="1505637078"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/I2C_OV5640_RAW_Config.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/I2C_OV5640_RAW_Config.v"/>
+        <Attr Name="ImportTime" Val="1505637513"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/bayer2rgb.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/bayer2rgb.v"/>
+        <Attr Name="ImportTime" Val="1567058332"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/ddr3_cache.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/ddr3_cache.v"/>
+        <Attr Name="ImportTime" Val="1565939102"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/image_capture.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/image_capture.v"/>
+        <Attr Name="ImportTime" Val="1567054541"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/image_controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/image_controller.v"/>
+        <Attr Name="ImportTime" Val="1567056102"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/lcd_driver.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/lcd_driver.v"/>
+        <Attr Name="ImportTime" Val="1566287057"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/led_controller.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/led_controller.v"/>
+        <Attr Name="ImportTime" Val="1561592308"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/pulse_detection.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/pulse_detection.v"/>
+        <Attr Name="ImportTime" Val="1561592300"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/register_diff_clk.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/new/register_diff_clk.v"/>
+        <Attr Name="ImportTime" Val="1561592308"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/rgb2yuv.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../Xilinx/project/at7_img_ex11_uvc/at7.srcs/sources_1/new/rgb2yuv.v"/>
+        <Attr Name="ImportTime" Val="1579080122"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/uvc_ov5640.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/mig_7series_0/mig_a.prj">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="D:/myfpga/AT7/OV5640_BayerRaw/at7_ov5640_CFA/at7.srcs/sources_1/ip/mig_7series_0/mig_a.prj"/>
+        <Attr Name="ImportTime" Val="1566869923"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="ScopedToCell" Val="mig_7series_0"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../at7_img_ex11_uvc/archive_project_summary.txt"/>
+    <File Path="$PSRCDIR/sources_1/ip/mig_7series_0_1/mig_a.prj">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="ScopedToCell" Val="mig_7series_0"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="UVC_OV5640"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/uvc.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/uvc.xdc"/>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_2"/>
+  <BlockFileSet Type="BlockSrcs" Name="mig_7series_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="vio_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="v_demosaic_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_3"/>
+  <BlockFileSet Type="BlockSrcs" Name="fifo_generator_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="mult_gen_0"/>
+</GenRun>
